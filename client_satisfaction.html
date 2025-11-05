@@ -16,7 +16,7 @@
       color: #000;
       margin: 0;
       padding: 0;
-      font-size: 16px; /* --- Base font size increased --- */
+      font-size: 16px;
     }
 
     .container {
@@ -48,13 +48,13 @@
     }
 
     header h2 {
-      font-size: 20px; /* --- Increased font size --- */
+      font-size: 20px;
       margin: 0;
       font-weight: bold;
     }
 
     header h3 {
-      font-size: 18px; /* --- Increased font size --- */
+      font-size: 18px;
       margin: 0;
     }
 
@@ -73,7 +73,7 @@
 
     p.instructions {
       text-align: justify;
-      font-size: 16px; /* --- Increased font size --- */
+      font-size: 16px;
     }
 
     .form-section {
@@ -126,7 +126,7 @@
       border: 1px solid #ccc;
       padding: 8px;
       text-align: center;
-      font-size: 15px; /* --- Increased font size --- */
+      font-size: 15px;
       vertical-align: middle;
     }
 
@@ -140,7 +140,7 @@
     }
 
     .emoji {
-      font-size: 28px; /* --- Increased font size --- */
+      font-size: 28px;
       display: block;
     }
 
@@ -215,7 +215,7 @@
       left: 0;
       width: 100%;
       padding: 8px;
-      background: #f0f0f0; /* Lighter background */
+      background: #f0f0f0;
       box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
       z-index: 10000;
       box-sizing: border-box;
@@ -224,7 +224,7 @@
     .keyboard-row {
       display: flex;
       justify-content: center;
-      gap: 6px; /* Slightly more spacing */
+      gap: 6px;
       margin-bottom: 6px;
     }
     .keyboard-row:last-child {
@@ -233,19 +233,19 @@
 
     .keyboard-key {
       font-family: Arial, sans-serif;
-      font-size: 18px; /* Larger font */
+      font-size: 18px;
       font-weight: bold;
       padding: 0;
-      height: 50px; /* Taller keys */
+      height: 50px;
       min-width: 40px;
       flex-grow: 1;
       flex-basis: 0;
       background: #ffffff;
       border: 1px solid #aaa;
-      border-radius: 6px; /* Slightly more rounded */
+      border-radius: 6px;
       cursor: pointer;
-      box-shadow: 0 2px 2px rgba(0,0,0,0.15); /* Key shadow */
-      transition: all 0.05s ease; /* Active state transition */
+      box-shadow: 0 2px 2px rgba(0,0,0,0.15);
+      transition: all 0.05s ease;
     }
     
     .keyboard-key:last-child {
@@ -258,14 +258,14 @@
 
     .keyboard-key:active {
       background: #c8c8c8;
-      transform: scale(0.98); /* Press effect */
+      transform: scale(0.98);
       box-shadow: 0 1px 1px rgba(0,0,0,0.15);
     }
 
     .key-special {
       flex-grow: 1.5;
       flex-basis: 0;
-      background: #cdd8e6; /* Softer blue-gray */
+      background: #cdd8e6;
       font-size: 16px;
     }
     
@@ -283,16 +283,16 @@
     }
 
     .key-close {
-      background: #e6cdd0; /* Soft red-gray for close */
+      background: #e6cdd0;
     }
     /* --- End Keyboard Styles --- */
 
-    /* --- Back Button Styles (NEW) --- */
+    /* --- Back Button Styles --- */
     .back-button {
       position: fixed;
       top: 15px;
       left: 15px;
-      z-index: 1000; /* Ensure it's above the form content */
+      z-index: 1000;
       padding: 10px 15px;
       background-color: #dcdada;
       color: #333;
@@ -317,8 +317,7 @@
   </style>
 </head>
 <body>
-  <!-- BACK BUTTON (NEW) -->
-  <!-- Using window.history.back() for simplicity, as the target URL is unknown. -->
+  <!-- BACK BUTTON -->
   <a href="/index.html" class="back-button" onclick="window.history.back(); return false;">&larr;</a>
 
   <!-- Overlay -->
@@ -656,9 +655,6 @@
       const button = document.querySelector(".submit-btn");
       const pdf = new jsPDF("p", "mm", "a4");
       
-      // Set margin to 0 to occupy full page
-      const margin = 0; 
-      const pageHeight = pdf.internal.pageSize.getHeight();
       const pageWidth = pdf.internal.pageSize.getWidth();
 
       overlay.style.display = "flex";
@@ -666,21 +662,33 @@
 
       // convert emojis to grayscale for saving
       document.querySelectorAll(".emoji").forEach(e => e.classList.add("grayscale"));
-      await new Promise(r => setTimeout(r, 600));
+      // Added a short delay to ensure grayscale is applied before capture
+      await new Promise(r => setTimeout(r, 100));
 
       const page1 = document.getElementById("page1");
       const page2 = document.getElementById("page2");
 
-      // Use the higher scale factor for performance improvement
+      // Capture Page 1
       const canvas1 = await html2canvas(page1, { scale: PDF_RENDER_SCALE, useCORS: true });
-      const canvas2 = await html2canvas(page2, { scale: PDF_RENDER_SCALE, useCORS: true });
-
       const img1 = canvas1.toDataURL("image/png");
-      const img2 = canvas2.toDataURL("image/png");
+      const imgWidth1 = pageWidth;
+      // FIX: Calculate the image height proportionally based on the captured canvas ratio
+      const imgHeight1 = (canvas1.height * imgWidth1) / canvas1.width;
 
-      pdf.addImage(img1, "PNG", 0, 0, pageWidth, pageHeight);
+      // Capture Page 2
+      const canvas2 = await html2canvas(page2, { scale: PDF_RENDER_SCALE, useCORS: true });
+      const img2 = canvas2.toDataURL("image/png");
+      const imgWidth2 = pageWidth;
+      // FIX: Calculate the image height proportionally based on the captured canvas ratio
+      const imgHeight2 = (canvas2.height * imgWidth2) / canvas2.width;
+      
+      // Add Page 1 image using proportional scaling (from (0, 0) to fit full width)
+      pdf.addImage(img1, "PNG", 0, 0, imgWidth1, imgHeight1); 
+      
+      // Add Page 2 image
       pdf.addPage();
-      pdf.addImage(img2, "PNG", 0, 0, pageWidth, pageHeight);
+      // Add Page 2 image using proportional scaling
+      pdf.addImage(img2, "PNG", 0, 0, imgWidth2, imgHeight2); 
 
       // ✅ Android-safe download: create blob and trigger link click
       const blob = pdf.output("blob");

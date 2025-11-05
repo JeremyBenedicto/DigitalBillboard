@@ -95,14 +95,33 @@
       align-items: center;
     }
 
+    /* Added styling for select and specific text input */
     input[type="text"],
     input[type="date"],
     input[type="number"],
-    textarea {
+    textarea,
+    select {
       border: 1px solid #ccc;
       padding: 6px 10px;
       width: 100%;
       border-radius: 4px;
+    }
+    
+    /* Specific styling for the office selector container */
+    #office-selector-container {
+      max-width: 500px; /* Optional: limit width */
+      margin: 10px auto;
+    }
+    
+    #office-selector-container label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: normal;
+      text-align: left;
+    }
+    
+    #otherOfficeName {
+      margin-top: 5px;
     }
 
     textarea {
@@ -320,8 +339,8 @@
   <!-- BACK BUTTON -->
   <a href="/index.html" class="back-button" onclick="window.history.back(); return false;">&larr;</a>
 
-  <!-- Overlay -->
-  <div id="overlay"><p>📄 Downloading PDF... Please wait.</p></div>
+  <!-- Overlay (Updated message: Loading...) -->
+  <div id="overlay"><p>Loading...</p></div>
 
   <!-- PAGE 1 -->
   <div class="container" id="page1">
@@ -331,7 +350,34 @@
         <h3>PROVINCE OF NUEVA ECIJA</h3>
         <h3>Municipality of Gabaldon</h3>
         <p><b>- oOo -</b></p>
-        <h2>PAMBAYANG TANGGAPAN NG TAGATALA</h2>
+        <!-- Ibinago ang Office Title para magamit ang dropdown / editable field -->
+        <h2 id="officeTitle">PAMBAYANG TANGGAPAN NG TAGATALA</h2>
+        <!-- Office Selector (Hidden in PDF/Print View, only visible on web) -->
+        <div id="office-selector-container" style="margin-top: 20px;">
+            <label for="officeSelect">Piliin ang TANGGAPAN na sinerbisyuhan:</label>
+            <select id="officeSelect" onchange="updateOfficeTitle(this.value)">
+                <!-- INAYOS ANG OPTIONS PARA MAGING ENGLISH ONLY ANG NAKIKITA NG USER -->
+                <option value="TAGATALA" selected>REGISTRY</option>
+                <option value="AGRIKULTURA">AGRICULTURE</option>
+                <option value="INHINYERO">ENGINEERING</option>
+                <option value="INGAT-YAMAN">TREASURY</option>
+                <option value="KALUSUGANG BAYAN">RHU</option>
+                <option value="PAGPAPLANO AT PAGPAPAUNLAD">PLANNING AND DEVELOPMENT</option>
+                <option value="PUNONG BAYAN">MAYOR'S OFFICE</option>
+                <option value="PAMAMAHALA SA YAMANG TAO">HRMO (HUMAN RESOURCE MANAGEMENT)</option>
+                <option value="BADYET">BUDGET OFFICE</option>
+                <option value="TAGASURI">ASSESSOR'S OFFICE</option>
+                <option value="KALIKASAN AT LIKAS NA YAMAN">MENRO (ENVIRONMENT AND NATURAL RESOURCES)</option>
+                <option value="PANANALAPI">ACCOUNTING</option>
+                <option value="SISTEMA NG TUBIG">WATER SYSTEM</option>
+                <option value="SANGGUNIANG BAYAN">SANGGUNIANG BAYAN</option>
+                <option value="PAMBAYANG PAMAMAHALA SA SAKUNA AT KALAMIDAD">MDRRMO (DISASTER RISK REDUCTION)</option>
+                <option value="TURISMO">TOURISM</option>
+                <option value="OTHER">SPECIFY / OTHER</option>
+            </select>
+            <input type="text" id="otherOfficeName" placeholder="Ipasok ang pangalan ng Tanggapan..." style="display:none;" oninput="updateOfficeTitle(this.value)">
+        </div>
+        <!-- End Office Selector -->
       </div>
     </header>
 
@@ -343,6 +389,15 @@
       Makatutulong ang inyong kasagutan upang mas mapabuti at lalong mapahusay ang aming serbisyo publiko. 
       Ang inyong ibinahaging impormasyon ay mananatiling kumpidensyal. Maaari ring piliin na hindi sagutan ang sarbey na ito.
     </p>
+    
+    <!-- Bagong CSS rule para itago ang dropdown at editable field sa PDF view -->
+    <style>
+      @media print {
+        #office-selector-container {
+          display: none !important;
+        }
+      }
+    </style>
 
     <div class="form-section">
       <div class="form-group inline-group">
@@ -488,6 +543,37 @@
   <!-- VIRTUAL KEYBOARD END -->
 
   <script>
+    
+    // Function to update the office title based on dropdown selection or text input
+    function updateOfficeTitle(value) {
+        const officeTitleElement = document.getElementById('officeTitle');
+        const otherOfficeInput = document.getElementById('otherOfficeName');
+        // Ang prefix na ito ay idadagdag sa value mula sa dropdown para mabuo ang buong titulo.
+        const prefix = "PAMBAYANG TANGGAPAN NG ";
+        
+        if (value === 'OTHER') {
+            // Show the text input when 'Iba pa / Tukuyin' is selected
+            otherOfficeInput.style.display = 'block';
+            otherOfficeInput.focus();
+            // Default title until user types
+            officeTitleElement.textContent = prefix + 'IBANG TANGGAPAN'; 
+        } else if (value === 'TAGATALA' && otherOfficeInput.style.display === 'block') {
+            // If TAGATALA is selected after using "Other"
+            otherOfficeInput.style.display = 'none';
+            officeTitleElement.textContent = prefix + 'TAGATALA';
+            otherOfficeInput.value = ''; // Clear input
+        } else if (value === 'TAGATALA' && otherOfficeInput.style.display === 'none') {
+             // If TAGATALA is selected and input is already hidden (initial state)
+            officeTitleElement.textContent = prefix + 'TAGATALA';
+        } else {
+            // Use the selected value from the dropdown
+            otherOfficeInput.style.display = 'none';
+            // Use the selected value (which is just the name, e.g., AGRIKULTURA)
+            officeTitleElement.textContent = prefix + value;
+        }
+    }
+
+
     document.addEventListener("DOMContentLoaded", () => {
       const questions = [
         "Nasiyahan ako sa serbisyo na aking natanggap sa napuntahan na tanggapan.",
@@ -515,6 +601,9 @@
       let activeInputElement = null;
       let isShiftActive = false;
       const keyboard = document.getElementById("virtual-keyboard");
+      
+      // Ensure the otherOfficeName input also triggers the virtual keyboard
+      const inputSelector = 'input[type="text"]:not(#otherOfficeName), input[type="number"], textarea, #otherOfficeName';
 
       // Variables for N-Tilde long press
       let longPressTimer = null;
@@ -523,15 +612,29 @@
 
       if (keyboard) {
         const allKeys = keyboard.querySelectorAll(".keyboard-key");
-        const inputSelector = 'input[type="text"], input[type="number"], textarea';
+        
         const nKey = keyboard.querySelector('[data-key="n"]');
 
         document.querySelectorAll(inputSelector).forEach(input => {
-          input.addEventListener('focus', () => {
-            activeInputElement = input;
-            keyboard.style.display = 'block';
-          });
+          // Check if the input is the editable office name field and ensure it's displayed
+          if (input.id === 'otherOfficeName' && input.style.display === 'none') {
+             // Do nothing if it's the other office field and currently hidden
+          } else {
+             input.addEventListener('focus', () => {
+                activeInputElement = input;
+                keyboard.style.display = 'block';
+             });
+          }
         });
+        
+        // Re-attach the focus listener to the 'otherOfficeName' field specifically
+        // It is needed for when it becomes visible later
+        const otherOfficeInput = document.getElementById('otherOfficeName');
+        otherOfficeInput.addEventListener('focus', () => {
+            activeInputElement = otherOfficeInput;
+            keyboard.style.display = 'block';
+        });
+
 
         keyboard.addEventListener('click', (e) => {
           if (!e.target.matches('.keyboard-key')) return;
@@ -548,9 +651,17 @@
           switch (key) {
             case 'BACKSPACE':
               activeInputElement.value = activeInputElement.value.slice(0, -1);
+              // Trigger input event manually for otherOfficeName field
+              if (activeInputElement.id === 'otherOfficeName') {
+                  updateOfficeTitle(activeInputElement.value);
+              }
               break;
             case 'SPACE':
               activeInputElement.value += ' ';
+              // Trigger input event manually for otherOfficeName field
+              if (activeInputElement.id === 'otherOfficeName') {
+                  updateOfficeTitle(activeInputElement.value);
+              }
               break;
             case 'CLOSE':
               keyboard.style.display = 'none';
@@ -567,6 +678,10 @@
               if (isShiftActive) {
                 isShiftActive = false;
                 toggleShiftCase(allKeys);
+              }
+              // Trigger input event manually for otherOfficeName field
+              if (activeInputElement.id === 'otherOfficeName') {
+                  updateOfficeTitle(activeInputElement.value);
               }
           }
         });
@@ -604,6 +719,10 @@
                     if (isShiftActive) {
                         isShiftActive = false;
                         toggleShiftCase(allKeys);
+                    }
+                    // Trigger input event manually for otherOfficeName field
+                    if (activeInputElement.id === 'otherOfficeName') {
+                        updateOfficeTitle(activeInputElement.value);
                     }
                 }
             };
@@ -652,11 +771,13 @@
 
       const { jsPDF } = window.jspdf;
       const overlay = document.getElementById("overlay");
+      const overlayMessage = overlay.querySelector('p');
       const button = document.querySelector(".submit-btn");
       const pdf = new jsPDF("p", "mm", "a4");
       
       const pageWidth = pdf.internal.pageSize.getWidth();
 
+      overlayMessage.textContent = "Nagsasagawa ng PDF... Paki-hintay.";
       overlay.style.display = "flex";
       button.style.display = "none";
 
@@ -706,8 +827,17 @@
 
       // restore colors after saving
       document.querySelectorAll(".emoji").forEach(e => e.classList.remove("grayscale"));
-      overlay.style.display = "none";
-      button.style.display = "block";
+      
+      // Ipakita ang mensahe ng pasasalamat at i-restore ang button
+      overlayMessage.textContent = "Maraming salamat po!";
+      
+      // Itago ang overlay at ibalik ang button pagkatapos ng 2 segundo
+      setTimeout(() => {
+          overlay.style.display = "none";
+          button.style.display = "block";
+          // Ibalik ang default na message sa overlay para sa susunod na gamit (opsyonal)
+          overlayMessage.textContent = "Loading..."; 
+      }, 2000); 
     }
   </script>
   

@@ -368,19 +368,13 @@
         .service-tile:active {
             transform: scale(0.95);
         }
-
+        
+        /* --- START NEW: Increased Icon Size --- */
         .service-tile-icon {
-            font-size: 40px; /* Icon size */
-            margin-bottom: 5px;
-            line-height: 1;
+            font-size: 48px; /* Large size for kiosk visibility and touch target */
+            margin-bottom: 5px; /* Space between icon and text */
         }
-
-        .service-tile-text {
-            font-size: 13px;
-            font-weight: 500;
-            color: #1d1d1f;
-            line-height: 1.2;
-        }
+        /* --- END NEW: Increased Icon Size --- */
 
         /* --- Floating Action Group Container --- */
         .floating-action-group {
@@ -493,7 +487,7 @@
         .logo-popup {
             width: 150px; /* Set desired size for the logo popup */
             height: 150px;
-            border-radius: 25px; /* Match app aesthetic */
+            border-radius: 100px; /* Match app aesthetic */
             object-fit: contain;
             background: white; /* Clean background for the logo */
             padding: 20px;
@@ -656,7 +650,7 @@
                 gap: 10px;
             }
             .service-tile { min-height: 80px; }
-            .service-tile-icon { font-size: 32px; }
+            .service-tile-icon { font-size: 36px; } /* Slightly smaller for mobile layout */
             .service-tile-text { font-size: 11px; }
 
             /* Responsive adjustments for the floating group and icons */
@@ -769,59 +763,61 @@
                 </div>
                 <!-- Service Tiles (New Kiosk Grid) -->
                 <div class="service-grid" id="serviceGrid">
-                    <div class="service-tile" onclick="window.location.href='department/agricultureOffice.html'">
+                    <!-- START: UPDATED onclick to use navigateWithLoading -->
+                    <div class="service-tile" onclick="navigateWithLoading('department/agricultureOffice.html')">
                         <span class="service-tile-icon">🚜</span>
                         <span class="service-tile-text">AGRICULTURE</span>
                     </div>
-                    <div class="service-tile" onclick="window.location.href='department/accounting.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/accounting.html')">
                         <span class="service-tile-icon">🧾</span>
                         <span class="service-tile-text">ACCOUNTING</span>
                     </div>
-                    <div class="service-tile" onclick="window.location.href='department/bplo.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/bplo.html')">
                         <span class="service-tile-icon">🏢</span>
                         <span class="service-tile-text">BPLO</span>
                     </div>
-                    <div class="service-tile" onclick="window.location.href='department/mto.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/mto.html')">
                         <span class="service-tile-icon">💰</span>
                         <span class="service-tile-text">MTO</span>
                     </div>
-                    <div class="service-tile" onclick="window.location.href='department/waterSystem.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/waterSystem.html')">
                         <span class="service-tile-icon">💧</span>
                         <span class="service-tile-text">WATER SYSTEM</span>
                     </div>
-                    <div class="service-tile" onclick="window.location.href='department/menro.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/menro.html')">
                         <span class="service-tile-icon">🌳</span>
                         <span class="service-tile-text">MENRO</span>
                     </div>
-                    <div class="service-tile" onclick="window.location.href='department/gso.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/gso.html')">
                         <span class="service-tile-icon">⚙️</span>
                         <span class="service-tile-text">GSO</span>
                     </div>
-                    <div class="service-tile" onclick="window.location.href='department/rhu.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/rhu.html')">
                         <span class="service-tile-icon">🏥</span>
                         <span class="service-tile-text">RHU (HEALTH)</span>
                     </div>
                     <!-- UPDATED: SBO for Sangguniang Bayan Office (Legislative) -->
-                    <div class="service-tile" onclick="window.location.href='department/sbo.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/sbo.html')">
                         <span class="service-tile-icon">🔨</span>
                         <span class="service-tile-text">SBO (LEGIS.)</span>
                     </div>
-                    <div class="service-tile" onclick="window.location.href='department/tourismoffice.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/tourismoffice.html')">
                         <span class="service-tile-icon">🏞️</span>
                         <span class="service-tile-text">TOURISM</span>
                     </div>
-                    <div class="service-tile" onclick="window.location.href='department/mpdc.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/mpdc.html')">
                         <span class="service-tile-icon">📝</span>
                         <span class="service-tile-text">MPDC (PLANNING)</span>
                     </div>
-                    <div class="service-tile" onclick="window.location.href='department/peso.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/peso.html')">
                         <span class="service-tile-icon">💼</span>
                         <span class="service-tile-text">PESO (JOBS)</span>
                     </div>
-                    <div class="service-tile" onclick="window.location.href='department/registrarOffice.html'">
+                    <div class="service-tile" onclick="navigateWithLoading('department/registrarOffice.html')">
                         <span class="service-tile-icon">📝</span>
                         <span class="service-tile-text">REGISTRAR</span>
                     </div>
+                    <!-- END: UPDATED onclick to use navigateWithLoading -->
                 </div>
             </div>
 
@@ -831,12 +827,12 @@
     <!-- Floating Action Group -->
     <div class="floating-action-group">
         <!-- NEW Button: Client Satisfaction Survey -->
-        <div class="mission-vision-icon survey-icon" onclick="window.location.href='client_satisfaction.html'" title="Client Satisfaction Survey">
+        <div class="mission-vision-icon survey-icon" onclick="navigateWithLoading('client_satisfaction.html')" title="Client Satisfaction Survey">
             <span>😊</span>
         </div>
 
         <!-- Existing Button: News -->
-        <div class="mission-vision-icon" onclick="window.location.href='news.html'" title="News and Updates">
+        <div class="mission-vision-icon" onclick="navigateWithLoading('news.html')" title="News and Updates">
             <span>📰</span>
         </div>
     </div>
@@ -896,7 +892,7 @@
             showSlides();
         }
 
-        // --- MODAL LOGIC (Mission/Vision, Fullscreen) ---
+        // --- MODAL LOGIC (Mission/Vision, Fullscreen, Loading) ---
         const missionVisionModal = document.getElementById('missionVisionModal');
         const fullscreenModal = document.getElementById('fullscreen-modal');
         const fullscreenImage = document.getElementById('fullscreen-image');
@@ -921,13 +917,23 @@
             fullscreenModal.classList.remove('active');
         }
 
-        // Loading animation for Discover button
-        function discoverWithLoading() {
+        // NEW: Generic function to display loading and navigate
+        function navigateWithLoading(url) {
+            if (!loadingOverlay) {
+                // Fallback for unexpected DOM issues, navigate directly
+                window.location.href = url;
+                return;
+            }
             loadingOverlay.classList.add('active');
-            // Simulate navigation delay
+            // Allow the user to see the animation for a moment (1 second delay)
             setTimeout(() => {
-                window.location.href = 'gabaldonExplore.html'; // Assuming there's a discover page
+                window.location.href = url;
             }, 1000);
+        }
+
+        // UPDATED: Loading animation for Discover button (now calls the generic function)
+        function discoverWithLoading() {
+            navigateWithLoading('gabaldonExplore.html');
         }
 
         // --- CLOCK LOGIC ---

@@ -263,9 +263,9 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             border: 1px solid rgba(0,0,0,0.05);
             flex-grow: 1; /* Take up remaining space */
-            overflow: hidden;
             /* Match the height of the slideshow container minus the explore section and gap */
             height: calc(800px - 180px - 30px);
+            overflow: hidden;
         }
 
         .services-section h3 {
@@ -489,19 +489,29 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
-        /* Loading Spinner */
-        .spinner {
-            width: 80px;
-            height: 80px;
-            border: 8px solid rgba(255, 255, 255, 0.5);
-            border-top: 8px solid #007AFF;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        /* --- NEW: Logo Popup Style for Loading --- */
+        .logo-popup {
+            width: 150px; /* Set desired size for the logo popup */
+            height: 150px;
+            border-radius: 100px; /* Match app aesthetic */
+            object-fit: contain;
+            background: white; /* Clean background for the logo */
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: logoPulse 1.5s infinite alternate; /* New animation */
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes logoPulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.85;
+            }
+            100% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
         }
+        /* --- END NEW: Logo Popup Style for Loading --- */
+
 
         /* --- Virtual Keyboard (iOS Style) --- */
         .vk-overlay {
@@ -647,9 +657,9 @@
     </style>
 </head>
 <body>
-    <!-- Loading Overlay -->
+    <!-- Loading Overlay (Updated to use logo popup) -->
     <div id="loading-overlay" class="loading-overlay">
-        <div class="spinner"></div>
+        <img id="loading-logo" class="logo-popup" src="assets/logo.png" alt="Gabaldon LGU Logo" onerror="this.onerror=null; this.src='https://placehold.co/150x150/1d1d1f/ffffff?text=LGU+Logo'">
     </div>
 
     <!-- Mission/Vision Modal (Kept in case other links need it, but the icon now navigates) -->

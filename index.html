@@ -489,26 +489,47 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- NEW: Logo Popup Style for Loading --- */
+        /* --- NEW: Logo Popup Style for Loading (Updated with Bounce and Shine) --- */
         .logo-popup {
             width: 150px; /* Set desired size for the logo popup */
             height: 150px;
-            border-radius: 100px; /* Match app aesthetic */
+            border-radius: 25px; /* Match app aesthetic */
             object-fit: contain;
             background: white; /* Clean background for the logo */
             padding: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            animation: logoPulse 1.5s infinite alternate; /* New animation */
+            position: relative; /* Needed for the shine effect */
+            overflow: hidden; /* Contains the shine */
+            animation: logoBounce 1.5s ease-in-out infinite; /* New bounce animation */
         }
-        @keyframes logoPulse {
-            0% {
-                transform: scale(0.95);
-                opacity: 0.85;
+        
+        /* Shine effect pseudo-element */
+        .logo-popup::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-20deg);
+            animation: logoShine 2s infinite 0.5s; /* Shine starts slightly later */
+        }
+
+        /* Bounce Animation */
+        @keyframes logoBounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
             }
-            100% {
-                transform: scale(1.05);
-                opacity: 1;
+            50% {
+                transform: translateY(-10px) scale(1.02);
             }
+        }
+
+        /* Shine Animation */
+        @keyframes logoShine {
+            0% { left: -75%; }
+            100% { left: 125%; }
         }
         /* --- END NEW: Logo Popup Style for Loading --- */
 

@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Municipality of Gabaldon - Kiosk Portal</title>
+    <!-- Font for iOS look: uses system font stack -->
+    <style>
+        /* General iOS/Kiosk Reset and Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Disable text selection for kiosk use */
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+            background: linear-gradient(135deg, #f0f4f8 0%, #eef1f6 100%); /* Lighter, clean background */
+            min-height: 100vh;
+            color: #1d1d1f;
+            overflow-x: hidden;
+            padding-bottom: 30px; /* Space for the floating icon and general clearance */
+        }
+
+        /* --- iOS Header (Status Bar Look) --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo img{
+            height: 60px; /* Slightly smaller logos */
+            border-radius: 12px;
+        }
+        .logo img:first-child { margin-right: -10px; }
+
+        .logo-text {
+            font-size: 20px;
+            color: #86868b;
+            line-height: 1.2;
+            font-weight: 400;
+        }
+
+        .logo-text strong {
+            color: #1d1d1f;
+            font-weight: 600;
+            font-size: 24px;
+        }
+
+        /* --- Clock (iOS Status Bar style) --- */
+        .clock-container {
+            position: relative;
+            background: none;
+            padding: 0;
+            text-align: right;
+            box-shadow: none;
+            backdrop-filter: none;
+            border: none;
+        }
+        #time {
+            font-size: 30px; /* Larger for Kiosk */
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 0px;
+            line-height: 1.1;
+        }
+        #date {
+            font-size: 16px; /* Larger for Kiosk */
+            color: #86868b;
+        }
+
+        /* --- Main Layout: SLIDESHOW DOMINATES --- */
+        .main-content {
+            /* Changed grid: 2.5fr for slideshow, 1fr for services */
+            display: grid;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 30px;
+            padding: 30px;
+            max-width: 1500px; /* Wider content area */
+            margin: 0 auto;
+        }
+
+        /* --- Slideshow (Prominent Card) --- */
+        .slideshow-container {
+            position: relative;
+            background: white;
+            border-radius: 30px; /* Very rounded */
+            overflow: hidden;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            height: 700px; /* Significantly increased height for prominence */
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .slideshow-container:hover {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .slide img:hover {
+            transform: scale(1.01);
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7); /* Frosted white */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: none;
+            color: #1d1d1f;
+            font-size: 32px; /* Larger icon */
+            width: 70px; /* Larger touch target */
+            height: 70px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .nav-arrow.left { left: 25px; }
+        .nav-arrow.right { right: 25px; }
+
+        .slide-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            width: 16px;
+            height: 16px;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* --- Explore Section (Vibrant Card) --- */
+        .explore-section {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: linear-gradient(135deg, rgba(0, 122, 255, 0.9), rgba(0, 78, 163, 0.9)), url('assets/blur.jpg'); /* Blue Overlay */
+            border-radius: 30px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
+        }
+         .explore-section h2 {
+            font-size: 30px; /* Adjusted size for the smaller column */
+            color: white;
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .explore-section .subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+        }
+
+        .discover-btn {
+            background: white;
+            color: #007AFF;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px; /* Pill shape */
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .discover-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .discover-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* --- Services Section (App Grid) --- */
+        .services-section {
+            background: white;
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            flex-grow: 1; /* Take up remaining space */
+            overflow: hidden;
+            /* Match the height of the slideshow container minus the explore section and gap */
+            height: calc(800px - 180px - 30px);
+        }
+
+        .services-section h3 {
+            color: #1d1d1f;
+            font-size: 26px; /* Kiosk size */
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .search-container {
+            display: flex;
+            margin-bottom: 15px;
+            gap: 8px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 18px; /* Larger padding */
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            background: #f9f9f9;
+            color: #1d1d1f;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #007AFF;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: #a0a0a0;
+        }
+
+        .search-btn {
+            background: #007AFF;
+            border: none;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
+        }
+
+        .search-btn:hover {
+            background: #005ac9;
+            transform: scale(1.02);
+        }
+
+        .search-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* NEW KIOSK/iOS Service Grid */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-height: calc(100% - 130px); /* Adjust based on h3 and search height */
+            overflow-y: auto;
+            padding-right: 10px; /* Space for scrollbar */
+        }
+
+        /* Scrollbar styles for iOS look */
+        .service-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+        .service-grid::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        .service-grid::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .service-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 10px 5px;
+            border-radius: 15px;
+            background: #f5f5f7; /* Light background for the tile */
+            min-height: 100px;
+        }
+
+        .service-tile:hover {
+            background: #e9e9eb;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+        .service-tile:active {
+            transform: scale(0.95);
+        }
+
+        .service-tile-icon {
+            font-size: 40px; /* Icon size */
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .service-tile-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: #1d1d1f;
+            line-height: 1.2;
+        }
+
+        /* --- Floating Action Group Container --- */
+        .floating-action-group {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column-reverse; /* Stacks new items above old ones */
+            gap: 15px; /* Space between buttons */
+            z-index: 1000;
+        }
+
+        /* Mission/Vision Icon (Style for individual floating buttons) */
+        .mission-vision-icon {
+            /* Styles for the individual icon, relying on parent for positioning */
+            width: 70px; /* Larger touch target */
+            height: 70px;
+            background-color: #007AFF; /* iOS Blue */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4);
+            transition: transform 0.3s ease;
+        }
+        .mission-vision-icon:hover {
+            transform: scale(1.05);
+        }
+        .mission-vision-icon span {
+            font-size: 32px;
+            color: white;
+            font-weight: bold;
+        }
+        /* End of Floating Action Group Structure */
+
+
+        /* --- Modal Styles (Frosted Glass Look) --- */
+        .mission-vision-modal, .fullscreen-modal, .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Darker overlay */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 5000;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+        .mission-vision-modal.active, .fullscreen-modal.active, .loading-overlay.active {
+            display: flex;
+        }
+
+        .mission-vision-content {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 25px;
+            max-width: 650px;
+            width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .mission-vision-content h2 {
+            color: #007AFF;
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .mission-vision-content h3 {
+            color: #1d1d1f;
+            font-size: 24px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .close-modal, .fullscreen-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px; /* Larger X */
+            cursor: pointer;
+            color: #1d1d1f;
+            background: none;
+            border: none;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        .close-modal:hover, .fullscreen-close:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Fullscreen Image Style */
+        .fullscreen-image {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 255, 255, 0.5);
+            border-top: 8px solid #007AFF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Virtual Keyboard (iOS Style) --- */
+        .vk-overlay {
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            width: 100vw;
+            height: auto;
+            min-height: 30vh;
+            background: rgba(245, 245, 247, 0.8); /* Light, semi-transparent */
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.1);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0 20px 0;
+        }
+        .vk-keys {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 98vw;
+            max-width: 800px; /* Wider keyboard for kiosk */
+            margin: 0 auto;
+            user-select: none;
+            padding: 0 10px;
+        }
+        .vk-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        .vk-key {
+            flex: 1 1 0;
+            padding: 16px 0;
+            margin: 0;
+            background: white;
+            color: #1d1d1f;
+            border: none;
+            border-radius: 10px; /* Rounded pill shape */
+            font-size: 1.4rem; /* Larger text */
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.1s, transform 0.05s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .vk-key:active {
+            background: #e0e0e0;
+            transform: scale(0.98);
+        }
+        .vk-key.vk-wide {
+            flex: 2.5 1 0;
+        }
+        .vk-key.vk-action {
+            background: #a9a9b0; /* Gray action button */
+            color: white;
+            font-weight: 600;
+        }
+        .vk-key.vk-action:active {
+            background: #8e8e95;
+        }
+        .vk-close {
+            align-self: flex-end;
+            margin: 0 16px 10px 0;
+            background: #ff5757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                padding: 24px;
+            }
+            .slideshow-container {
+                height: 500px;
+                border-radius: 25px;
+            }
+            .services-section {
+                /* Reset height constraint on small screens */
+                height: auto;
+            }
+        }
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .logo-section {
+                flex-direction: row;
+                gap: 12px;
+            }
+            .logo-text strong { font-size: 22px; }
+            #time { font-size: 24px; }
+            #date { font-size: 14px; }
+
+            .main-content {
+                padding: 16px;
+                gap: 20px;
+            }
+            .slideshow-container {
+                height: 350px;
+                border-radius: 20px;
+            }
+            .service-grid {
+                grid-template-columns: repeat(4, 1fr); /* 4 across on mobile for density */
+                gap: 10px;
+            }
+            .service-tile { min-height: 80px; }
+            .service-tile-icon { font-size: 32px; }
+            .service-tile-text { font-size: 11px; }
+
+            /* Responsive adjustments for the floating group and icons */
+            .floating-action-group {
+                bottom: 30px;
+                right: 20px;
+                gap: 10px;
+            }
+            .mission-vision-icon {
+                width: 60px;
+                height: 60px;
+            }
+            .mission-vision-icon span {
+                font-size: 28px;
+            }
+            .vk-key { font-size: 1.2rem; }
+            .vk-close { margin: 0 16px 8px 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Mission/Vision Modal (Kept in case other links need it, but the icon now navigates) -->
+    <div id="missionVisionModal" class="mission-vision-modal">
+        <div class="mission-vision-content">
+            <button class="close-modal" onclick="closeMissionVision()" aria-label="Close Mission and Vision">&times;</button>
+            <h2>Mission & Vision</h2>
+            <p>This modal used to be linked to the 'i' icon, which now navigates to the news page.
+            It is kept here in case another button needs to link to the mission and vision statements.</p>
+            <h3>Mission</h3>
+            <p>To provide innovative and effective digital communication solutions that enhance public awareness, promote transparency, and foster community engagement through strategically placed digital billboards.</p>
+            <h3>Vision</h3>
+            <p>To become a leading provider of digital billboard solutions that transform how communities connect with information, creating smarter, more informed, and engaged citizens through cutting-edge technology and compelling content.</p>
+        </div>
+    </div>
+
+    <!-- Fullscreen Modal -->
+    <div id="fullscreen-modal" class="fullscreen-modal">
+        <button class="fullscreen-close" onclick="closeFullscreen()" aria-label="Close Fullscreen">&times;</button>
+        <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
+    </div>
+
+    <header class="header">
+        <div class="logo-section">
+            <div class="logo">
+                <img src="assets/Bagong_Pilipinas_logo.png" alt="Bagong Pilipinas Logo" onerror="this.onerror=null; this.src='https://placehold.co/60x60/007AFF/ffffff?text=BP'">
+                <img src="assets/logo.png" alt="Gabaldon Logo" onerror="this.onerror=null; this.src='https://placehold.co/60x60/1d1d1f/ffffff?text=LGU'">
+            </div>
+            <div class="logo-text">
+                <div><strong>Municipality of Gabaldon</strong></div>
+                <div>Nueva Ecija, Philippines</div>
+            </div>
+        </div>
+        <!-- Real-time Clock -->
+        <div class="clock-container">
+            <div id="time"></div>
+            <div id="date"></div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Slideshow Section (Wide Column) -->
+        <div class="slideshow-container">
+            <div class="slideshow">
+              <!-- slide 0 -->
+                <div class="slide active" data-index="0">
+                    <img src="assets/slides/1.png" alt="Slide 1: ARTA" onerror="this.onerror=null; this.src='https://placehold.co/1000x800/2ecc71/ffffff?text=ARTA+Notice+1'">
+                </div>
+                <!-- slide 1 -->
+                <div class="slide" data-index="1">
+                    <img src="assets/slides/2.png" alt="Slide 2: ARTA" onerror="this.onerror=null; this.src='https://placehold.co/1000x800/f39c12/ffffff?text=ARTA+Notice+2'">
+                </div>
+                <!-- slide 2 -->
+                <!-- ditooooooo -->
+                <!-- slide 3 -->
+                <div class="slide" data-index="3">
+                    <img src="assets/slides/4.png" alt="Slide 4: QR Code" onerror="this.onerror=null; this.src='https://placehold.co/1000x800/9b59b6/ffffff?text=QR+Code'">
+                </div>
+                <!-- slide 4 -->
+                <div class="slide" data-index="4">
+                    <img src="assets/slides/5.png" alt="Slide 5" onerror="this.onerror=null; this.src='https://placehold.co/1000x800/34495e/ffffff?text=Slide+5'">
+                </div>
+                <!-- slide 5 -->
+                <div class="slide" data-index="5">
+                    <img src="assets/slides/6.png" alt="Slide 6: Gabaldon Image" onerror="this.onerror=null; this.src='https://placehold.co/1000x800/e74c3c/ffffff?text=Gabaldon+Image'">
+                </div>
+            </div>
+            <!-- UPDATED: Pass 'event' object to changeSlide -->
+            <button class="nav-arrow left" onclick="changeSlide(event, -1)" aria-label="Previous Slide">❮</button>
+            <button class="nav-arrow right" onclick="changeSlide(event, 1)" aria-label="Next Slide">❯</button>
+            <div class="slide-indicators">
+                <!-- UPDATED: Pass 'event' object to goToSlide -->
+                <div class="indicator active" onclick="goToSlide(event, 0)"></div>
+                <div class="indicator" onclick="goToSlide(event, 1)"></div>
+                
+                <div class="indicator" onclick="goToSlide(event, 3)"></div>
+                <div class="indicator" onclick="goToSlide(event, 4)"></div>
+                <div class="indicator" onclick="goToSlide(event, 5)"></div>
+            </div>
+        </div>
+
+        <div class="right-section">
+
+            <div class="explore-section">
+                <h2>Explore Gabaldon</h2>
+                <p class="subtitle">Nueva Ecija's Hidden Gem</p>
+                <button class="discover-btn" onclick="discoverWithLoading()">Discover</button>
+            </div>
+
+            <div class="services-section">
+                <h3>Municipal Services</h3>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search for services..." id="searchInput" readonly>
+                    <!-- Search button now ONLY closes the keyboard after filtering -->
+                    <button class="search-btn" onclick="searchServices()" aria-label="Search">🔍</button>
+                </div>
+                <!-- Service Tiles (New Kiosk Grid) -->
+                <div class="service-grid" id="serviceGrid">
+                    <div class="service-tile" onclick="window.location.href='department/agricultureOffice.html'">
+                        <span class="service-tile-icon">🚜</span>
+                        <span class="service-tile-text">AGRICULTURE</span>
+                    </div>
+                    <div class="service-tile" onclick="window.location.href='department/accounting.html'">
+                        <span class="service-tile-icon">🧾</span>
+                        <span class="service-tile-text">ACCOUNTING</span>
+                    </div>
+                    <div class="service-tile" onclick="window.location.href='department/bplo.html'">
+                        <span class="service-tile-icon">🏢</span>
+                        <span class="service-tile-text">BPLO</span>
+                    </div>
+                    <div class="service-tile" onclick="window.location.href='department/mto.html'">
+                        <span class="service-tile-icon">💰</span>
+                        <span class="service-tile-text">MTO</span>
+                    </div>
+                    <div class="service-tile" onclick="window.location.href='department/waterSystem.html'">
+                        <span class="service-tile-icon">💧</span>
+                        <span class="service-tile-text">WATER SYSTEM</span>
+                    </div>
+                    <div class="service-tile" onclick="window.location.href='department/menro.html'">
+                        <span class="service-tile-icon">🌳</span>
+                        <span class="service-tile-text">MENRO</span>
+                    </div>
+                    <div class="service-tile" onclick="window.location.href='department/gso.html'">
+                        <span class="service-tile-icon">⚙️</span>
+                        <span class="service-tile-text">GSO</span>
+                    </div>
+                    <div class="service-tile" onclick="window.location.href='department/rhu.html'">
+                        <span class="service-tile-icon">🏥</span>
+                        <span class="service-tile-text">RHU (HEALTH)</span>
+                    </div>
+                    <!-- UPDATED: SBO for Sangguniang Bayan Office (Legislative) -->
+                    <div class="service-tile" onclick="window.location.href='department/sbo.html'">
+                        <span class="service-tile-icon">🔨</span>
+                        <span class="service-tile-text">SBO (LEGIS.)</span>
+                    </div>
+                    <div class="service-tile" onclick="window.location.href='department/tourismoffice.html'">
+                        <span class="service-tile-icon">🏞️</span>
+                        <span class="service-tile-text">TOURISM</span>
+                    </div>
+                    <div class="service-tile" onclick="window.location.href='department/mpdc.html'">
+                        <span class="service-tile-icon">📝</span>
+                        <span class="service-tile-text">MPDC (PLANNING)</span>
+                    </div>
+                    <div class="service-tile" onclick="window.location.href='department/peso.html'">
+                        <span class="service-tile-icon">💼</span>
+                        <span class="service-tile-text">PESO (JOBS)</span>
+                    </div>
+                    <div class="service-tile" onclick="window.location.href='department/registrarOffice.html'">
+                        <span class="service-tile-icon">📝</span>
+                        <span class="service-tile-text">REGISTRAR</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Floating Action Group -->
+    <div class="floating-action-group">
+        <!-- NEW Button: Client Satisfaction Survey -->
+        <div class="mission-vision-icon survey-icon" onclick="window.location.href='client_satisfaction.html'" title="Client Satisfaction Survey">
+            <span>😊</span>
+        </div>
+
+        <!-- Existing Button: News -->
+        <div class="mission-vision-icon" onclick="window.location.href='news.html'" title="News and Updates">
+            <span>📰</span>
+        </div>
+    </div>
+
+
+    <!-- Virtual Keyboard Overlay -->
+    <div class="vk-overlay" id="vkOverlay">
+      <button class="vk-close" id="vkCloseBtn" title="Close Keyboard">❌</button>
+      <div class="vk-keys" id="vkKeys"></div>
+    </div>
+
+
+    <script>
+        // --- SLIDESHOW VARIABLES (Declared globally for onclick access) ---
+        let slideIndex = 0;
+        let slideTimer;
+        // These will be populated inside window.onload
+        let slides = [];
+        let indicators = [];
+        let slideshowContainer;
+
+
+        // Function to update the slideshow state
+        function showSlides() {
+            // Safety check: ensure elements are loaded
+            if (slides.length === 0) return;
+
+            clearTimeout(slideTimer);
+
+            // Hide all slides and deactivate all indicators
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+
+            // Wrap index
+            if (slideIndex >= slides.length) { slideIndex = 0; }
+            if (slideIndex < 0) { slideIndex = slides.length - 1; }
+
+            // Show current slide and activate current indicator
+            slides[slideIndex].classList.add('active');
+            indicators[slideIndex].classList.add('active');
+
+            // Set new timer for next slide (7 seconds - longer duration for main billboard focus)
+            slideTimer = setTimeout(() => changeSlide(null, 1), 7000); // Pass null event for auto change
+        }
+
+        // MODIFIED: Added event 'e' parameter and stopPropagation
+        function changeSlide(e, n) {
+            if (e && e.stopPropagation) e.stopPropagation(); // Prevents click from bubbling to slideshow container
+            slideIndex += n;
+            showSlides();
+        }
+
+        // MODIFIED: Added event 'e' parameter and stopPropagation
+        function goToSlide(e, n) {
+            if (e && e.stopPropagation) e.stopPropagation(); // Prevents click from bubbling to slideshow container
+            slideIndex = n;
+            showSlides();
+        }
+
+        // --- MODAL LOGIC (Mission/Vision, Fullscreen) ---
+        const missionVisionModal = document.getElementById('missionVisionModal');
+        const fullscreenModal = document.getElementById('fullscreen-modal');
+        const fullscreenImage = document.getElementById('fullscreen-image');
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        // NOTE: openMissionVision() is no longer called by the floating 'i' button, but is kept
+        // in case you want to link the modal to a different element later.
+        function openMissionVision() {
+            missionVisionModal.classList.add('active');
+        }
+
+        function closeMissionVision() {
+            missionVisionModal.classList.remove('active');
+        }
+
+        function openFullscreen(src) {
+            fullscreenImage.src = src;
+            fullscreenModal.classList.add('active');
+        }
+
+        function closeFullscreen() {
+            fullscreenModal.classList.remove('active');
+        }
+
+        // Loading animation for Discover button
+        function discoverWithLoading() {
+            loadingOverlay.classList.add('active');
+            // Simulate navigation delay
+            setTimeout(() => {
+                window.location.href = 'gabaldonExplore.html'; // Assuming there's a discover page
+            }, 1000);
+        }
+
+        // --- CLOCK LOGIC ---
+        function updateClock() {
+            const now = new Date();
+            // Format time (e.g., 10:30:45 AM)
+            const timeOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
+            const timeString = now.toLocaleTimeString('en-US', timeOptions);
+            document.getElementById('time').textContent = timeString;
+
+            // Format date (e.g., Wednesday, Oct 29, 2025)
+            const dateOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+            const dateString = now.toLocaleDateString('en-US', dateOptions);
+            document.getElementById('date').textContent = dateString;
+        }
+
+
+        // --- SERVICE SEARCH LOGIC (Kiosk Focus) ---
+        const serviceTileElements = document.getElementById('serviceGrid').children;
+
+        // This function is now ONLY triggered by clicking the Search button
+        function searchServices() {
+            const query = document.getElementById('searchInput').value.toUpperCase().trim();
+            // Simple filter logic for kiosk
+            for (let i = 0; i < serviceTileElements.length; i++) {
+                const tile = serviceTileElements[i];
+                const text = tile.querySelector('.service-tile-text').textContent;
+                if (text.includes(query) || query === "") {
+                    tile.style.display = 'flex'; // Show matching/all
+                } else {
+                    tile.style.display = 'none'; // Hide non-matching
+                }
+            }
+            // CRITICAL FIX: Automatically close the virtual keyboard AFTER the search is executed
+            hideVk();
+        }
+
+        // REMOVED: document.getElementById('searchInput').addEventListener('input', searchServices);
+        // This stops the keyboard from closing on every letter entry.
+
+
+        // --- VIRTUAL KEYBOARD LOGIC ---
+        const vkLayout = [
+            ['Q','W','E','R','T','Y','U','I','O','P'],
+            ['A','S','D','F','G','H','J','K','L'],
+            ['Z','X','C','V','B','N','M'],
+            ['Space','Backspace']
+        ];
+        const vkOverlay = document.getElementById('vkOverlay');
+        const vkKeys = document.getElementById('vkKeys');
+        const vkCloseBtn = document.getElementById('vkCloseBtn');
+        let vkTargetInput = null;
+
+        function renderKeyboard() {
+            vkKeys.innerHTML = '';
+            vkLayout.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'vk-row';
+                row.forEach(key => {
+                    const btn = document.createElement('button');
+                    btn.className = 'vk-key';
+                    if(key === 'Space') {
+                        btn.classList.add('vk-wide', 'vk-action');
+                        btn.textContent = 'Space';
+                    } else if(key === 'Backspace') {
+                        btn.classList.add('vk-wide', 'vk-action');
+                        btn.textContent = '⌫';
+                    } else {
+                        btn.textContent = key;
+                    }
+                    btn.onclick = (e) => {
+                        e.stopPropagation(); // Prevent button click from closing the VK
+                        handleVkKey(key);
+                    };
+                    rowDiv.appendChild(btn);
+                });
+                vkKeys.appendChild(rowDiv);
+            });
+        }
+        function handleVkKey(key) {
+            if(!vkTargetInput) return;
+            // Kiosk/iOS style: only allow uppercase for simplicity
+            const upperKey = key.toUpperCase();
+
+            if(upperKey === 'BACKSPACE') {
+                vkTargetInput.value = vkTargetInput.value.slice(0, -1);
+            } else if(upperKey === 'SPACE') {
+                vkTargetInput.value += ' ';
+            } else {
+                vkTargetInput.value += upperKey;
+            }
+            // IMPORTANT: No longer dispatching the 'input' event here, which was causing the constant closing.
+            // Search will now ONLY happen when the search button is manually clicked.
+            vkTargetInput.focus();
+        }
+        function showVkFor(input) {
+            vkTargetInput = input;
+            vkOverlay.style.display = 'flex';
+            renderKeyboard();
+            // Scroll keyboard into view in case it's partially off-screen
+            setTimeout(() => { vkOverlay.scrollIntoView({behavior:'smooth', block: 'end'}); }, 100);
+        }
+        function hideVk() {
+            vkOverlay.style.display = 'none';
+            vkTargetInput = null;
+        }
+
+        vkCloseBtn.onclick = hideVk;
+
+        // Attach to search input for Kiosk interaction
+        const searchInput = document.getElementById('searchInput');
+        if(searchInput) {
+            // IMPORTANT for Kiosk: Prevent native keyboard and force VK on click/focus
+            searchInput.setAttribute('readonly', 'readonly');
+            searchInput.addEventListener('click', function(e) {
+                e.preventDefault(); // Stop default action
+                showVkFor(this);
+            });
+            searchInput.addEventListener('focus', function(e) {
+                e.preventDefault(); // Stop default action
+                showVkFor(this);
+            });
+        }
+        // Hide VK when overlay background is clicked (touch outside VK)
+        vkOverlay.addEventListener('click', function(e) {
+            if(e.target === vkOverlay || e.target === vkCloseBtn) hideVk();
+        });
+
+
+        // --- INITIALIZATION ---
+        window.onload = function () {
+            // Query elements AFTER the entire DOM is loaded, ensuring they exist
+            slides = document.querySelectorAll('.slide');
+            indicators = document.querySelectorAll('.indicator');
+            slideshowContainer = document.querySelector('.slideshow-container');
+
+            showSlides(); // Start the slideshow (Now guaranteed to have elements)
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            // Add event listener for fullscreen view on slide click only after initialization
+            if(slideshowContainer) {
+                 slideshowContainer.addEventListener('click', (event) => {
+                    // This listener now only fires if the event hasn't been stopped by a child element (like a button)
+                    const activeSlide = document.querySelector('.slide.active');
+                    if (activeSlide) {
+                        const img = activeSlide.querySelector('img');
+                        if (img) {
+                            openFullscreen(img.src);
+                        }
+                    }
+                });
+            }
+        }
+
+    </script>
+</body>
+</html>

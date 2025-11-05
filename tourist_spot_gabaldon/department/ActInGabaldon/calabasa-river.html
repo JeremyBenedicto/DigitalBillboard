@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calabasa River - Serene Waters</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #0a1a2a;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5aa0 50%, #4682b4 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('../assets/tourist/activities/calabasaRiver/river-bg.jpg') center/cover;
+            opacity: 0.4;
+            z-index: 1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(10,26,42,0.3) 0%, rgba(10,26,42,0.8) 100%);
+            z-index: 2;
+        }
+
+        /* Animated river flow effect */
+        .river-flow {
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, transparent 0%, rgba(135,206,235,0.8) 20%, rgba(173,216,230,0.9) 50%, rgba(135,206,235,0.8) 80%, transparent 100%);
+            animation: flow 4s infinite linear;
+            z-index: 2;
+        }
+
+        .river-flow:nth-child(1) {
+            top: 20%;
+            animation-delay: 0s;
+            transform: rotate(-5deg);
+        }
+
+        .river-flow:nth-child(2) {
+            top: 40%;
+            animation-delay: 1s;
+            transform: rotate(3deg);
+        }
+
+        .river-flow:nth-child(3) {
+            top: 60%;
+            animation-delay: 2s;
+            transform: rotate(-2deg);
+        }
+
+        .river-flow:nth-child(4) {
+            top: 80%;
+            animation-delay: 0.5s;
+            transform: rotate(4deg);
+        }
+
+        @keyframes flow {
+            0% {
+                transform: translateX(-100vw) rotate(-5deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100vw) rotate(-5deg);
+                opacity: 0;
+            }
+        }
+
+        /* Ripple effect */
+        .ripples {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 300px;
+            background: radial-gradient(ellipse at center bottom, rgba(135,206,235,0.15) 0%, transparent 70%);
+            animation: rippleMove 6s infinite ease-in-out;
+            z-index: 2;
+        }
+
+        @keyframes rippleMove {
+            0%, 100% { 
+                opacity: 0.4; 
+                transform: scale(1) translateY(0); 
+            }
+            50% { 
+                opacity: 0.8; 
+                transform: scale(1.2) translateY(-20px); 
+            }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 50px;
+            left: 30px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 3;
+            position: relative;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: slideUp 1s ease-out 0.5s forwards;
+            background: linear-gradient(135deg, #87CEEB 0%, #4682B4 50%, #1E90FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(135, 206, 235, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0;
+            animation: slideUp 1s ease-out 0.7s forwards;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .hero-location {
+            font-size: 1rem;
+            font-weight: 400;
+            margin-top: 10px;
+            opacity: 0;
+            animation: slideUp 1s ease-out 0.9s forwards;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.5s forwards;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            width: 2px;
+            height: 30px;
+            background: rgba(135, 206, 235, 0.8);
+            display: block;
+            margin: 0 auto 10px;
+            animation: scrollPulse 2s infinite;
+        }
+
+        .scroll-indicator::after {
+            content: 'Follow the current';
+            font-size: 0.8rem;
+            color: rgba(135, 206, 235, 0.8);
+            display: block;
+            text-align: center;
+        }
+
+        /* Content Sections */
+        .content {
+            background: linear-gradient(180deg, #0a1a2a 0%, #1a2f4a 50%, #0a1a2a 100%);
+            position: relative;
+            z-index: 4;
+        }
+
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 60px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+            background: linear-gradient(135deg, #87CEEB 0%, #4682B4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Image Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+
+        .gallery-item {
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: linear-gradient(45deg, #1e3a5f, #4682B4);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
+            position: relative;
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(30, 58, 95, 0.3), rgba(70, 130, 180, 0.3));
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Feature Cards */
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: rgba(135, 206, 235, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(135, 206, 235, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, transparent, rgba(135, 206, 235, 0.3), transparent);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            background: rgba(135, 206, 235, 0.1);
+            border-color: rgba(135, 206, 235, 0.4);
+            box-shadow: 0 20px 40px rgba(30, 58, 95, 0.3);
+        }
+
+        .feature-card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.5));
+        }
+
+        .feature-card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #87CEEB;
+        }
+
+        .feature-card-description {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+
+        /* Description Section */
+        .description {
+            background: rgba(30, 58, 95, 0.1);
+            border-radius: 30px;
+            padding: 60px;
+            margin: 60px 0;
+            border: 1px solid rgba(30, 58, 95, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .description::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(135, 206, 235, 0.05), transparent);
+            animation: waterShimmer 8s infinite;
+            opacity: 0;
+        }
+
+        .description:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes waterShimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .description.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .description p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Activity Info */
+        .activity-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 80px;
+        }
+
+        .activity-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(135, 206, 235, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            text-align: center;
+        }
+
+        .activity-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .activity-item:hover {
+            background: rgba(135, 206, 235, 0.08);
+            border-color: rgba(135, 206, 235, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .activity-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .activity-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #87CEEB;
+        }
+
+        .activity-detail {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.1) 0%, rgba(135, 206, 235, 0.05) 100%);
+            border-radius: 30px;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(135, 206, 235, 0.1) 0%, transparent 70%);
+            animation: waterPulse 6s infinite;
+        }
+
+        @keyframes waterPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #1e3a5f, #4682B4);
+            color: white;
+            text-decoration: none;
+            padding: 18px 40px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(30, 58, 95, 0.4);
+            background: linear-gradient(135deg, #4682B4, #1e3a5f);
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .container {
+                padding: 0 20px;
+            }
+            
+            .description {
+                padding: 40px 30px;
+                margin: 40px 0;
+            }
+            
+            .feature-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .back-button {
+                top: 30px;
+                left: 20px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .river-flow {
+                display: none;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <a href="../../activities.html" class="back-button">←</a>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="river-flow"></div>
+        <div class="river-flow"></div>
+        <div class="river-flow"></div>
+        <div class="river-flow"></div>
+        <div class="ripples"></div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">Calabasa River</h1>
+            <p class="hero-subtitle">Serene Waters</p>
+            <p class="hero-location">📍 Calabasa, Gabaldon, Nueva Ecija</p>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Content -->
+    <div class="content">
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Where Tranquility Flows</h2>
+                
+                <div class="gallery" id="gallery">
+                    <div class="gallery-item">
+                        <img src="../ActInGabaldon/calabasa/1.jpg" alt="Calabasa River peaceful waters" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../ActInGabaldon/calabasa/2.jpg" alt="River activities and recreation" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../ActInGabaldon/calabasa/3.jpg" alt="Riverside relaxation spots" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="description" id="description">
+                    <p>Calabasa River flows like a gentle ribbon through the heart of Gabaldon, offering visitors a peaceful escape where time moves at nature's own pace. This pristine waterway represents the perfect harmony between accessibility and natural beauty, providing a serene sanctuary just moments away from the town center.</p>
+                    
+                    <p>The river's crystal-clear waters meander through lush landscapes, creating countless opportunities for quiet contemplation, family bonding, and gentle water activities. Whether you're seeking a refreshing swim, a peaceful picnic spot, or simply a place to reconnect with nature's soothing rhythms, Calabasa River delivers an experience that rejuvenates both body and soul.</p>
+                    
+                    <p>What makes this destination truly special is its gentle current and shallow areas, making it ideal for visitors of all ages. The riverside is dotted with perfect spots for relaxation, where the gentle sound of flowing water creates nature's own meditation soundtrack, inviting you to slow down and appreciate life's simple pleasures.</p>
+                </div>
+
+                <div class="feature-cards" id="feature-cards">
+                    <div class="feature-card">
+                        <span class="feature-card-icon">🏊‍♂️</span>
+                        <h3 class="feature-card-title">Safe Swimming</h3>
+                        <p class="feature-card-description">Enjoy safe, refreshing swims in gentle currents perfect for all skill levels and ages.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-card-icon">🛶</span>
+                        <h3 class="feature-card-title">Water Activities</h3>
+                        <p class="feature-card-description">Experience kayaking, bamboo rafting, and other peaceful water activities in calm waters.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-card-icon">🌸</span>
+                        <h3 class="feature-card-title">Scenic Beauty</h3>
+                        <p class="feature-card-description">Immerse yourself in riverside landscapes adorned with tropical flora and serene vistas.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-card-icon">🍃</span>
+                        <h3 class="feature-card-title">Peaceful Retreat</h3>
+                        <p class="feature-card-description">Find your inner peace in this tranquil environment perfect for relaxation and meditation.</p>
+                    </div>
+                </div>
+
+                <div class="activity-info" id="activity-info">
+                    <div class="activity-item">
+                        <span class="activity-icon">🚗</span>
+                        <h4 class="activity-title">Access</h4>
+                        <p class="activity-detail">Easy vehicle access</p>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-icon">👨‍👩‍👧‍👦</span>
+                        <h4 class="activity-title">Family Friendly</h4>
+                        <p class="activity-detail">Perfect for all ages</p>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-icon">🌊</span>
+                        <h4 class="activity-title">Water Flow</h4>
+                        <p class="activity-detail">Gentle & Safe</p>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-icon">🏕️</span>
+                        <h4 class="activity-title">Picnic Areas</h4>
+                        <p class="activity-detail">Riverside spots available</p>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-icon">📱</span>
+                        <h4 class="activity-title">Connectivity</h4>
+                        <p class="activity-detail">Good signal coverage</p>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-icon">🌅</span>
+                        <h4 class="activity-title">Best Time</h4>
+                        <p class="activity-detail">Early morning/Late afternoon</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const elementsToObserve = document.querySelectorAll('.section-title, .gallery-item, .feature-card, .description, .activity-item');
+            elementsToObserve.forEach(el => observer.observe(el));
+
+            // Stagger gallery item animations
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach((item, index) => {
+                item.style.transitionDelay = `${index * 0.2}s`;
+            });
+
+            // Stagger feature card animations
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach((card, index) => {
+                card.style.transitionDelay = `${index * 0.15}s`;
+            });
+
+            // Stagger activity info animations
+            const activityItems = document.querySelectorAll('.activity-item');
+            activityItems.forEach((item, index) => {
+                item.style.transitionDelay = `${index * 0.1}s`;
+            });
+
+            // Handle image loading errors with water-themed fallbacks
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    this.style.display = 'none';
+                    this.parentElement.style.background = 'linear-gradient(45deg, #1e3a5f, #4682B4)';
+                });
+            });
+
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Add dynamic water ripple effect on click
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.hero')) {
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(135, 206, 235, 0.3);
+                    transform: scale(0);
+                    animation: rippleEffect 0.6s linear;
+                    pointer-events: none;
+                    left: ${e.clientX - 25}px;
+                    top: ${e.clientY - 25}px;
+                    width: 50px;
+                    height: 50px;
+                    z-index: 1000;
+                `;
+                
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes rippleEffect {
+                        to {
+                            transform: scale(4);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+                document.body.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                    style.remove();
+                }, 600);
+            }
+        });
+    </script>
+</body>
+</html>

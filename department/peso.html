@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PESO - Services</title>
+    <link rel="stylesheet" href="../css/landingPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #d1d8e0 100%);
+            margin: 0;
+            min-height: 100vh;
+            font-size: 1.13rem;
+        }
+        .ios-container {
+            max-width: 1000px;
+            margin: 48px auto;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 40px rgba(44,62,80,0.11);
+            padding: 36px 24px 24px 24px;
+            position: relative;
+        }
+        .ios-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .ios-header .icon {
+            font-size: 3rem;
+            color: #28a745;
+            margin-bottom: 12px;
+        }
+        .ios-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222f3e;
+            margin: 0 0 8px 0;
+        }
+        .ios-header p {
+            color: #576574;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .ios-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .ios-card {
+            background: #f7fafd;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(44,62,80,0.06);
+            margin-bottom: 28px;
+            padding: 28px 22px 18px 22px;
+            transition: box-shadow 0.18s;
+            border: 1px solid #e3e6ea;
+        }
+        .ios-card:last-child {
+            margin-bottom: 0;
+        }
+        .ios-card h2 {
+            font-size: 1.5rem;
+            color: #28a745;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .ios-card .desc {
+            color: #485460;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table th, .ios-card .mini-table td {
+            font-size: 1.08rem;
+            padding: 6px 8px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .mini-table th {
+            background: #d4edda;
+            color: #28a745;
+            font-weight: 600;
+        }
+        .ios-card .mini-table td:first-child, .ios-card .mini-table th:first-child {
+            width: 120px;
+        }
+        .ios-card .steps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }  
+        .ios-card .steps-table th, .ios-card .steps-table td {
+            font-size: 1.08rem;
+            padding: 5px 7px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .steps-table th {
+            background: #d4edda;
+            color: #28a745;
+            font-weight: 600;
+        }
+        .ios-card .fees {
+            margin-top: 8px;
+            color: #28a745;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .ios-card .section-title {
+            font-size: 1.07rem;
+            color: #28a745;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+        .ios-card ul {
+            margin: 0 0 0 18px;
+            padding: 0;
+            color: #485460;
+            font-size: 1.09rem;
+        }
+        .ios-contact {
+            background: #d4edda;
+            border-radius: 18px;
+            padding: 18px 18px 12px 18px;
+            margin-top: 30px;
+            color: #222f3e;
+            font-size: 1.18rem;
+        }
+        .ios-contact strong {
+            color: #28a745;
+        }
+        .ios-contact a {
+            color: #28a745;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .total-time {
+            background: #d4edda;
+            color: #28a745;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        .mission-vision {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .mission-vision h3 {
+            color: #28a745;
+            margin-top: 0;
+        }
+        /* Smooth scrolling and hover effects */
+        html {
+            scroll-behavior: smooth;
+        }
+        a[href^="#"]:hover {
+            background: #d4edda !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15) !important;
+        }
+        /* New CSS for Back to Top Button */
+        #backToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+            transition: opacity 0.3s, transform 0.2s, background 0.2s;
+            z-index: 1000;
+            outline: none;
+        }
+
+        #backToTopBtn:hover {
+            background-color: #1e7e34; /* Darker green on hover */
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        @media (max-width: 700px) {
+            .ios-container { border-radius: 0; padding: 18px 2vw 16px 2vw; }
+            #backToTopBtn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-btn" style="position: absolute; top: 32px; left: 32px; z-index: 100; background: linear-gradient(135deg, #28a745, #1e7e34); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="font-size:1.2em;" aria-hidden="true">&#8592;</span>
+    </a>
+    <div class="ios-container">
+        <div class="ios-header">
+            <div class="icon">💼</div>
+            <h1>PESO</h1>
+            <p>Public Employment Service Office</p>
+        </div>
+        
+        <!-- Table of Contents -->
+        <section class="ios-card" style="background: #d4edda; border: 2px solid #28a745;">
+            <h2 style="text-align: center; margin-bottom: 20px;">📋 Lista ng mga Serbisyo</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                <a href="#service1" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #28a745;">1.</strong> Applicant Transaction
+                </a>
+                <a href="#service2" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #28a745;">2.</strong> Employer Transaction (Local)
+                </a>
+                <a href="#service3" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #28a745;">3.</strong> Special Recruitment Activity (Overseas)
+                </a>
+                <a href="#service4" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #28a745;">4.</strong> Feedback at Complaints
+                </a>
+            </div>
+        </section>
+        
+        <!-- 1. Applicant Transaction -->
+        <section class="ios-card" id="service1">
+            <h2>👥 1. Applicant Transaction</h2>
+            <div class="desc">Provide Labor Market Information and job referral for possible employment that fit to his/her qualification. Registration to National Skills Registry System (PESO Employment Information System)</div>
+            <div class="section-title">Classification & Type</div>
+            <table class="mini-table">
+                <tr><th>Details</th><th>Information</th></tr>
+                <tr><td>Classification</td><td>Simple</td></tr>
+                <tr><td>Type</td><td>Government-to-Citizen (G2C)</td></tr>
+                <tr><td>Who may avail</td><td>Job Seekers</td></tr>
+            </table>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Resume / Bio Data</td><td>PESO Office</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Client Steps</th><th>Agency Actions</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Submission of Resume /Biodata</td><td>Interview and inform the applicant about the availability of desired job</td><td>1 min</td><td>All PESO</td></tr>
+                <tr><td>Fill-up SRS Form</td><td>Providing of referral letter (If qualified for the available job vacancy)</td><td>1 min</td><td>PESO Staff</td></tr>
+                <tr><td>-</td><td>PEIS Registration</td><td>2 mins</td><td>PESO Staff</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 4 minutes</div>
+            <div class="fees">Bayad: <b>LIBRE</b></div>
+        </section>
+
+        <!-- 2. Employer Transaction (Local) -->
+        <section class="ios-card" id="service2">
+            <h2>🏢 2. Employer Transaction (Local)</h2>
+            <div class="desc">Provide local employment opportunities</div>
+            <div class="section-title">Classification & Type</div>
+            <table class="mini-table">
+                <tr><th>Details</th><th>Information</th></tr>
+                <tr><td>Classification</td><td>Simple</td></tr>
+                <tr><td>Type</td><td>Government-to-Citizen (G2C)</td></tr>
+                <tr><td>Who may avail</td><td>Employer</td></tr>
+            </table>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Company Profile</td><td>Client</td></tr>
+                <tr><td>Job Vacancy</td><td>Client</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Client Steps</th><th>Agency Actions</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Communicate through phone, email or personal visit to PESO office</td><td>Evaluation and approval, Posting of job vacancy</td><td>2 mins</td><td>PESO & Staff</td></tr>
+                <tr><td>-</td><td>Search data base from PEIS for qualified employee/s</td><td>2 mins</td><td>PESO & Staff</td></tr>
+                <tr><td>-</td><td>Referral of applicants</td><td>1 min</td><td>PESO & Staff</td></tr>
+                <tr><td>Submission of placement report</td><td>Submission of report to DOLE</td><td>-</td><td>PESO & Staff</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 5 minutes</div>
+            <div class="fees">Bayad: <b>LIBRE</b></div>
+        </section>
+
+        <!-- 3. Special Recruitment Activity (Overseas) -->
+        <section class="ios-card" id="service3">
+            <h2>🌍 3. Special Recruitment Activity (Overseas)</h2>
+            <div class="desc">Provide overseas employment opportunities</div>
+            <div class="section-title">Classification & Type</div>
+            <table class="mini-table">
+                <tr><th>Details</th><th>Information</th></tr>
+                <tr><td>Classification</td><td>Simple</td></tr>
+                <tr><td>Type</td><td>Government-to-Citizen (G2C)</td></tr>
+                <tr><td>Who may avail</td><td>Registered Overseas Employment Agencies</td></tr>
+            </table>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Company Profile</td><td>Client</td></tr>
+                <tr><td>DMW Registration</td><td>Client</td></tr>
+                <tr><td>Approved job orders</td><td>Client</td></tr>
+                <tr><td>Letter of intent</td><td>Client</td></tr>
+                <tr><td>DMW Permit to conduct SRA</td><td>DMW</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Client Steps</th><th>Agency Actions</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Submission of requirements</td><td>Evaluate submitted documents</td><td>5 mins</td><td>PESO & Staff</td></tr>
+                <tr><td>-</td><td>Issuance of Letter of no objection</td><td>2 mins</td><td>PESO & Staff</td></tr>
+                <tr><td>-</td><td>Conduct of SRA</td><td>8 hrs</td><td>PESO & Staff</td></tr>
+                <tr><td>Submission of Terminal Report</td><td>Submission of report to DOLE</td><td>2 mins</td><td>PESO & Staff</td></tr>
+                <tr><td>Submission of Placement Report</td><td>Submission of report to DOLE</td><td>2 mins</td><td>PESO & Staff</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 8 hours 11 minutes</div>
+            <div class="fees">Bayad: <b>LIBRE</b></div>
+        </section>
+
+        <!-- 4. Feedback at Complaints -->
+        <section class="ios-card" id="service4">
+            <h2>📢 4. Feedback at Complaints Mechanism</h2>
+            <div class="section-title">Paano Magbigay ng Feedback</div>
+            <ul>
+                <li>Answer the <b>client feedback form</b> and drop it to the designated drop box at the <b>Public Assistance and Complaint Desk</b></li>
+                <li>O mag-email sa: <a href="mailto:gabnecija_50@yahoo.com">gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</a></li>
+            </ul>
+            <div class="section-title">Processing ng Feedback</div>
+            <ul>
+                <li>Every Friday the assigned Officers of the Day open the drop box and compiles and recorded all feedback submitted</li>
+                <li>Feedback requiring answers are forwarded to the relevant offices</li>
+                <li>They are required to answer <b>within three (3) days</b> of the receipt of the feedback</li>
+                <li>The answer of the office is then relayed to the citizen</li>
+            </ul>
+            <div class="section-title">Paano Mag-file ng Complaint</div>
+            <ul>
+                <li>Answer the <b>client Complaint form</b> and drop it at the designated drop box in front of the Public Assistance and Complaint Desk</li>
+                <li>Complaints can also be filed via text, call and email. Make sure to provide the following information:
+                    <ul>
+                        <li>Name of person being complained</li>
+                        <li>Incident</li>
+                        <li>Evidence</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="section-title">Processing ng Complaints</div>
+            <ul>
+                <li>The Municipal Administrator opens the complaints drop box on a daily basis and evaluate each complaint</li>
+                <li>Upon evaluation the Municipal Administrator shall start the investigation and forward the complaint to the relevant office for their explanation</li>
+                <li>The Municipal Administrator will create a report after the investigation and shall submit to the Local Chief Executive for appropriate action</li>
+                <li>The Municipal Administrator will give the feedback to the client</li>
+            </ul>
+            <div class="ios-contact">
+                <div><b>Contact Information</b></div>
+                <div>📞 <b>0998-990-1027</b></div>
+                <div>📧 <a href="mailto:gabnecija_50@yahoo.com"><b>gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</b></a></div>
+                <br>
+            </div>
+        </section>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button onclick="scrollToTop()" id="backToTopBtn" title="Go to top">↑</button>
+
+    <script>
+        // Get the button element
+        const backToTopButton = document.getElementById("backToTopBtn");
+
+        // When the user scrolls, execute scrollFunction
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            // Check if the user has scrolled down more than 200 pixels
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll smoothly to the top of the document
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>

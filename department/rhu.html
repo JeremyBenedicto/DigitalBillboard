@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RHU - Services</title>
+    <link rel="stylesheet" href="../css/landingPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #d1d8e0 100%);
+            margin: 0;
+            min-height: 100vh;
+            font-size: 1.13rem;
+        }
+        .ios-container {
+            max-width: 1000px;
+            margin: 48px auto;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 40px rgba(44,62,80,0.11);
+            padding: 36px 24px 24px 24px;
+            position: relative;
+        }
+        .ios-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .ios-header .icon {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 12px;
+        }
+        .ios-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222f3e;
+            margin: 0 0 8px 0;
+        }
+        .ios-header p {
+            color: #576574;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .ios-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .ios-card {
+            background: #f7fafd;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(44,62,80,0.06);
+            margin-bottom: 28px;
+            padding: 28px 22px 18px 22px;
+            transition: box-shadow 0.18s;
+            border: 1px solid #e3e6ea;
+        }
+        .ios-card:last-child {
+            margin-bottom: 0;
+        }
+        .ios-card h2 {
+            font-size: 1.5rem;
+            color: #007bff;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .ios-card .desc {
+            color: #485460;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table th, .ios-card .mini-table td {
+            font-size: 1.08rem;
+            padding: 6px 8px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .mini-table th {
+            background: #e3f2fd;
+            color: #007bff;
+            font-weight: 600;
+        }
+        .ios-card .mini-table td:first-child, .ios-card .mini-table th:first-child {
+            width: 120px;
+        }
+        .ios-card .steps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        .ios-card .steps-table th, .ios-card .steps-table td {
+            font-size: 1.08rem;
+            padding: 5px 7px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .steps-table th {
+            background: #e3f2fd;
+            color: #007bff;
+            font-weight: 600;
+        }
+        .ios-card .fees {
+            margin-top: 8px;
+            color: #28a745;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .ios-card .section-title {
+            font-size: 1.07rem;
+            color: #007bff;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+        .ios-card ul {
+            margin: 0 0 0 18px;
+            padding: 0;
+            color: #485460;
+            font-size: 1.09rem;
+        }
+        .ios-contact {
+            background: #e3f2fd;
+            border-radius: 18px;
+            padding: 18px 18px 12px 18px;
+            margin-top: 30px;
+            color: #222f3e;
+            font-size: 1.18rem;
+        }
+        .ios-contact strong {
+            color: #007bff;
+        }
+        .ios-contact a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .total-time {
+            background: #e3f2fd;
+            color: #007bff;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        /* Smooth scrolling and hover effects */
+        html {
+            scroll-behavior: smooth;
+        }
+        a[href^="#"]:hover {
+            background: #e3f2fd !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15) !important;
+        }
+        @media (max-width: 700px) {
+            .ios-container { border-radius: 0; padding: 18px 2vw 16px 2vw; }
+        }
+        
+        /* Back to Top Button */
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        #backToTop:hover {
+            background: linear-gradient(135deg, #0056b3, #007bff);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+        }
+        
+        #backToTop:active {
+            transform: translateY(-1px);
+        }
+        
+        @media (max-width: 700px) {
+            #backToTop {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-btn" style="position: absolute; top: 32px; left: 32px; z-index: 100; background: linear-gradient(135deg, #007bff, #0056b3); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="font-size:1.2em;" aria-hidden="true">&#8592;</span>
+    </a>
+    <div class="ios-container">
+        <div class="ios-header">
+            <div class="icon">🏥</div>
+            <h1>RHU</h1>
+            <p>Rural Health Unit</p>
+        </div>
+        
+        <!-- Table of Contents -->
+        <section class="ios-card" style="background: #e3f2fd; border: 2px solid #007bff;">
+            <h2 style="text-align: center; margin-bottom: 20px;">📋 Lista ng mga Serbisyo</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                <a href="#service1" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">1.</strong> Birthing Station (Panganakan)
+                </a>
+                <a href="#service2" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">2.</strong> Out Patient Department (OPD)
+                </a>
+                <a href="#service3" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">3.</strong> Dental Services
+                </a>
+                <a href="#service4" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">4.</strong> Animal Bite Treatment
+                </a>
+                <a href="#service5" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">5.</strong> Feedback at Complaints
+                </a>
+            </div>
+        </section>
+        
+        <!-- 1. Birthing Station -->
+        <section class="ios-card" id="service1">
+            <h2>🤱 1. Birthing Station (Panganakan)</h2>
+            <div class="desc">Para sa mga buntis na kababaihan na nanganganak sa RHU</div>
+            <div class="section-title">Classification & Type</div>
+            <table class="mini-table">
+                <tr><th>Details</th><th>Information</th></tr>
+                <tr><td>Classification</td><td>Simple</td></tr>
+                <tr><td>Type</td><td>Government-to-Citizen (G2C)</td></tr>
+                <tr><td>Who may avail</td><td>Buntis na kababaihan</td></tr>
+            </table>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Paliwanag</th></tr>
+                <tr><td>Mother and Baby Record Book</td><td>Dalhin ang record book</td></tr>
+                <tr><td>Laboratory/X-ray Results</td><td>Kung mayroon, para sa check-up</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Pumunta sa RHU Birthing Station para sa assessment</td><td>15 mins</td><td>Dr. Shiena Grace E. Pascual, MHO, o Midwife on Duty</td></tr>
+                <tr><td>Kung high-risk ang pregnancy, irerefer sa hospital</td><td>30 mins</td><td>Health Worker</td></tr>
+                <tr><td>Kung normal ang pregnancy, maghanda para sa confinement</td><td>24 hrs</td><td>Health Worker</td></tr>
+                <tr><td>Kunin ang discharge slip pagkatapos manganak</td><td>10 mins</td><td>Health Worker</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 1 oras at 9 mins</div>
+            <div class="fees">Bayad: <b>WALA</b></div>
+        </section>
+
+        <!-- 2. Out Patient Department -->
+        <section class="ios-card" id="service2">
+            <h2>👩‍⚕️ 2. Out Patient Department (OPD - Konsultasyon)</h2>
+            <div class="desc">Para sa lahat ng residente ng Gabaldon na nangangailangan ng konsultasyon</div>
+            <div class="section-title">Classification & Type</div>
+            <table class="mini-table">
+                <tr><th>Details</th><th>Information</th></tr>
+                <tr><td>Classification</td><td>Simple</td></tr>
+                <tr><td>Type</td><td>Government-to-Citizen (G2C)</td></tr>
+                <tr><td>Who may avail</td><td>Lahat ng residente ng Gabaldon</td></tr>
+            </table>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Paliwanag</th></tr>
+                <tr><td>Personal Appearance</td><td>Dapat andoon ang pasyente</td></tr>
+                <tr><td>PhilHealth Card o MDR</td><td>Kung mayroon, para sa libreng konsultasyon</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Magparegister sa receiving desk</td><td>15 mins</td><td>Dr. Shiena Grace E. Pascual, MHO, o Nurses</td></tr>
+                <tr><td>Konsultasyon sa doktor</td><td>10 mins</td><td>Doctor</td></tr>
+                <tr><td>Laboratory tests (kung kailangan)</td><td>30 mins</td><td>Helen Grace A. Parungao (Lab Tech)</td></tr>
+                <tr><td>Balik sa doktor para sa re-assessment</td><td>10 mins</td><td>Doctor</td></tr>
+                <tr><td>Kumuha ng gamot sa pharmacy</td><td>5 mins</td><td>Jewerly Ricci J. Novilla o Amante T. Antonio</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 1 oras at 10 mins</div>
+            <div class="fees">Bayad: <b>WALA</b></div>
+        </section>
+
+        <!-- 3. Dental Services -->
+        <section class="ios-card" id="service3">
+            <h2>🦷 3. Dental Services (Pagseserbisyo sa Ngipin)</h2>
+            <div class="desc">Para sa lahat ng residente ng Gabaldon na nangangailangan ng dental care</div>
+            <div class="section-title">Classification & Type</div>
+            <table class="mini-table">
+                <tr><th>Details</th><th>Information</th></tr>
+                <tr><td>Classification</td><td>Simple</td></tr>
+                <tr><td>Type</td><td>Government-to-Citizen (G2C)</td></tr>
+                <tr><td>Who may avail</td><td>Lahat ng residente ng Gabaldon</td></tr>
+            </table>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Paliwanag</th></tr>
+                <tr><td>Personal Appearance</td><td>Dapat andoon ang pasyente</td></tr>
+                <tr><td>PhilHealth Card o MDR</td><td>Kung mayroon, para sa libreng dental check-up</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Magparegister at magpa-vital signs</td><td>20 mins</td><td>George Dieyouson A. Estabillo (Dentist) o Nurses</td></tr>
+                <tr><td>Dental Check-up/Tooth Extraction/Filling</td><td>30 mins</td><td>Dentist</td></tr>
+                <tr><td>Laboratory o Pharmacy (kung kailangan)</td><td>20 mins</td><td>Lab Tech/Pharmacist</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 1 oras at 10 mins</div>
+            <div class="fees">Bayad: <b>WALA</b></div>
+        </section>
+
+        <!-- 4. Animal Bite Treatment -->
+        <section class="ios-card" id="service4">
+            <h2>🐕 4. Animal Bite Treatment (Rabies Vaccine)</h2>
+            <div class="desc">Para sa mga nakagat ng hayop (aso, pusa, etc.)</div>
+            <div class="section-title">Classification & Type</div>
+            <table class="mini-table">
+                <tr><th>Details</th><th>Information</th></tr>
+                <tr><td>Classification</td><td>Simple</td></tr>
+                <tr><td>Type</td><td>Government-to-Citizen (G2C)</td></tr>
+                <tr><td>Who may avail</td><td>Nakagat ng hayop (aso, pusa, etc.)</td></tr>
+            </table>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Paliwanag</th></tr>
+                <tr><td>Valid ID</td><td>LTO, Comelec, PhilHealth - dapat taga-Gabaldon</td></tr>
+                <tr><td>Para sa minors</td><td>Dapat kasama ang magulang o guardian</td></tr>
+                <tr><td>PhilHealth Card o MDR</td><td>Kung mayroon, para sa libreng vaccine</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Magparegister at magpa-vital signs</td><td>10 mins</td><td>Joan Dalacat (JO) o Jenny Lyn H. Arindain (Nurse I)</td></tr>
+                <tr><td>Assessment ng kagat</td><td>5 mins</td><td>Dr. Shiena Grace E. Pascual (MHO)</td></tr>
+                <tr><td>Health Education tungkol sa rabies</td><td>2 mins</td><td>Health Worker</td></tr>
+                <tr><td>Bakuna (Anti-Rabies Vaccine)</td><td>10 mins</td><td>Nurse</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 27 mins</div>
+            <div class="fees">Bayad: <b>WALA</b></div>
+        </section>
+
+        <!-- 5. Feedback at Complaints -->
+        <section class="ios-card" id="service5">
+            <h2>📢 5. Feedback at Complaints Mechanism</h2>
+            <div class="section-title">Paano Magbigay ng Feedback</div>
+            <ul>
+                <li>Sagutan ang <b>Client Feedback Form</b></li>
+                <li>I-drop sa <b>Public Assistance Desk</b></li>
+                <li>O mag-email sa: <a href="mailto:gabnecija_50@yahoo.com">gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</a></li>
+            </ul>
+            <div class="section-title">Paano Mag-file ng Complaint</div>
+            <ul>
+                <li>Sagutan ang <b>Client Complaint Form</b></li>
+                <li>I-drop sa drop box sa harap ng Public Assistance Desk</li>
+                <li>Pwede ring mag-text, tumawag, o mag-email (siguraduhing ilagay ang mga sumusunod):
+                    <ul>
+                        <li>Pangalan ng nirereklamo</li>
+                        <li>Detalye ng insidente</li>
+                        <li>Mga ebidensya</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="section-title">Processing ng Complaints</div>
+            <ul>
+                <li>Araw-araw chine-check ng <b>Municipal Administrator</b> ang drop box</li>
+                <li>Gagawa ng imbestigasyon at ipapasa ito sa tamang opisina para sa paliwanag</li>
+                <li>Gagawa ng report at isusumite sa Mayor para sa action</li>
+                <li>Ipapabatid ang resulta sa complainant</li>
+            </ul>
+            <div class="ios-contact">
+                <div><b>Contact Information</b></div>
+                <div>📞 <b>0998-990-1027</b></div>
+                <div>📧 <a href="mailto:gabnecija_50@yahoo.com"><b>gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</b></a></div>
+                <br>
+                <div style="text-align: center; font-style: italic; color: #007bff;">
+                    <b>"Sa RHU Gabaldon, serbisyong de-kalidad, abot-kaya, at may malasakit!"</b> 💙
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Back to Top Button -->
+    <button onclick="topFunction()" id="backToTop" title="Go to top">↑ Top</button>
+    
+    <script>
+        // Get the button
+        let backToTopBtn = document.getElementById("backToTop");
+        
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction();
+        };
+        
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                backToTopBtn.style.display = "block";
+            } else {
+                backToTopBtn.style.display = "none";
+            }
+        }
+        
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
+</body>
+</html>

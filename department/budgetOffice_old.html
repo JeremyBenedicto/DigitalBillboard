@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanggapan ng Badyet ng Munisipyo - Municipality of Gabaldon</title>
+    <link rel="stylesheet" href="../css/landingPage.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --secondary-color: #5856d6;
+            --success-color: #34c759;
+            --warning-color: #ff9500;
+            --error-color: #ff3b30;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --background-primary: rgba(255, 255, 255, 0.95);
+            --background-secondary: rgba(255, 255, 255, 0.7);
+            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .budget-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            background: var(--background-primary);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 24px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .budget-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--success-color));
+            border-radius: 24px 24px 0 0;
+        }
+
+        .budget-header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 0;
+            position: relative;
+            background: linear-gradient(135deg, rgba(0, 122, 255, 0.05), rgba(88, 86, 214, 0.05));
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0, 122, 255, 0.1);
+        }
+
+        .budget-header::before {
+            content: '💰';
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .budget-title {
+            font-size: 3.5rem;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInLeft 0.8s ease-out 0.2s both;
+        }
+
+        .budget-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 8px;
+            animation: slideInLeft 0.8s ease-out 0.4s both;
+        }
+
+        .budget-subtitle:last-child {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            animation: slideInLeft 0.8s ease-out 0.6s both;
+        }
+
+
+
+        .section {
+            margin-bottom: 40px;
+            padding: 40px;
+            background: var(--background-secondary);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .section:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::before {
+            content: attr(data-icon);
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .section-content {
+            line-height: 1.7;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .section-content ul {
+            padding-left: 0;
+            margin: 20px 0;
+            list-style: none;
+        }
+
+        .section-content li {
+            margin-bottom: 12px;
+            padding: 12px 0 12px 40px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .section-content li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 24px;
+            height: 24px;
+            background: var(--success-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .section-content li:hover {
+            color: var(--text-primary);
+            transform: translateX(8px);
+        }
+
+        .service-item {
+            background: linear-gradient(135deg, rgba(0, 122, 255, 0.03), rgba(88, 86, 214, 0.03));
+            border: 1px solid rgba(0, 122, 255, 0.15);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .service-item:hover {
+            background: linear-gradient(135deg, rgba(0, 122, 255, 0.08), rgba(88, 86, 214, 0.08));
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-medium);
+            border-color: rgba(0, 122, 255, 0.3);
+        }
+
+        .service-item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .service-title::before {
+            content: '📋';
+            font-size: 1.2rem;
+            padding: 8px;
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 40px;
+            transition: var(--transition);
+            box-shadow: var(--shadow-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .back-btn:hover::before {
+            left: 100%;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .assigned-officer {
+            background: rgba(0, 122, 255, 0.1);
+            border-left: 3px solid var(--primary-color);
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .services-table-container {
+            margin: 40px 0;
+            background: var(--background-light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .services-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .services-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .services-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            vertical-align: top;
+        }
+
+        .services-table tr:hover {
+            background: rgba(0, 122, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        .service-number {
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            width: 60px;
+        }
+
+        .service-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            min-width: 200px;
+        }
+
+        .service-eligibility {
+            color: var(--text-secondary);
+            font-style: italic;
+            min-width: 150px;
+        }
+
+        .service-requirements {
+            min-width: 200px;
+        }
+
+        .service-process {
+            min-width: 300px;
+        }
+
+        .service-time {
+            font-weight: 600;
+            color: var(--accent-color);
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .requirements-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .requirements-list li {
+            margin-bottom: 6px;
+            padding-left: 15px;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .requirements-list li::before {
+            content: '• ';
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .process-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .process-list li {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .personnel-info {
+            background: rgba(52, 199, 89, 0.1);
+            border: 1px solid rgba(52, 199, 89, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 4px;
+            font-size: 0.85rem;
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .service-item {
+            background: var(--background-light);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-medium);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .service-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 48px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .contact-info > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .contact-info a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 1024px) {
+            .services-table {
+                font-size: 0.9rem;
+            }
+            
+            .services-table th,
+            .services-table td {
+                padding: 12px 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .budget-container {
+                margin: 15px;
+                padding: 30px 20px;
+            }
+            
+            .budget-title {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 24px;
+            }
+            
+            .service-item {
+                padding: 24px;
+            }
+            
+            .contact-info {
+                padding: 32px 24px;
+            }
+
+            .services-table-container {
+                overflow-x: auto;
+            }
+
+            .services-table {
+                min-width: 800px;
+                font-size: 0.85rem;
+            }
+
+            .services-table th,
+            .services-table td {
+                padding: 10px 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .budget-title {
+                font-size: 1.6rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            .services-table {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Scroll animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-btn" style="position: absolute; top: 32px; left: 32px; z-index: 100;">
+        <i class="fas fa-arrow-left"></i>
+        Bumalik
+    </a>
+    <div class="header">
+        <div class="logo-section">
+            <div class="logo">
+                <img src="../assets/logo.png" alt="Gabaldon Logo">
+            </div>
+            <div class="logo-text">
+                Municipality of Gabaldon<br>
+                <span style="font-size: 16px;">Nueva Ecija</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="budget-container">
+        
+        <div class="budget-header">
+            <h1 class="budget-title">Tanggapan ng Badyet</h1>
+            <p class="budget-subtitle">Tanggapan ng Badyet ng Munisipyo<br>(Municipal Budget Office)</p>
+            <p class="budget-subtitle"><strong>Digital na Dokumento ng Serbisyo</strong></p>
+        </div>
+
+            <div class="section animate-on-scroll">
+                <h2 class="section-title" data-icon="📋">I. MANDATO</h2>
+                <div class="section-content">
+                    <p>Nagbibigay ng teknikal na payo at pinapasimple ang proseso ng badyet, kabilang ang sa Barangay. Nagsasagawa ng pagsusuri ng badyet sa pamamagitan ng epektibo at transparent na pagpaprograma ng kita at gastusin para sa mas maayos na serbisyo sa mamamayan. Naglalabas ng Quarterly Allotment sa bawat departamento upang mapigilan ang sobrang paggastos at kakulangan sa koleksyon ng inaasahang kita.</p>
+                    <div class="assigned-officer">
+                        <strong>Inatasang Opisyal:</strong> Julie Mier E. Lomanog – Municipal Budget Officer I
+                    </div>
+                </div>
+            </div>
+
+            <div class="section animate-on-scroll">
+                <h2 class="section-title" data-icon="👁️">II. BISYON</h2>
+                <div class="section-content">
+                    <p>Maiparating nang epektibo ang mga polisiya at alituntunin sa proseso ng badyet para sa transparency at pananagutan sa mabuting pamamahala.</p>
+                </div>
+            </div>
+
+            <div class="section animate-on-scroll">
+                <h2 class="section-title" data-icon="🎯">III. MISYON</h2>
+                <div class="section-content">
+                    <p>Magbigay ng dekalidad na serbisyo sa badyet sa paghahanda, pag-apruba, at pagpapatupad ng mga plano at badyet ng LGU para sa kapakanan ng mamamayan.</p>
+                </div>
+            </div>
+
+            <div class="section animate-on-scroll">
+                <h2 class="section-title" data-icon="🏆">IV. KINALABASANG ORGANISASYON</h2>
+                <div class="section-content">
+                    <p>Mas pinahusay na kalidad ng serbisyo sa badyet para sa mas epektibo at episyenteng alokasyon ng yaman at maingat na paggastos.</p>
+                </div>
+            </div>
+
+            <div class="section animate-on-scroll">
+                <h2 class="section-title" data-icon="📊">LISTAHAN NG SERBISYO NG TANGGAPAN NG BADYET</h2>
+                
+                <div class="services-table-container">
+                    <table class="services-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Pangalan ng Serbisyo</th>
+                                <th>Sino ang Maaaring Mag-avail</th>
+                                <th>Mga Kailangan</th>
+                                <th>Proseso</th>
+                                <th>Oras</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="service-number">1</td>
+                                <td class="service-name">Pagsusuri ng Barangay Annual/Supplemental Budget</td>
+                                <td class="service-eligibility">16 Barangay</td>
+                                <td class="service-requirements">
+                                    <ul class="requirements-list">
+                                        <li>Barangay Annual at Supplemental Budget</li>
+                                        <li>Barangay Review Form 1, 3 & 4</li>
+                                    </ul>
+                                </td>
+                                <td class="service-process">
+                                    <ol class="process-list">
+                                        <li>Pagsumite ng badyet (2 minuto)
+                                            <div class="personnel-info">Adelaida A. Manuzon – Sr. Admin. Asst. II</div>
+                                        </li>
+                                        <li>Pagsusuri at ebalwasyon (1 oras)
+                                            <div class="personnel-info">Adelaida A. Manuzon – Sr. Admin. Asst. II</div>
+                                        </li>
+                                        <li>Paghahanda ng review at transmittal letter (10 minuto)
+                                            <div class="personnel-info">Adelaida A. Manuzon – Sr. Admin. Asst. II</div>
+                                        </li>
+                                        <li>Pag-isyu ng sertipikasyon at pagpirma (2 minuto)
+                                            <div class="personnel-info">Julie Mier E. Lomanog – Municipal Budget Officer I</div>
+                                        </li>
+                                    </ol>
+                                </td>
+                                <td class="service-time">1 oras 14 minuto</td>
+                            </tr>
+                            <tr>
+                                <td class="service-number">2</td>
+                                <td class="service-name">Pag-record ng Obligation Request</td>
+                                <td class="service-eligibility">Mga ahensya ng pamahalaan, tanggapan ng LGU, kontraktor/suplayer</td>
+                                <td class="service-requirements">
+                                    <ul class="requirements-list">
+                                        <li><strong>Traveling Expenses:</strong> Travel Order, Certificate of Appearance, Itinerary of Travel</li>
+                                        <li><strong>Office Supplies:</strong> Purchase Order, Purchase Request, Awards, Inspection, Quotation, Canvass</li>
+                                    </ul>
+                                </td>
+                                <td class="service-process">
+                                    <ol class="process-list">
+                                        <li>Pagtanggap ng request at supporting documents (1 minuto)
+                                            <div class="personnel-info">Marilyn A. Mauricio – Sr. Admin. Asst. I</div>
+                                        </li>
+                                        <li>Pag-verify ng allotment/appropriation at checking ng index card (2 minuto)
+                                            <div class="personnel-info">Marilyn A. Mauricio – Sr. Admin. Asst. I</div>
+                                        </li>
+                                        <li>Pagsusuri at pag-record sa Record Book at Index Card (5 minuto)
+                                            <div class="personnel-info">Marilyn A. Mauricio – Sr. Admin. Asst. I</div>
+                                        </li>
+                                        <li>Pag-apruba/pagpirma ng Obligation Request (1 minuto)
+                                            <div class="personnel-info">Julie Mier E. Lomanog – Municipal Budget Officer I</div>
+                                        </li>
+                                    </ol>
+                                </td>
+                                <td class="service-time">9 minuto</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section animate-on-scroll">
+                <h2 class="section-title" data-icon="💬">MEKANISMO PARA SA FEEDBACK AT REKLAMO</h2>
+                
+                <div class="assigned-officer">
+                    <strong>Inatasang Opisyal:</strong> Municipal Administrator
+                </div>
+                
+                <div class="service-item">
+                    <h3 class="service-title">Feedback</h3>
+                    <div class="section-content">
+                        <p><strong>Paano magbigay ng feedback:</strong></p>
+                        <ul>
+                            <li>Sagutan ang Client Feedback Form at ihulog sa drop box ng Public Assistance and Complaint Desk.</li>
+                            <li>O kaya'y magpadala sa email: gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</li>
+                        </ul>
+                        <p><strong>Proseso ng feedback:</strong></p>
+                        <ul>
+                            <li>Tuwing Biyernes, kukunin at ire-record ng Officer of the Day ang mga feedback.</li>
+                            <li>Feedback na nangangailangan ng sagot ay ipapasa sa kaukulang tanggapan at kailangang masagot sa loob ng 3 araw.</li>
+                            <li>Ipinapaabot ang sagot ng tanggapan sa mamamayan.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <h3 class="service-title">Reklamo</h3>
+                    <div class="section-content">
+                        <p><strong>Paano magsampa ng reklamo:</strong></p>
+                        <ul>
+                            <li>Sagutan ang Client Complaint Form at ihulog sa drop box sa harap ng Public Assistance and Complaint Desk.</li>
+                            <li>Maaari ring magsampa sa pamamagitan ng text, tawag o email. Ilakip ang:</li>
+                            <ul style="margin-left: 20px;">
+                                <li>Pangalan ng inirereklamo</li>
+                                <li>Detalye ng insidente</li>
+                                <li>Mga ebidensya</li>
+                            </ul>
+                        </ul>
+                        <p><strong>Proseso ng reklamo:</strong></p>
+                        <ul>
+                            <li>Araw-araw binubuksan ng Municipal Administrator ang drop box at sinusuri ang mga reklamo.</li>
+                            <li>Kung may basehan, sisimulan ang imbestigasyon at ipapasa sa kaukulang tanggapan para sa paliwanag.</li>
+                            <li>Maghahanda ng ulat para sa Local Chief Executive para sa nararapat na aksyon.</li>
+                            <li>Ipapaalam ang resulta sa complainant.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <div class="contact-info">
+            <h2 style="margin-bottom: 20px;">Makipag-ugnayan</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 10px;"><strong>Telepono:</strong> 0998-990-1027</p>
+            <p style="font-size: 1.2rem;"><strong>Email:</strong> <a href="mailto:gabnecija_50@yahoo.com">gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</a></p>
+            <div style="margin-top: 20px; padding: 16px; background: rgba(255, 255, 255, 0.2); border-radius: 12px;">
+                <p style="font-size: 1rem; margin: 0;"><strong>Municipal Budget Officer I:</strong> Julie Mier E. Lomanog</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            animateElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

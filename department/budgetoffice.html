@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipal Budget Office - Services</title>
+    <link rel="stylesheet" href="../css/landingPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #d1d8e0 100%);
+            margin: 0;
+            min-height: 100vh;
+            font-size: 1.13rem;
+        }
+        .ios-container {
+            max-width: 1000px;
+            margin: 48px auto;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 40px rgba(44,62,80,0.11);
+            padding: 36px 24px 24px 24px;
+            position: relative;
+        }
+        .ios-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .ios-header .icon {
+            font-size: 3rem;
+            color: #007AFF;
+            margin-bottom: 12px;
+        }
+        .ios-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222f3e;
+            margin: 0 0 8px 0;
+        }
+        .ios-header p {
+            color: #576574;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .ios-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .ios-card {
+            background: #f7fafd;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(44,62,80,0.06);
+            margin-bottom: 28px;
+            padding: 28px 22px 18px 22px;
+            transition: box-shadow 0.18s;
+            border: 1px solid #e3e6ea;
+        }
+        .ios-card:last-child {
+            margin-bottom: 0;
+        }
+        .ios-card h2 {
+            font-size: 1.5rem;
+            color: #007AFF;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .ios-card .desc {
+            color: #485460;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table th, .ios-card .mini-table td {
+            font-size: 1.08rem;
+            padding: 6px 8px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .mini-table th {
+            background: #eaf0fb;
+            color: #007AFF;
+            font-weight: 600;
+        }
+        .ios-card .mini-table td:first-child, .ios-card .mini-table th:first-child {
+            width: 120px;
+        }
+        .ios-card .steps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        .ios-card .steps-table th, .ios-card .steps-table td {
+            font-size: 1.08rem;
+            padding: 5px 7px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .steps-table th {
+            background: #eaf0fb;
+            color: #007AFF;
+            font-weight: 600;
+        }
+        .ios-card .fees {
+            margin-top: 8px;
+            color: #34c759;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .ios-card .section-title {
+            font-size: 1.07rem;
+            color: #007AFF;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+        .ios-card ul {
+            margin: 0 0 0 18px;
+            padding: 0;
+            color: #485460;
+            font-size: 1.09rem;
+        }
+        .ios-contact {
+            background: #eaf0fb;
+            border-radius: 18px;
+            padding: 18px 18px 12px 18px;
+            margin-top: 30px;
+            color: #222f3e;
+            font-size: 1.18rem;
+        }
+        .ios-contact strong {
+            color: #007AFF;
+        }
+        .ios-contact a {
+            color: #007AFF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        @media (max-width: 700px) {
+            .ios-container { border-radius: 0; padding: 18px 2vw 16px 2vw; }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-btn" style="position: absolute; top: 32px; left: 32px; z-index: 100; background: linear-gradient(135deg, #007AFF, #5856d6); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="font-size:1.2em;" aria-hidden="true">&#8592;</span>
+    </a>
+    <div class="ios-container">
+        <div class="ios-header">
+            <h1>Municipal Budget Office</h1>
+            <p>Mga Serbisyo</p>
+        </div>
+        <!-- 1. Review ng Barangay Annual/Supplemental Budget -->
+        <section class="ios-card">
+            <h2>1. Review ng Barangay Annual/Supplemental Budget</h2>
+            <div class="desc">Nag-iisyu ang Municipal Budget Office ng certification para sa pagsusuri ng Barangay Annual at Supplemental Budget — kung ito ay legal, tama, at maayos ang pagkakagawa.</div>
+            <ul style="margin-bottom: 12px;">
+                <li><b>Opisina:</b> Municipal Budget Office</li>
+                <li><b>Uri ng Transaction:</b> G2G (Government to Government)</li>
+                <li><b>Sino ang pwedeng mag-avail:</b> 16 Barangays</li>
+                <li><b>Classification:</b> Simple</li>
+            </ul>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Barangay Annual Budget</td><td>Barangay</td></tr>
+                <tr><td>Barangay Supplemental Budget</td><td>Barangay</td></tr>
+                <tr><td>Barangay Review Form 1, 3 & 4</td><td>Barangay</td></tr>
+            </table>
+            <div class="section-title">Proseso at Mga Taong Responsible</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Gagawin</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>1</td><td>Tanggapin ang Barangay Budget na may kalakip na dokumento</td><td>2 minuto</td><td>Adelaida A. Manuzon, Sr. Admin. Asst. II</td></tr>
+                <tr><td>2</td><td>I-review at i-evaluate ang budget</td><td>1 oras</td><td>Adelaida A. Manuzon</td></tr>
+                <tr><td>3</td><td>Gumawa ng review at transmittal letter para sa Sangguniang Bayan</td><td>10 minuto</td><td>Adelaida A. Manuzon</td></tr>
+                <tr><td>4</td><td>Mag-isyu ng certification at pirmahan ang mga dokumento</td><td>2 minuto</td><td>Julie Mier E. Lomanog, Municipal Budget Officer I</td></tr>
+            </table>
+            <div class="fees">Bayad: <b>Wala</b></div>
+        </section>
+        <!-- 2. Pag-record ng Obligation Request -->
+        <section class="ios-card">
+            <h2>2. Pag-record ng Obligation Request</h2>
+            <div class="desc">Inaayos at nirerecord ng Municipal Budget Office ang mga gastos ng LGU base sa approved budget.</div>
+            <ul style="margin-bottom: 12px;">
+                <li><b>Opisina:</b> Municipal Budget Office</li>
+                <li><b>Uri ng Transaction:</b> G2G</li>
+                <li><b>Sino ang pwedeng mag-avail:</b> Mga government agencies, LGU offices, contractors/suppliers</li>
+                <li><b>Classification:</b> Simple</li>
+            </ul>
+            <div class="section-title">Mga Requirements</div>
+            <ul style="margin-bottom: 12px;">
+                <li><b>Para sa Traveling Expenses:</b>
+                    <ul>
+                        <li>Travel Order</li>
+                        <li>Certificate of Appearance</li>
+                        <li>Itinerary of Travel</li>
+                    </ul>
+                </li>
+                <li><b>Para sa Office Supplies:</b>
+                    <ul>
+                        <li>Purchase Order</li>
+                        <li>Purchase Request</li>
+                        <li>Award Notice</li>
+                        <li>Inspection Report</li>
+                        <li>Quotation</li>
+                        <li>Canvass</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="section-title">Proseso at Mga Taong Responsible</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Gagawin</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>1</td><td>Tanggapin ang request at Disbursement Vouchers</td><td>1 minuto</td><td>Marilyn A. Mauricio, Sr. Admin. Asst. I</td></tr>
+                <tr><td>2</td><td>I-check kung may budget o allotment</td><td>2 minuto</td><td>Marilyn A. Mauricio</td></tr>
+                <tr><td>3</td><td>I-review at i-record sa libro at index card</td><td>5 minuto</td><td>Marilyn A. Mauricio</td></tr>
+                <tr><td>4</td><td>Pirmahan at aprubahan ang request</td><td>1 minuto</td><td>Julie Mier E. Lomanog, Municipal Budget Officer I</td></tr>
+            </table>
+            <div class="fees">Bayad: <b>Wala</b></div>
+        </section>
+        <!-- 3. Feedback at Complaint Mechanism -->
+        <section class="ios-card">
+            <h2>3. Feedback at Complaint Mechanism</h2>
+            <div class="section-title">Paano Magbigay ng Feedback</div>
+            <ul>
+                <li>Sagutan ang client feedback form at ihulog sa drop box sa Public Assistance and Complaint Desk</li>
+                <li>Pwedeng mag-email sa: <a href="mailto:gabnecija_50@yahoo.com">gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</a></li>
+            </ul>
+            <div class="section-title">Paano Iproseso ang Feedback</div>
+            <ul>
+                <li>Bawat Biyernes, binubuksan ang drop box ng Officer of the Day</li>
+                <li>Kapag may kailangang sagutin, ipinapasa sa tamang opisina at kailangang makasagot sa loob ng <b>3 araw</b></li>
+                <li>Ang sagot ay ibinabalik sa nagpadala</li>
+            </ul>
+            <div class="section-title">Paano Mag-file ng Complaint</div>
+            <ul>
+                <li>Sagutan ang Complaint Form at ihulog sa drop box sa harap ng Public Assistance and Complaint Desk</li>
+                <li>Pwedeng tumawag, mag-text, o mag-email. Dapat ilagay ang:
+                    <ul>
+                        <li>Pangalan ng nirereklamo</li>
+                        <li>Anong insidente</li>
+                        <li>Anong ebidensya</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="section-title">Paano Iproseso ang Complaint</div>
+            <ul>
+                <li>Araw-araw binubuksan ng <b>Municipal Administrator</b> ang drop box</li>
+                <li>Iche-check at iimbestigahan ang complaint, ipapasa ito sa tamang opisina para sa paliwanag</li>
+                <li>Gumagawa ng report at isinusumite sa <b>Local Chief Executive</b></li>
+                <li>Ibinibigay ang feedback sa complainant</li>
+            </ul>
+            <div class="ios-contact">
+                <div><b>Contact Information</b></div>
+                <div>📞 <b>0998-990-1027</b></div>
+                <div>📧 <a><b>gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</b></a></div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

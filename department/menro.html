@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MENRO - Services</title>
+    <link rel="stylesheet" href="../css/landingPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #d1d8e0 100%);
+            margin: 0;
+            min-height: 100vh;
+            font-size: 1.13rem;
+        }
+        .ios-container {
+            max-width: 1000px;
+            margin: 48px auto;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 40px rgba(44,62,80,0.11);
+            padding: 36px 24px 24px 24px;
+            position: relative;
+        }
+        .ios-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .ios-header .icon {
+            font-size: 3rem;
+            color: #00C851;
+            margin-bottom: 12px;
+        }
+        .ios-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222f3e;
+            margin: 0 0 8px 0;
+        }
+        .ios-header p {
+            color: #576574;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .ios-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .ios-card {
+            background: #f7fafd;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(44,62,80,0.06);
+            margin-bottom: 28px;
+            padding: 28px 22px 18px 22px;
+            transition: box-shadow 0.18s;
+            border: 1px solid #e3e6ea;
+        }
+        .ios-card:last-child {
+            margin-bottom: 0;
+        }
+        .ios-card h2 {
+            font-size: 1.5rem;
+            color: #00C851;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .ios-card .desc {
+            color: #485460;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table th, .ios-card .mini-table td {
+            font-size: 1.08rem;
+            padding: 6px 8px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .mini-table th {
+            background: #f0fff4;
+            color: #00C851;
+            font-weight: 600;
+        }
+        .ios-card .mini-table td:first-child, .ios-card .mini-table th:first-child {
+            width: 120px;
+        }
+        .ios-card .steps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        .ios-card .steps-table th, .ios-card .steps-table td {
+            font-size: 1.08rem;
+            padding: 5px 7px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .steps-table th {
+            background: #f0fff4;
+            color: #00C851;
+            font-weight: 600;
+        }
+        .ios-card .fees {
+            margin-top: 8px;
+            color: #34c759;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .ios-card .section-title {
+            font-size: 1.07rem;
+            color: #00C851;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+        .ios-card ul {
+            margin: 0 0 0 18px;
+            padding: 0;
+            color: #485460;
+            font-size: 1.09rem;
+        }
+        .ios-contact {
+            background: #f0fff4;
+            border-radius: 18px;
+            padding: 18px 18px 12px 18px;
+            margin-top: 30px;
+            color: #222f3e;
+            font-size: 1.18rem;
+        }
+        .ios-contact strong {
+            color: #00C851;
+        }
+        .ios-contact a {
+            color: #00C851;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .total-time {
+            background: #f0fff4;
+            color: #00C851;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        /* Smooth scrolling and hover effects */
+        html {
+            scroll-behavior: smooth;
+        }
+        a[href^="#"]:hover {
+            background: #f0fff4 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 200, 81, 0.15) !important;
+        }
+
+        /* --- New Back to Top Button Styling --- */
+        #backToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #00c851;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+            transition: opacity 0.3s, transform 0.2s, background 0.2s;
+            z-index: 1000;
+            outline: none;
+        }
+
+        #backToTopBtn:hover {
+            background-color: #007E33; /* Darker green on hover */
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        @media (max-width: 700px) {
+            .ios-container { border-radius: 0; padding: 18px 2vw 16px 2vw; }
+            #backToTopBtn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-btn" style="position: absolute; top: 32px; left: 32px; z-index: 100; background: linear-gradient(135deg, #00C851, #007E33); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="font-size:1.2em;" aria-hidden="true">&#8592;</span>
+    </a>
+    <div class="ios-container">
+        <div class="ios-header">
+            <div class="icon">🌿</div>
+            <h1>MENRO</h1>
+            <p>Municipal Environment and Natural Resources Office</p>
+        </div>
+        
+        <!-- Table of Contents -->
+        <section class="ios-card" style="background: #f0fff4; border: 2px solid #00C851;">
+            <h2 style="text-align: center; margin-bottom: 20px;">📋 Lista ng mga Serbisyo</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                <a href="#service1" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #00C851;">1.</strong> Certification of "No Objection"
+                </a>
+                <a href="#service2" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #00C851;">2.</strong> Feedback at Complaints Mechanism
+                </a>
+            </div>
+        </section>
+        
+        <!-- 1. Certification of "No Objection" -->
+        <section class="ios-card" id="service1">
+            <h2>🟢 1. Certification of "No Objection"</h2>
+            <div class="desc">Sertipikasyon na walang tutol para sa mga aktibidad na may kaugnayan sa kalikasan at likas na yaman.</div>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Photocopy ng Land Title</td><td>May-ari ng lupa</td></tr>
+                <tr><td>Certification mula sa Barangay</td><td>Barangay Office</td></tr>
+                <tr><td>Sulat na naka-address sa CENRO</td><td>Gagawa ang aplikante</td></tr>
+            </table>
+            <div class="section-title">Proseso at Mga Taong Responsible</div>
+            <table class="steps-table">
+                <tr><th>Hakbang ng Kliyente</th><th>Aksyon ng Ahensiya</th><th>Bayad</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Ihanda ang mga dokumento (Land Title, Barangay Cert., Letter Request)</td><td>I-verify ang mga dokumento at magsagawa ng actual inspection/inventory/assessment ng mga puno</td><td>Wala</td><td>10 minuto</td><td>Venus Mallari, Serio Muncal Jr., Leonardo Licorzado, Arnel Arevalo, Khervin Mauricio</td></tr>
+                <tr><td>I-issue ang Certification of "No Objection"</td><td>Ibigay ang dokumento sa aplikante</td><td>₱75.00</td><td>10 minuto</td><td>Wenifredo A. Songco</td></tr>
+                <tr><td>I-present ang certificate sa DENR-CENRO</td><td>Para sa final processing ng permit</td><td>–</td><td>Depende sa DENR</td><td>DENR-CENRO Personnel</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 20 minutes</div>
+            <div class="fees">Bayad: <b>₱75.00</b></div>
+        </section>
+
+        <!-- 2. Feedback at Complaints Mechanism -->
+        <section class="ios-card" id="service2">
+            <h2>📢 2. Feedback at Complaints Mechanism</h2>
+            <div class="section-title">Paano Magbigay ng Feedback</div>
+            <ul>
+                <li>Sagutan ang <b>Client Feedback Form</b></li>
+                <li>Ihulog sa drop box ng <b>Public Assistance and Complaint Desk</b></li>
+                <li>O mag-email sa: <a href="mailto:gabnecija_50@yahoo.com">gabnecija_50@yahoo.com</a></li>
+            </ul>
+            <div class="section-title">Processing ng Feedback</div>
+            <ul>
+                <li>Tuwing Biyernes: Bubuksan ng assigned officers ang drop box</li>
+                <li>Feedback na may kailangan ng sagot ay ipapasa sa tamang opisina</li>
+                <li>Dapat masagot ito <b>within 3 days</b></li>
+            </ul>
+            <div class="section-title">Paano Mag-file ng Complaint</div>
+            <ul>
+                <li>Sagutan ang <b>Client Complaint Form</b></li>
+                <li>Ihulog sa drop box sa harap ng Public Assistance and Complaint Desk</li>
+                <li>Pwede ring mag-text, tumawag, o mag-email (siguraduhing ilagay ang mga sumusunod):
+                    <ul>
+                        <li>Pangalan ng nirereklamo</li>
+                        <li>Detalye ng insidente</li>
+                        <li>Mga ebidensya</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="section-title">Complaint Processing</div>
+            <ul>
+                <li>Araw-araw chine-check ng <b>Municipal Administrator</b> ang drop box</li>
+                <li>Gagawa ng imbestigasyon at ipapasa ito sa tamang opisina para sa paliwanag</li>
+                <li>Gagawa ng report at isusumite sa Mayor para sa action</li>
+                <li>Ipapabatid ang resulta sa complainant</li>
+            </ul>
+            <div class="ios-contact">
+                <div><b>Contact Information</b></div>
+                <div>📞 <b>0998-990-1027</b></div>
+                <div>📧 <a href="mailto:gabnecija_50@yahoo.com"><b>gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</b></a></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button onclick="topFunction()" id="backToTopBtn" title="Go to top">
+        ↑ <!-- Unicode up arrow icon -->
+    </button>
+
+    <script>
+        // Get the button
+        let mybutton = document.getElementById("backToTopBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            // Check scroll position for showing/hiding the button
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            // Smooth scroll behavior is enabled by CSS: html { scroll-behavior: smooth; }
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
+</body>
+</html>

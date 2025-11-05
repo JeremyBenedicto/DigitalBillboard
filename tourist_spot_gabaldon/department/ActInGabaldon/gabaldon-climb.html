@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabaldon CLIMB - Towering Spiritual Haven</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a237e 0%, #3949ab 30%, #5e35b1 60%, #7b1fa2 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('../assets/tourist/activities/gabaldonClimb/mountain-bg.jpg') center/cover;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(13,17,23,0.2) 0%, rgba(13,17,23,0.8) 100%);
+            z-index: 2;
+        }
+
+        /* Mountain peak silhouettes */
+        .mountain-peaks {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40%;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .peak {
+            position: absolute;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(26, 35, 126, 0.4), rgba(94, 53, 177, 0.3));
+            clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+            animation: peakGlow 8s infinite ease-in-out;
+        }
+
+        .peak:nth-child(1) {
+            left: -10%;
+            width: 200px;
+            height: 150px;
+            animation-delay: 0s;
+        }
+
+        .peak:nth-child(2) {
+            left: 10%;
+            width: 250px;
+            height: 200px;
+            animation-delay: 2s;
+        }
+
+        .peak:nth-child(3) {
+            right: 15%;
+            width: 180px;
+            height: 160px;
+            animation-delay: 4s;
+        }
+
+        .peak:nth-child(4) {
+            right: -5%;
+            width: 220px;
+            height: 180px;
+            animation-delay: 6s;
+        }
+
+        @keyframes peakGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(94, 53, 177, 0.3);
+                opacity: 0.6;
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(94, 53, 177, 0.6);
+                opacity: 0.9;
+            }
+        }
+
+        /* Spiritual light rays */
+        .light-rays {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            z-index: 2;
+        }
+
+        .ray {
+            position: absolute;
+            background: linear-gradient(180deg, rgba(255,215,0,0.3) 0%, transparent 100%);
+            width: 4px;
+            height: 150px;
+            transform-origin: bottom center;
+            animation: rayRotate 12s infinite linear;
+        }
+
+        .ray:nth-child(1) { transform: rotate(0deg); animation-delay: 0s; }
+        .ray:nth-child(2) { transform: rotate(30deg); animation-delay: 1s; }
+        .ray:nth-child(3) { transform: rotate(60deg); animation-delay: 2s; }
+        .ray:nth-child(4) { transform: rotate(90deg); animation-delay: 3s; }
+        .ray:nth-child(5) { transform: rotate(120deg); animation-delay: 4s; }
+        .ray:nth-child(6) { transform: rotate(150deg); animation-delay: 5s; }
+
+        @keyframes rayRotate {
+            0% {
+                opacity: 0.3;
+                transform: rotate(var(--rotation, 0deg)) scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: rotate(var(--rotation, 0deg)) scale(1.2);
+            }
+            100% {
+                opacity: 0.3;
+                transform: rotate(var(--rotation, 0deg)) scale(1);
+            }
+        }
+
+        /* Floating spiritual elements */
+        .spiritual-float {
+            position: absolute;
+            color: rgba(255,215,0,0.4);
+            font-size: 1.5rem;
+            animation: spiritualFloat 10s infinite ease-in-out;
+            z-index: 2;
+        }
+
+        .spiritual-float:nth-child(1) {
+            top: 25%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+
+        .spiritual-float:nth-child(2) {
+            top: 35%;
+            right: 20%;
+            animation-delay: 3s;
+        }
+
+        .spiritual-float:nth-child(3) {
+            top: 55%;
+            left: 25%;
+            animation-delay: 6s;
+        }
+
+        .spiritual-float:nth-child(4) {
+            top: 65%;
+            right: 30%;
+            animation-delay: 9s;
+        }
+
+        @keyframes spiritualFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.4;
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+                opacity: 0.8;
+            }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 50px;
+            left: 30px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 3;
+            position: relative;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: slideUp 1s ease-out 0.5s forwards;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 30%, #FF6B6B 60%, #8A2BE2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
+            letter-spacing: 0.05em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.6rem;
+            font-weight: 300;
+            opacity: 0;
+            animation: slideUp 1s ease-out 0.7s forwards;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 15px;
+        }
+
+        .hero-tagline {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0;
+            animation: slideUp 1s ease-out 0.9s forwards;
+            color: rgba(255, 215, 0, 0.9);
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .hero-location {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0;
+            animation: slideUp 1s ease-out 1.1s forwards;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.5s forwards;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            width: 2px;
+            height: 30px;
+            background: rgba(255, 215, 0, 0.8);
+            display: block;
+            margin: 0 auto 10px;
+            animation: scrollPulse 2s infinite;
+        }
+
+        .scroll-indicator::after {
+            content: 'Ascend to spiritual heights';
+            font-size: 0.8rem;
+            color: rgba(255, 215, 0, 0.8);
+            display: block;
+            text-align: center;
+        }
+
+        /* Content Sections */
+        .content {
+            background: linear-gradient(180deg, #0d1117 0%, #1a1f2b 50%, #0d1117 100%);
+            position: relative;
+            z-index: 4;
+        }
+
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 60px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+            background: linear-gradient(135deg, #FFD700 0%, #8A2BE2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Spiritual Journey Section */
+        .journey-banner {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(255, 215, 0, 0.1) 100%);
+            border-radius: 25px;
+            padding: 60px;
+            margin-bottom: 80px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .journey-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.03), transparent);
+            animation: spiritualShimmer 12s infinite;
+            opacity: 0;
+        }
+
+        .journey-banner:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes spiritualShimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .journey-banner.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .journey-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Climb Stages */
+        .climb-stages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .stage-card {
+            background: rgba(138, 43, 226, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stage-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stage-card:hover::before {
+            opacity: 1;
+        }
+
+        .stage-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stage-card:hover {
+            transform: translateY(-15px);
+            background: rgba(138, 43, 226, 0.1);
+            border-color: rgba(255, 215, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.3);
+        }
+
+        .stage-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700, #8A2BE2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+            color: white;
+        }
+
+        .stage-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #FFD700;
+        }
+
+        .stage-description {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+
+        /* Image Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+
+        .gallery-item {
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: linear-gradient(45deg, #1a237e, #8A2BE2);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
+            position: relative;
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(26, 35, 126, 0.3), rgba(138, 43, 226, 0.3));
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Climb Info */
+        .climb-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 80px;
+        }
+
+        .climb-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            text-align: center;
+        }
+
+        .climb-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .climb-item:hover {
+            background: rgba(255, 215, 0, 0.08);
+            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .climb-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .climb-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #FFD700;
+        }
+
+        .climb-detail {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+            border-radius: 30px;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: spiritualPulse 8s infinite;
+        }
+
+        @keyframes spiritualPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #8A2BE2, #FFD700);
+            color: white;
+            text-decoration: none;
+            padding: 18px 40px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(138, 43, 226, 0.4);
+            background: linear-gradient(135deg, #FFD700, #8A2BE2);
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .container {
+                padding: 0 20px;
+            }
+            
+            .journey-banner {
+                padding: 40px 25px;
+                margin: 40px 0;
+            }
+            
+            .climb-stages {
+                grid-template-columns: 1fr;
+            }
+            
+            .back-button {
+                top: 30px;
+                left: 20px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .spiritual-float,
+            .light-rays {
+                display: none;
+            }
+
+            .mountain-peaks {
+                height: 25%;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <a href="../../activities.html" class="back-button">←</a>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="mountain-peaks">
+            <div class="peak"></div>
+            <div class="peak"></div>
+            <div class="peak"></div>
+            <div class="peak"></div>
+        </div>
+        
+        <div class="light-rays">
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+        </div>
+        
+        <div class="spiritual-float">✨</div>
+        <div class="spiritual-float">🙏</div>
+        <div class="spiritual-float">⛰️</div>
+        <div class="spiritual-float">🌟</div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">Gabaldon CLIMB</h1>
+            <p class="hero-subtitle">Towering Spiritual Haven</p>
+            <p class="hero-tagline">"Discover a towering spiritual haven"</p>
+            <p class="hero-location">📍 Pinamalisan, Gabaldon, Nueva Ecija</p>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Content -->
+    <div class="content">
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Ascend Beyond the Physical</h2>
+                
+                <div class="journey-banner" id="journey-banner">
+                    <p class="journey-text">Gabaldon CLIMB stands as more than just a mountain ascent—it's a transformative spiritual journey that elevates both body and soul. Rising majestically from the landscape of Pinamalisan, this towering sanctuary offers climbers and pilgrims alike a unique opportunity to discover inner peace while conquering physical heights, creating memories that resonate long after the descent.</p>
+                </div>
+
+                <div class="gallery" id="gallery">
+                    <div class="gallery-item">
+                        <img src="../../../assets/tourist/activities/climb/4.jpg" alt="Summit panoramic view" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../../../assets/tourist/activities/climb/2.jpg" alt="Mountain climbing trail" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../../../assets/tourist/activities/climb/3.jpg" alt="Spiritual shrine at summit" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="climb-info" id="climb-info">
+                    <div class="climb-item">
+                        <span class="climb-icon">⏰</span>
+                        <h4 class="climb-title">Climb Duration</h4>
+                        <p class="climb-detail">5-10 minutes total</p>
+                    </div>
+                    <div class="climb-item">
+                        <span class="climb-icon">📈</span>
+                        <h4 class="climb-title">Difficulty Level</h4>
+                        <p class="climb-detail">Moderate to Challenging</p>
+                    </div>
+                    <div class="climb-item">
+                        <span class="climb-icon">🌅</span>
+                        <h4 class="climb-title">Best Time</h4>
+                        <p class="climb-detail">Early morning start</p>
+                    </div>
+                    <div class="climb-item">
+                        <span class="climb-icon">👥</span>
+                        <h4 class="climb-title">Group Size</h4>
+                        <p class="climb-detail">Small groups preferred</p>
+                    </div>
+                    <div class="climb-item">
+                        <span class="climb-icon">🎒</span>
+                        <h4 class="climb-title">What to Bring</h4>
+                        <p class="climb-detail">Water, snacks, proper gear</p>
+                    </div>
+                    <div class="climb-item">
+                        <span class="climb-icon">🏔️</span>
+                        <h4 class="climb-title">Summit Features</h4>
+                        <p class="climb-detail">Spiritual shrine & views</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const elementsToObserve = document.querySelectorAll('.section-title, .journey-banner, .stage-card, .gallery-item, .climb-item');
+            elementsToObserve.forEach(el => observer.observe(el));
+
+            // Stagger stage card animations
+            const stageCards = document.querySelectorAll('.stage-card');
+            stageCards.forEach((card, index) => {
+                card.style.transitionDelay = `${index * 0.2}s`;
+            });
+
+            // Stagger gallery item animations
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach((item, index) => {
+                item.style.transitionDelay = `${index * 0.15}s`;
+            });
+
+            // Stagger climb info animations
+            const climbItems = document.querySelectorAll('.climb-item');
+            climbItems.forEach((item, index) => {
+                item.style.transitionDelay = `${index * 0.1}s`;
+            });
+
+            // Handle image loading errors with mountain-themed fallbacks
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    this.style.display = 'none';
+                    this.parentElement.style.background = 'linear-gradient(45deg, #1a237e, #8A2BE2)';
+                });
+            });
+
+            // Set custom rotation for light rays
+            const rays = document.querySelectorAll('.ray');
+            rays.forEach((ray, index) => {
+                ray.style.setProperty('--rotation', `${index * 30}deg`);
+            });
+
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            const mountainPeaks = document.querySelector('.mountain-peaks');
+            const lightRays = document.querySelector('.light-rays');
+            
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+            
+            if (mountainPeaks) {
+                mountainPeaks.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+            
+            if (lightRays) {
+                lightRays.style.transform = `translateX(-50%) translateY(${scrolled * 0.2}px)`;
+            }
+        });
+
+        // Interactive spiritual elements
+        document.querySelectorAll('.stage-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                // Create a gentle pulsing effect
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+                this.style.boxShadow = '0 25px 50px rgba(138, 43, 226, 0.4)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-15px) scale(1)';
+                this.style.boxShadow = '0 20px 40px rgba(138, 43, 226, 0.3)';
+            });
+        });
+
+        // Add breathing animation to spiritual elements
+        const spiritualElements = document.querySelectorAll('.spiritual-float');
+        spiritualElements.forEach((element, index) => {
+            setInterval(() => {
+                element.style.transform = `translateY(-30px) rotate(180deg) scale(1.2)`;
+                setTimeout(() => {
+                    element.style.transform = `translateY(0px) rotate(0deg) scale(1)`;
+                }, 1000);
+            }, 5000 + (index * 1000));
+        });
+
+        // Create falling star effect on hero click
+        document.querySelector('.hero').addEventListener('click', (e) => {
+            const star = document.createElement('div');
+            star.style.cssText = `
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                background: #FFD700;
+                border-radius: 50%;
+                pointer-events: none;
+                left: ${e.clientX}px;
+                top: ${e.clientY}px;
+                z-index: 1000;
+                box-shadow: 0 0 10px #FFD700;
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes shootingStar {
+                    0% {
+                        transform: translate(0, 0) scale(1);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: translate(200px, 200px) scale(0);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(star);
+            
+            star.style.animation = 'shootingStar 1s ease-out forwards';
+            
+            setTimeout(() => {
+                star.remove();
+                style.remove();
+            }, 1000);
+        });
+
+        // Add motivational quotes that appear during scroll
+        const motivationalQuotes = [
+            "Every mountain top is within reach if you just keep climbing.",
+            "The summit is just a waypoint on the path to inner peace.",
+            "In the silence of the peaks, the soul finds its voice.",
+            "Each step upward is a step closer to enlightenment."
+        ];
+
+        let currentQuoteIndex = 0;
+        const quoteElement = document.createElement('div');
+        quoteElement.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(138, 43, 226, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 15px 25px;
+            color: #FFD700;
+            font-style: italic;
+            max-width: 80%;
+            text-align: center;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        `;
+        document.body.appendChild(quoteElement);
+
+        // Show quotes based on scroll position
+        window.addEventListener('scroll', () => {
+            const scrollPercentage = window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight);
+            
+            if (scrollPercentage > 0.25 && scrollPercentage < 0.9) {
+                const quoteIndex = Math.floor(scrollPercentage * motivationalQuotes.length);
+                if (quoteIndex !== currentQuoteIndex && quoteIndex < motivationalQuotes.length) {
+                    currentQuoteIndex = quoteIndex;
+                    quoteElement.textContent = motivationalQuotes[currentQuoteIndex];
+                    quoteElement.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        quoteElement.style.opacity = '0';
+                    }, 3000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

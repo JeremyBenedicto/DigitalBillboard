@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabaldon Water System - Services</title>
+    <link rel="stylesheet" href="../css/landingPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #d1d8e0 100%);
+            margin: 0;
+            min-height: 100vh;
+            font-size: 1.13rem;
+        }
+        .ios-container {
+            max-width: 1000px;
+            margin: 48px auto;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 40px rgba(44,62,80,0.11);
+            padding: 36px 24px 24px 24px;
+            position: relative;
+        }
+        .ios-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .ios-header .icon {
+            font-size: 3rem;
+            color: #17a2b8;
+            margin-bottom: 12px;
+        }
+        .ios-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222f3e;
+            margin: 0 0 8px 0;
+        }
+        .ios-header p {
+            color: #576574;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .ios-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .ios-card {
+            background: #f7fafd;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(44,62,80,0.06);
+            margin-bottom: 28px;
+            padding: 28px 22px 18px 22px;
+            transition: box-shadow 0.18s;
+            border: 1px solid #e3e6ea;
+        }
+        .ios-card:last-child {
+            margin-bottom: 0;
+        }
+        .ios-card h2 {
+            font-size: 1.5rem;
+            color: #17a2b8;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .ios-card .desc {
+            color: #485460;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table th, .ios-card .mini-table td {
+            font-size: 1.08rem;
+            padding: 6px 8px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .mini-table th {
+            background: #e0f7fa;
+            color: #17a2b8;
+            font-weight: 600;
+        }
+        .ios-card .mini-table td:first-child, .ios-card .mini-table th:first-child {
+            width: 120px;
+        }
+        .ios-card .steps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        .ios-card .steps-table th, .ios-card .steps-table td {
+            font-size: 1.08rem;
+            padding: 5px 7px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .steps-table th {
+            background: #e0f7fa;
+            color: #17a2b8;
+            font-weight: 600;
+        }
+        .ios-card .fees {
+            margin-top: 8px;
+            color: #28a745;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .ios-card .section-title {
+            font-size: 1.07rem;
+            color: #17a2b8;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+        .ios-card ul {
+            margin: 0 0 0 18px;
+            padding: 0;
+            color: #485460;
+            font-size: 1.09rem;
+        }
+        .ios-contact {
+            background: #e0f7fa;
+            border-radius: 18px;
+            padding: 18px 18px 12px 18px;
+            margin-top: 30px;
+            color: #222f3e;
+            font-size: 1.18rem;
+        }
+        .ios-contact strong {
+            color: #17a2b8;
+        }
+        .ios-contact a {
+            color: #17a2b8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .total-time {
+            background: #e0f7fa;
+            color: #17a2b8;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        /* Smooth scrolling and hover effects */
+        html {
+            scroll-behavior: smooth;
+        }
+        a[href^="#"]:hover {
+            background: #e0f7fa !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.15) !important;
+        }
+        @media (max-width: 700px) {
+            .ios-container { border-radius: 0; padding: 18px 2vw 16px 2vw; }
+        }
+        
+        /* Back to Top Button Styling */
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #17a2b8;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+            transition: opacity 0.3s, transform 0.2s, background 0.2s;
+            z-index: 1000;
+            outline: none;
+        }
+        #back-to-top:hover {
+            background: #138496;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-btn" style="position: absolute; top: 32px; left: 32px; z-index: 100; background: linear-gradient(135deg, #17a2b8, #138496); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="font-size:1.2em;" aria-hidden="true">&#8592;</span>
+    </a>
+    <div class="ios-container">
+        <div class="ios-header">
+            <div class="icon">💧</div>
+            <h1>Gabaldon Water System</h1>
+            <p>Level III Potable Water Services</p>
+        </div>
+        
+        <!-- Table of Contents -->
+        <section class="ios-card" style="background: #e0f7fa; border: 2px solid #17a2b8;">
+            <h2 style="text-align: center; margin-bottom: 20px;">📋 Lista ng mga Serbisyo</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                <a href="#service1" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #17a2b8;">1.</strong> Installation of Potable Water System
+                </a>
+                <a href="#service2" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #17a2b8;">2.</strong> Payment of Water Bills
+                </a>
+                <a href="#service3" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #17a2b8;">3.</strong> Feedback at Complaints
+                </a>
+            </div>
+        </section>
+        
+        <!-- 1. Installation of Potable Water System -->
+        <section class="ios-card" id="service1">
+            <h2>🚰 1. Installation of Potable Water System (Pagkabit ng Water Meter)</h2>
+            <div class="desc">Para sa mga residente na sakop ng water system na nais magkabit ng water meter</div>
+            <div class="section-title">Classification & Type</div>
+            <table class="mini-table">
+                <tr><th>Details</th><th>Information</th></tr>
+                <tr><td>Classification</td><td>Level III Potable Water</td></tr>
+                <tr><td>Type</td><td>Application for Water Meter Installation</td></tr>
+                <tr><td>Who may avail</td><td>Residents na sakop ng water system</td></tr>
+            </table>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Community Tax Certificate (CTC)</td><td>Municipal Treasurer's Office</td></tr>
+                <tr><td>3 pcs. 1x1 ID Picture</td><td>I-submit sa Gabaldon Water System Office</td></tr>
+                <tr><td>1 Photocopy ng Valid ID</td><td>Barangay Hall kung saan nakatira</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Kumuha at punan ang application form</td><td>5 mins</td><td>Lyndon Bati o Jovelyn Damaso</td></tr>
+                <tr><td>Inspection at quotation</td><td>30 mins</td><td>Reynaldo S. Zapatero</td></tr>
+                <tr><td>Bayaran ang water meter installation</td><td>5 mins</td><td>Marissa A. Sabino o Jovelyn Damaso</td></tr>
+                <tr><td>Installation ng water meter</td><td>30 mins</td><td>Reynaldo S. Zapatero o Marlon Geronimo</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 1 oras at 10 mins</div>
+            <div class="fees">Bayad: <b>₱4,785 (depende sa location)</b></div>
+        </section>
+
+        <!-- 2. Payment of Water Bills -->
+        <section class="ios-card" id="service2">
+            <h2>💰 2. Payment of Water Bills (Bayad sa Tubig)</h2>
+            <div class="desc">Para sa mga residente na may water connection na magbabayad ng water bills</div>
+            <div class="section-title">Classification & Type</div>
+            <table class="mini-table">
+                <tr><th>Details</th><th>Information</th></tr>
+                <tr><td>Classification</td><td>Level III Potable Water</td></tr>
+                <tr><td>Type</td><td>Payment of Water Bills</td></tr>
+                <tr><td>Who may avail</td><td>Residents na may water connection</td></tr>
+            </table>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Billing Statement</td><td>Gabaldon Water System Office</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Magbayad sa cashier</td><td>5 mins</td><td>Marissa A. Sabino o Jovelyn Damaso</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 5 mins</div>
+            <div class="fees">Bayad: <b>₱150 per cubic meter (depende sa consumption)</b></div>
+        </section>
+
+        <!-- 3. Feedback at Complaints -->
+        <section class="ios-card" id="service3">
+            <h2>📢 3. Feedback at Complaints Mechanism</h2>
+            <div class="section-title">Paano Magbigay ng Feedback</div>
+            <ul>
+                <li>Sagutan ang <b>Client Feedback Form</b></li>
+                <li>I-drop sa <b>Public Assistance Desk</b></li>
+                <li>O mag-email sa: <a><b>gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</b></a></li>
+            </ul>
+            <div class="section-title">Paano Mag-file ng Complaint</div>
+            <ul>
+                <li>Sagutan ang <b>Client Complaint Form</b></li>
+                <li>I-drop sa drop box sa harap ng Public Assistance Desk</li>
+                <li>Pwede ring mag-text, tumawag, o mag-email (siguraduhing ilagay ang mga sumusunod):
+                    <ul>
+                        <li>Pangalan ng nirereklamo</li>
+                        <li>Detalye ng insidente</li>
+                        <li>Mga ebidensya</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="section-title">Important Notes</div>
+            <ul>
+                <li>Ang water bill ay depende sa dami ng ginamit na tubig (per cubic meter)</li>
+                <li>Para sa mga tanong, tawag lang sa <b>0998-990-1027</b>!</li>
+            </ul>
+            <div class="ios-contact">
+                <div><b>Contact Information</b></div>
+                <div>📞 <b>0998-990-1027</b></div>
+                <div>📧 <a><b>gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</b></a></div>
+                <br>
+                <div style="text-align: center; font-style: italic; color: #17a2b8;">
+                    <b>"Sa Gabaldon Water System, malinis na tubig para sa lahat—maasahan at abot-kaya!"</b> 💧
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" title="Go to top">↑</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            // Show or hide the button based on scroll position
+            window.onscroll = function() {
+                // Show button after scrolling 300 pixels
+                if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                    backToTopButton.style.display = "block";
+                } else {
+                    backToTopButton.style.display = "none";
+                }
+            };
+
+            // Smooth scroll to top on click
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

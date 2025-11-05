@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourism Office - Services</title>
+    <link rel="stylesheet" href="../css/landingPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #d1d8e0 100%);
+            margin: 0;
+            min-height: 100vh;
+            font-size: 1.13rem;
+        }
+        .ios-container {
+            max-width: 1000px;
+            margin: 48px auto;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 40px rgba(44,62,80,0.11);
+            padding: 36px 24px 24px 24px;
+            position: relative;
+        }
+        .ios-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .ios-header .icon {
+            font-size: 3rem;
+            color: #FF6B35;
+            margin-bottom: 12px;
+        }
+        .ios-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222f3e;
+            margin: 0 0 8px 0;
+        }
+        .ios-header p {
+            color: #576574;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .ios-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .ios-card {
+            background: #f7fafd;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(44,62,80,0.06);
+            margin-bottom: 28px;
+            padding: 28px 22px 18px 22px;
+            transition: box-shadow 0.18s;
+            border: 1px solid #e3e6ea;
+        }
+        .ios-card:last-child {
+            margin-bottom: 0;
+        }
+        .ios-card h2 {
+            font-size: 1.5rem;
+            color: #FF6B35;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .ios-card .desc {
+            color: #485460;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table th, .ios-card .mini-table td {
+            font-size: 1.08rem;
+            padding: 6px 8px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .mini-table th {
+            background: #fff5f2;
+            color: #FF6B35;
+            font-weight: 600;
+        }
+        .ios-card .mini-table td:first-child, .ios-card .mini-table th:first-child {
+            width: 120px;
+        }
+        .ios-card .steps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        .ios-card .steps-table th, .ios-card .steps-table td {
+            font-size: 1.08rem;
+            padding: 5px 7px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .steps-table th {
+            background: #fff5f2;
+            color: #FF6B35;
+            font-weight: 600;
+        }
+        .ios-card .fees {
+            margin-top: 8px;
+            color: #34c759;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .ios-card .section-title {
+            font-size: 1.07rem;
+            color: #FF6B35;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+        .ios-card ul {
+            margin: 0 0 0 18px;
+            padding: 0;
+            color: #485460;
+            font-size: 1.09rem;
+        }
+        .ios-contact {
+            background: #fff5f2;
+            border-radius: 18px;
+            padding: 18px 18px 12px 18px;
+            margin-top: 30px;
+            color: #222f3e;
+            font-size: 1.18rem;
+        }
+        .ios-contact strong {
+            color: #FF6B35;
+        }
+        .ios-contact a {
+            color: #FF6B35;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .total-time {
+            background: #fff5f2;
+            color: #FF6B35;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        /* Smooth scrolling and hover effects */
+        html {
+            scroll-behavior: smooth;
+        }
+        a[href^="#"]:hover {
+            background: #fff5f2 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15) !important;
+        }
+        
+        /* Back to top button */
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background: linear-gradient(135deg, #FF6B35, #ff8a5b);
+            color: white;
+            cursor: pointer;
+            padding: 15px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        #backToTop:hover {
+            background: linear-gradient(135deg, #ff8a5b, #ff7745);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 700px) {
+            .ios-container { border-radius: 0; padding: 18px 2vw 16px 2vw; }
+            #backToTop { bottom: 20px; right: 20px; padding: 12px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-btn" style="position: absolute; top: 32px; left: 32px; z-index: 100; background: linear-gradient(135deg, #FF6B35, #ff8a5b); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="font-size:1.2em;" aria-hidden="true">&#8592;</span>
+    </a>
+    <div class="ios-container">
+        <div class="ios-header">
+            <div class="icon">🏖️</div>
+            <h1>Tourism Office</h1>
+            <p>Mga Serbisyo</p>
+        </div>
+        
+        <!-- Table of Contents -->
+        <section class="ios-card" style="background: #fff5f2; border: 2px solid #FF6B35;">
+            <h2 style="text-align: center; margin-bottom: 20px;">📋 Lista ng mga Serbisyo</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                <a href="#service1" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #FF6B35;">1.</strong> Research / Interview Request
+                </a>
+                <a href="#service2" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #FF6B35;">2.</strong> Tour Coordination
+                </a>
+                <a href="#service3" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #FF6B35;">3.</strong> Request to Use Tourist Destinations
+                </a>
+                <a href="#service4" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #FF6B35;">4.</strong> Feedback and Complaints
+                </a>
+            </div>
+        </section>
+        
+        <!-- 1. Research / Interview Request -->
+        <section class="ios-card" id="service1">
+            <h2>1. Research / Interview Request</h2>
+            <div class="desc">Pagbibigay ng tulong sa mga researcher at interviewer para sa kanilang pag-aaral tungkol sa turismo.</div>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Letter of Request (Original)</td><td>Researcher o Interviewer</td></tr>
+            </table>
+            <div class="section-title">Proseso at Mga Taong Responsible</div>
+            <table class="steps-table">
+                <tr><th>Hakbang ng Kliyente</th><th>Aksyon ng Ahensiya</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Maghanda ng formal letter addressed sa Mayor</td><td>Tanggapin/I-print ang sulat</td><td>5 minuto</td><td>Alejandro Castillo, Stephanie Andres</td></tr>
+                <tr><td>Mag-conduct ng interview o data gathering</td><td>Sagutin agad ang mga tanong ng researcher</td><td>2 oras</td><td>Tourism Team</td></tr>
+                <tr><td>Magbigay ng kopya ng final output sa Tourism Office</td><td>Kung kulang ang info, i-endorso sa ibang ahensya</td><td>10 minuto</td><td>Tourism Office</td></tr>
+            </table>
+            <div class="total-time">📌 Total Time: 2 hours 15 minutes</div>
+            <div class="fees">Bayad: <b>Wala</b></div>
+        </section>
+
+        <!-- 2. Tour Coordination -->
+        <section class="ios-card" id="service2">
+            <h2>2. Tour Coordination</h2>
+            <div class="desc">Pag-aayos ng tour packages at itinerary para sa mga bisita at turista.</div>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Letter of Request</td><td>Researcher, Students, Visitors, etc.</td></tr>
+            </table>
+            <div class="section-title">Proseso at Mga Taong Responsible</div>
+            <table class="steps-table">
+                <tr><th>Hakbang ng Kliyente</th><th>Aksyon ng Ahensiya</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Mag-email o tumawag sa Tourism Office</td><td>Tanggapin ang request</td><td>30 minuto</td><td>Alejandro Castillo, Stephanie Andres</td></tr>
+                <tr><td>I-check ang itinerary</td><td>Gumawa at ipadala ang itinerary</td><td>30 minuto</td><td>Same as above</td></tr>
+                <tr><td>Hintayin ang final itinerary</td><td>Makipag-ugnayan sa kliyente para sa schedule</td><td>30 minuto</td><td>Same as above</td></tr>
+            </table>
+            <div class="total-time">📌 Total Time: 1 hour 30 minutes</div>
+            <div class="fees">Bayad: <b>Wala</b></div>
+        </section>
+
+        <!-- 3. Request to Use Tourist Destinations -->
+        <section class="ios-card" id="service3">
+            <h2>3. Request to Use Dupinga River, Calabasa River, Gabaldon Falls, at Mount Marupok</h2>
+            <div class="desc">Pahintulot para gamitin ang mga tourist destinations ng munisipalidad.</div>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Letter of Request addressed sa Mayor</td><td>Requester o Visitor</td></tr>
+            </table>
+            <div class="section-title">Proseso at Mga Taong Responsible</div>
+            <table class="steps-table">
+                <tr><th>Hakbang ng Kliyente</th><th>Aksyon ng Ahensiya</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Mag-submit ng sulat para kay Mayor</td><td>Tanggapin/I-print ang sulat</td><td>5 minuto</td><td>Tourism Staff</td></tr>
+                <tr><td>Kung wala ang Mayor, ibigay sa Admin Office</td><td>Sabihan ang requester na maghintay ng update</td><td>3 araw</td><td>Tourism Staff</td></tr>
+                <tr><td>Magbigay ng kopya ng final output</td><td>Kung kulang ang info, i-endorso sa ibang agency</td><td>–</td><td>Tourism Office</td></tr>
+            </table>
+            <div class="total-time">📌 Total Time: 3 days 5 minutes</div>
+            <div class="fees">Bayad: <b>Wala</b></div>
+        </section>
+
+        <!-- 4. Feedback and Complaints -->
+        <section class="ios-card" id="service4">
+            <h2>4. Feedback and Complaints</h2>
+            <div class="section-title">Paano Magbigay ng Feedback</div>
+            <ul>
+                <li>Sagutan ang <b>Client Feedback Form</b> at ihulog sa drop box ng <b>Public Assistance and Complaint Desk</b></li>
+                <li>O mag-email sa: <a href="mailto:gabnecija_50@yahoo.com">gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</a></li>
+            </ul>
+            <div class="section-title">Processing ng Feedback</div>
+            <ul>
+                <li>Bawat Biyernes: Kukunin, ira-record, at ipa-follow-up sa tamang opisina</li>
+                <li>Response time: <b>within 3 days</b></li>
+            </ul>
+            <div class="section-title">Paano Mag-file ng Complaint</div>
+            <ul>
+                <li>Sagutan ang <b>Client Complaint Form</b></li>
+                <li>Ihulog sa drop box o i-text/tawagan ang contact info</li>
+                <li>Ibigay ang:
+                    <ul>
+                        <li>Pangalan ng nirereklamo</li>
+                        <li>Detalye ng insidente</li>
+                        <li>Ebidensya</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="section-title">Processing ng Complaint</div>
+            <ul>
+                <li>Araw-araw chine-check ang box ng <b>Municipal Administrator</b></li>
+                <li>Gagawa ng imbestigasyon at ipapasa sa Mayor para sa action</li>
+                <li>Feedback ay ibibigay sa complainant</li>
+            </ul>
+            <div class="ios-contact">
+                <div><b>Contact Information</b></div>
+                <div>📞 <b>0998-990-1027</b></div>
+                <div>📧 <a href="mailto:gabnecija_50@yahoo.com"><b>gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</b></a></div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Back to Top Button -->
+    <button onclick="topFunction()" id="backToTop" title="Go to top">↑</button>
+    
+    <script>
+        // Get the button
+        let backToTopBtn = document.getElementById("backToTop");
+        
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction();
+        };
+        
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                backToTopBtn.style.display = "block";
+            } else {
+                backToTopBtn.style.display = "none";
+            }
+        }
+        
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
+</body>
+</html>

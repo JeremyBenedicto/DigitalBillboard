@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Places to Dine - Gabaldon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007AFF;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-button:active {
+            transform: scale(0.95);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-top: 40px;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: #6e6e73;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        .restaurants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+
+        .restaurant-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 240px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .restaurant-card:hover .card-image img {
+            transform: scale(1.08);
+        }
+
+        .rating-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        .restaurant-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .location {
+            color: #8e8e93;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .location::before {
+            content: '📍';
+            font-size: 0.8rem;
+        }
+
+        .description {
+            color: #3a3a3c;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .price-indicator {
+            color: #34c759;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .price-label {
+            color: #8e8e93;
+            font-size: 0.85rem;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .feature-tag {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .photo-collection {
+            margin-bottom: 20px;
+        }
+
+        .photo-collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .photo-collection-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        .photo-count {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .photo-item {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-item:first-child {
+            grid-column: 1 / 3;
+            grid-row: 1 / 3;
+        }
+
+        .view-all-photos {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .view-all-photos:hover {
+            background: rgba(0, 122, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .visit-button {
+            width: 100%;
+            padding: 14px;
+            background: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .visit-button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3);
+        }
+
+        .visit-button:active {
+            transform: translateY(0);
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #007AFF, #34c759);
+            border-radius: 2px;
+            margin: 0 auto 40px;
+        }
+
+        /* Photo Modal */
+        .photo-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .photo-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: #1d1d1f;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .modal-navigation {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: #1d1d1f;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-navigation:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-prev {
+            left: -70px;
+        }
+
+        .modal-next {
+            right: -70px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .restaurants-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .restaurant-card {
+                margin: 0 10px;
+            }
+
+            .back-button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+
+            .modal-navigation {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .modal-prev {
+                left: -50px;
+            }
+
+            .modal-next {
+                right: -50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .container {
+                padding: 20px 10px;
+            }
+
+            .modal-prev {
+                left: 10px;
+            }
+
+            .modal-next {
+                right: 10px;
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#" class="back-button" onclick="window.history.back()">
+        ←
+    </a>
+
+    <!-- Photo Modal -->
+    <div class="photo-modal" id="photoModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <button class="modal-navigation modal-prev" onclick="previousPhoto()">‹</button>
+            <img class="modal-image" id="modalImage" src="" alt="Restaurant Photo">
+            <button class="modal-navigation modal-next" onclick="nextPhoto()">›</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header fade-in">
+            <h1>Places to Dine</h1>
+            <p>Discover the authentic flavors of Gabaldon, Nueva Ecija</p>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="restaurants-grid">
+            <div class="restaurant-card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/dine/mangteban.jpg" alt="Bahay ni Mang Teban">
+                    <div class="rating-badge">
+                        
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="cuisine-type">📞 0917 650 9193</div>
+                    <h3 class="restaurant-name">Bahay ni Mang Teban</h3>
+                    <p class="location">Brgy. South Poblacion, Gabaldon, Nueva Ecija</p>
+                    <p class="description"></p>
+                    <div class="price-range">
+                        <span class="price-indicator">₱₱</span>
+                        <span class="price-label">Moderate pricing</span>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Family-friendly</span>
+                        <span class="feature-tag">Local favorites</span>
+                        <span class="feature-tag">Eco-friendly</span>
+                    </div>
+                    
+                    <div class="photo-collection">
+                        <div class="photo-collection-header">
+                            <h4 class="photo-collection-title">Photo Collection</h4>
+                            <span class="photo-count">6 photos</span>
+                        </div>
+                        <div class="photo-grid">
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/collection/teban3.png', 'mangteban', 0)">
+                                <img src="../assets/tourist/dine/collection/teban3.png" alt="Bahay ni Mang Teban - Main">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/mangteban_interior.jpg', 'mangteban', 1)">
+                                <img src="../assets/tourist/dine/collection/teban1.jpg" alt="Interior">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/mangteban_food.jpg', 'mangteban', 2)">
+                                <img src="../assets/tourist/dine/collection/teban4.jpg" alt="Food">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/mangteban_dining.jpg', 'mangteban', 3)">
+                                <img src="../assets/tourist/dine/collection/teban2.jpg" alt="Dining Area">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/mangteban_exterior.jpg', 'mangteban', 4)">
+                                <img src="../assets/tourist/dine/collection/teban5.jpg" alt="Exterior">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/mangteban_exterior.jpg', 'mangteban', 4)">
+                                <img src="../assets/tourist/dine/collection/teban6.jpg" alt="Exterior">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="restaurant-card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/dine/dikong's.jpg" alt="Dikong's Place and Resto Bar">
+                    <div class="rating-badge">
+                        
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="cuisine-type">📞 0917 650 9193</div>
+                    <h3 class="restaurant-name">Dikong's Place and Resto Bar</h3>
+                    <p class="location">Brgy. Sawmill, Gabaldon, Nueva Ecija</p>
+                    <p class="description"></p>
+                    <div class="price-range">
+                        <span class="price-indicator">₱₱</span>
+                        <span class="price-label">Moderate pricing</span>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Scenic views</span>
+                        <span class="feature-tag">Fresh seafood</span>
+                        <span class="feature-tag">Outdoor seating</span>
+                    </div>
+                    
+                    <div class="photo-collection">
+                        <div class="photo-collection-header">
+                            <h4 class="photo-collection-title">Photo Collection</h4>
+                            <span class="photo-count">5 photos</span>
+                        </div>
+                        <div class="photo-grid">
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/dikong\'s.jpg', 'dikongs', 0)">
+                                <img src="../assets/tourist/dine/collection/dikong1.jpg" alt="Dikong's - Main">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/dikongs_bar.jpg', 'dikongs', 1)">
+                                <img src="../assets/tourist/dine/collection/dikong2.jpg" alt="Bar Area">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/dikongs_outdoor.jpg', 'dikongs', 2)">
+                                <img src="../assets/tourist/dine/collection/dikong3.jpg" alt="Outdoor">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/dikongs_food.jpg', 'dikongs', 3)">
+                                <img src="../assets/tourist/dine/collection/dikong4.jpg" alt="Food">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/dikongs_view.jpg', 'dikongs', 4)">
+                                <img src="../assets/tourist/dine/collection/dikong5.jpg" alt="View">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="restaurant-card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/dine/el_resto.jpg" alt="El Resto at Farrah's Garden">
+                    <div class="rating-badge">
+                        
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="cuisine-type">📞 0945 340 8514</div>
+                    <h3 class="restaurant-name">El Resto at Farrah's Garden</h3>
+                    <p class="location">Brgy. Ligaya, Gabaldon, Nueva Ecija</p>
+                    <p class="description"></p>
+                    <div class="price-range">
+                        <span class="price-indicator">₱₱</span>
+                        <span class="price-label">Moderate pricing</span>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Local coffee</span>
+                        <span class="feature-tag">Mountain views</span>
+                        <span class="feature-tag">Free WiFi</span>
+                    </div>
+                    
+                    <div class="photo-collection">
+                        <div class="photo-collection-header">
+                            <h4 class="photo-collection-title">Photo Collection</h4>
+                            <span class="photo-count">5 photos</span>
+                        </div>
+                        <div class="photo-grid">
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/el_resto.jpg', 'elresto', 0)">
+                                <img src="../assets/tourist/dine/collection/resto0.jpg" alt="El Resto - Main">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/elresto_garden.jpg', 'elresto', 1)">
+                                <img src="../assets/tourist/dine/collection/resto1.jpg" alt="Garden">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/elresto_interior.jpg', 'elresto', 2)">
+                                <img src="../assets/tourist/dine/collection/resto2.jpg" alt="Interior">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/elresto_food.jpg', 'elresto', 3)">
+                                <img src="../assets/tourist/dine/collection/resto3.jpg" alt="Food">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/elresto_coffee.jpg', 'elresto', 4)">
+                                <img src="../assets/tourist/dine/collection/resto4.jpg" alt="Coffee">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/elresto_coffee.jpg', 'elresto', 4)">
+                                <img src="../assets/tourist/dine/collection/resto5.jpg" alt="Coffee">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="restaurant-card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/dine/mama_yle's.jpg" alt="Mama Yle's">
+                    <div class="rating-badge">
+                        
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="cuisine-type">📞 0938 864 9731</div>
+                    <h3 class="restaurant-name">Mama Yle's</h3>
+                    <p class="location">Brgy. North Poblacion, Gabaldon, Nueva Ecija</p>
+                    <p class="description"></p>
+                    <div class="price-range">
+                        <span class="price-indicator">₱</span>
+                        <span class="price-label">Budget Friendly</span>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Local institution</span>
+                        <span class="feature-tag">Street food</span>
+                        <span class="feature-tag">Quick service</span>
+                    </div>
+                    
+                    <div class="photo-collection">
+                        <div class="photo-collection-header">
+                            <h4 class="photo-collection-title">Photo Collection</h4>
+                            <span class="photo-count">4 photos</span>
+                        </div>
+                        <div class="photo-grid">
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/mama_yle\'s.jpg', 'mamayles', 0)">
+                                <img src="../assets/tourist/dine/collection/mama0.jpg" alt="Mama Yle's - Main">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/mamayles_counter.jpg', 'mamayles', 1)">
+                                <img src="../assets/tourist/dine/collection/mama1.jpg" alt="Counter">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/mamayles_food.jpg', 'mamayles', 2)">
+                                <img src="../assets/tourist/dine/collection/mama2.jpg" alt="Food">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/mamayles_street.jpg', 'mamayles', 3)">
+                                <img src="../assets/tourist/dine/collection/mama3.jpg" alt="Street View">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/mamayles_street.jpg', 'mamayles', 3)">
+                                <img src="../assets/tourist/dine/collection/mama4.jpg" alt="Street View">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/mamayles_street.jpg', 'mamayles', 3)">
+                                <img src="../assets/tourist/dine/collection/mama5.jpg" alt="Street View">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="restaurant-card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/dine/kitchenette.jpg" alt="Demi's Kitchenette">
+                    <div class="rating-badge">
+                        
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="cuisine-type">📞 0999 929 2921</div>
+                    <h3 class="restaurant-name">Demi's Kitchenette</h3>
+                    <p class="location">Brgy. South Poblacion, Gabaldon, Nueva Ecija</p>
+                    <p class="description"></p>
+                    <div class="price-range">
+                        <span class="price-indicator">₱₱</span>
+                        <span class="price-label">Moderate pricing</span>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Organic</span>
+                        <span class="feature-tag">Farm-fresh</span>
+                        <span class="feature-tag">Healthy options</span>
+                    </div>
+                    
+                    <div class="photo-collection">
+                        <div class="photo-collection-header">
+                            <h4 class="photo-collection-title">Photo Collection</h4>
+                            <span class="photo-count">5 photos</span>
+                        </div>
+                        <div class="photo-grid">
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/kitchenette.jpg', 'demis', 0)">
+                                <img src="../assets/tourist/dine/collection/kitchenette0.jpg" alt="Demi's - Main">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/demis_kitchen.jpg', 'demis', 1)">
+                                <img src="../assets/tourist/dine/collection/kitchenette1.jpg" alt="Kitchen">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/demis_dining.jpg', 'demis', 2)">
+                                <img src="../assets/tourist/dine/collection/kitchenette2.jpg" alt="Dining">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/demis_dining.jpg', 'demis', 3)">
+                                <img src="../assets/tourist/dine/collection/kitchenette3.jpg" alt="Dining">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/demis_dining.jpg', 'demis', 4)">
+                                <img src="../assets/tourist/dine/collection/kitchenette4.jpg" alt="Dining">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="restaurant-card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/dine/sanFracisco.jpg" alt="Señor Francisco">
+                    <div class="rating-badge">
+                        
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="cuisine-type">📞 0933 822 4715</div>
+                    <h3 class="restaurant-name">Señor Francisco</h3>
+                    <p class="location">Brgy. Ligaya, Gabaldon, Nueva Ecija</p>
+                    <p class="description"></p>
+                    <div class="price-range">
+                        <span class="price-indicator">₱</span>
+                        <span class="price-label">Budget Friendly</span>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Organic</span>
+                        <span class="feature-tag">Farm-fresh</span>
+                        <span class="feature-tag">Healthy options</span>
+                    </div>
+                    
+                    <div class="photo-collection">
+                        <div class="photo-collection-header">
+                            <h4 class="photo-collection-title">Photo Collection</h4>
+                            <span class="photo-count">5 photos</span>
+                        </div>
+                        <div class="photo-grid">
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/kitchenette.jpg', 'demis', 0)">
+                                <img src="../assets/tourist/dine/collection/senor0.jpg" alt="Demi's - Main">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/demis_kitchen.jpg', 'demis', 1)">
+                                <img src="../assets/tourist/dine/collection/senor1.jpg" alt="Kitchen">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/demis_dining.jpg', 'demis', 2)">
+                                <img src="../assets/tourist/dine/collection/senor2.jpg" alt="Dining">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/demis_food.jpg', 'demis', 3)">
+                                <img src="../assets/tourist/dine/collection/senor3.jpg" alt="Food">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/demis_organic.jpg', 'demis', 4)">
+                                <img src="../assets/tourist/dine/collection/senor4.jpg" alt="Organic">
+                            </div>
+                            <div class="photo-item" onclick="openModal('../assets/tourist/dine/demis_organic.jpg', 'demis', 5)">
+                                <img src="../assets/tourist/dine/collection/senor5.jpg" alt="Organic">
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+                <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Staggered animation for cards
+            const cards = document.querySelectorAll('.restaurant-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+
+            // Smooth hover effects
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Add loading states for images
+            const images = document.querySelectorAll('.card-image img');
+            images.forEach(img => {
+                img.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                });
+            });
+        });
+    </script>
+            </body>
+            </html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipal Treasurer's Office - Services</title>
+    <link rel="stylesheet" href="../css/landingPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #d1d8e0 100%);
+            margin: 0;
+            min-height: 100vh;
+            font-size: 1.13rem;
+        }
+        .ios-container {
+            max-width: 1000px;
+            margin: 48px auto;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 40px rgba(44,62,80,0.11);
+            padding: 36px 24px 24px 24px;
+            position: relative;
+        }
+        .ios-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .ios-header .icon {
+            font-size: 3rem;
+            color: #007AFF;
+            margin-bottom: 12px;
+        }
+        .ios-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222f3e;
+            margin: 0 0 8px 0;
+        }
+        .ios-header p {
+            color: #576574;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .ios-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .ios-card {
+            background: #f7fafd;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(44,62,80,0.06);
+            margin-bottom: 28px;
+            padding: 28px 22px 18px 22px;
+            transition: box-shadow 0.18s;
+            border: 1px solid #e3e6ea;
+        }
+        .ios-card:last-child {
+            margin-bottom: 0;
+        }
+        .ios-card h2 {
+            font-size: 1.5rem;
+            color: #007AFF;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .ios-card .desc {
+            color: #485460;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table th, .ios-card .mini-table td {
+            font-size: 1.08rem;
+            padding: 6px 8px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .mini-table th {
+            background: #f0f6ff;
+            color: #007AFF;
+            font-weight: 600;
+        }
+        .ios-card .mini-table td:first-child, .ios-card .mini-table th:first-child {
+            width: 120px;
+        }
+        .ios-card .steps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        .ios-card .steps-table th, .ios-card .steps-table td {
+            font-size: 1.08rem;
+            padding: 5px 7px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .steps-table th {
+            background: #f0f6ff;
+            color: #007AFF;
+            font-weight: 600;
+        }
+        .ios-card .fees {
+            margin-top: 8px;
+            color: #007AFF;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .ios-card .section-title {
+            font-size: 1.07rem;
+            color: #007AFF;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+        .ios-card ul {
+            margin: 0 0 0 18px;
+            padding: 0;
+            color: #485460;
+            font-size: 1.09rem;
+        }
+        .ios-contact {
+            background: #f0f6ff;
+            border-radius: 18px;
+            padding: 18px 18px 12px 18px;
+            margin-top: 30px;
+            color: #222f3e;
+            font-size: 1.18rem;
+        }
+        .ios-contact strong {
+            color: #007AFF;
+        }
+        .ios-contact a {
+            color: #007AFF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .total-time {
+            background: #f0f6ff;
+            color: #007AFF;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        /* Smooth scrolling and hover effects */
+        html {
+            scroll-behavior: smooth;
+        }
+        a[href^="#"]:hover {
+            background: #f0f6ff !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15) !important;
+        }
+        @media (max-width: 700px) {
+            .ios-container { border-radius: 0; padding: 18px 2vw 16px 2vw; }
+        }
+        .mvm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .mvm-item {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #e3e6ea;
+            box-shadow: 0 1px 5px rgba(0, 122, 255, 0.08);
+        }
+        .mvm-item h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        .mvm-item p {
+            font-size: 0.95rem;
+            color: #576574;
+            margin: 0;
+        }
+        
+        /* New Styles for Back to Top Button */
+        #backToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #103af2;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+            transition: opacity 0.3s, transform 0.2s, background 0.2s;
+            z-index: 1000;
+            outline: none;
+        }
+        
+        #backToTopBtn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustment for mobile */
+        @media (max-width: 600px) {
+            #backToTopBtn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-btn" style="position: absolute; top: 32px; left: 32px; z-index: 100; background: linear-gradient(135deg, #007AFF, #0051D0); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="font-size:1.2em;" aria-hidden="true">&#8592;</span>
+    </a>
+    <div class="ios-container">
+        <div class="ios-header">
+            <div class="icon">💰</div>
+            <h1>Municipal Treasurer's Office (MTO)</h1>
+            <p>Citizen's Charter ng Tanggapan ng Ingat-Yaman ng Bayan</p>
+        </div>      
+        <!-- Table of Contents -->
+        <section class="ios-card" style="background: #f0f6ff; border: 2px solid #007AFF;">
+            <h2 style="text-align: center; margin-bottom: 20px;">📋 Lista ng mga Serbisyo (Taglish)</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                <a href="#service1" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007AFF;">1.</strong> Payment of Real Property Tax (Amilyar)
+                </a>
+                <a href="#service2" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007AFF;">2.</strong> Branding of Large Cattle
+                </a>
+                <a href="#service3" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007AFF;">3.</strong> Issuance of Community Tax Certificate (Cedula)
+                </a>
+                <a href="#service4" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007AFF;">4.</strong> Issuance of Real Property Tax Clearance
+                </a>
+                <a href="#service5" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007AFF;">5.</strong> Payment of Monthly Water Bill
+                </a>
+                <a href="#service6" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007AFF;">6.</strong> Motorized Tricycle Operator’s Permit (MTOP)
+                </a>
+                <a href="#service7" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007AFF;">7.</strong> Feedback and Complaints Mechanism
+                </a>
+            </div>
+        </section>
+        
+        <!-- 1. Payment of Real Property Tax (Amilyar) -->
+        <section class="ios-card" id="service1">
+            <h2>🏠 1. Payment of Real Property Tax (Amilyar)</h2>
+            <div class="desc">Buwis na sinisingil ng LGU sa mga lupa, gusali, o machinery na pagmamay-ari ng isang tao o korporasyon.</div>
+            <div style="font-size: 0.95rem; color: #576574; margin-bottom: 15px;">
+                Office: <b>MTO</b> | Classification: <b>Simple</b> | Type: <b>G2C</b> | Who may avail: <b>Property owners</b>
+            </div>
+            <div class="section-title">✅ Requirements</div>
+            <table class="mini-table">
+                <tr><th>Requirement</th><th>Saan Kukuhanin</th></tr>
+                <tr><td>Official Receipt (previous/latest RPT payment)</td><td>MTO</td></tr>
+                <tr><td>Real Property Tax Order of Payment (RPTOP) / Statement of Account</td><td>MTO</td></tr>
+            </table>
+            <div class="section-title">🧩 Process</div>
+            <table class="steps-table">
+                <tr><th>Client Step</th><th>Agency Action</th><th>Fee</th><th>Oras</th><th>Person Responsible</th></tr>
+                <tr><td>1. Ipresenta ang latest RPT payment o Statement of Account</td><td>Computation ng Real Property Tax Due (AV × 1% × year × 2 + penalties kung meron)</td><td>Depende sa assessment</td><td>5 mins</td><td>Mark Bien P. Alvarez (RCC I) / Leonisa Ahilon (Tax Mapping Aide)</td></tr>
+                <tr><td>2. Magbayad ng Real Property Tax</td><td>Pag-prepare ng Official Receipt at pagtanggap ng bayad</td><td>Depende sa tax</td><td>5 mins</td><td>Elizabeth J. Pineda (LTOO III) / Marites C. Tolentino (Admin. Aide III)</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 10 minutes</div>
+            <div class="fees">Bayad: <b>Depende sa assessment at tax due</b></div>
+        </section>
+
+        <!-- 2. Branding of Large Cattle -->
+        <section class="ios-card" id="service2">
+            <h2>🐂 2. Branding of Large Cattle</h2>
+            <div class="desc">Pagrehistro at paglalagay ng marka (brand) sa baka o kalabaw na may edad na 2 taon pataas.</div>
+            <div style="font-size: 0.95rem; color: #576574; margin-bottom: 15px;">
+                Who may avail: <b>May-ari ng malaking hayop</b>
+            </div>
+            <div class="section-title">✅ Requirements</div>
+            <table class="mini-table">
+                <tr><th>Requirement</th><th>Saan Kukuhanin</th></tr>
+                <tr><td>Certificate of Ownership ng mother cow/carabao (1 original)</td><td>MTO</td></tr>
+                <tr><td>Certificate of Brand Registration (1 original)</td><td>MTO</td></tr>
+            </table>
+            <div class="section-title">🧩 Process</div>
+            <table class="steps-table">
+                <tr><th>Client Step</th><th>Agency Action</th><th>Fee</th><th>Oras</th><th>Person Responsible</th></tr>
+                <tr><td>1. Mag-submit ng requirements</td><td>Verification ng documents</td><td>₱50–₱100/head</td><td>1 min</td><td>Joey C. Bautista / Jeffrey Solitario (Admin. Aide IV)</td></tr>
+                <tr><td>2. Inspection</td><td>Pag-verify ng cowlicks/marking ng hayop</td><td>—</td><td>5 mins</td><td>Gay T. Collado (Ticket Checker)</td></tr>
+                <tr><td>3. Paglabas ng Certificate</td><td>Release ng certificate</td><td>—</td><td>10 mins</td><td>Mark Bien P. Alvarez (RCC I)</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 16 minutes</div>
+            <div class="fees">Bayad: <b>₱50–₱100/head</b></div>
+        </section>
+
+        <!-- 3. Issuance of Community Tax Certificate (Cedula) -->
+        <section class="ios-card" id="service3">
+            <h2>🆔 3. Issuance of Community Tax Certificate (Cedula)</h2>
+            <div class="desc">Ang CTC (Cedula) ay patunay ng pagiging residente at pagbabayad ng kaukulang buwis ayon sa income, negosyo, o pagmamay-ari ng property.</div>
+            <div style="font-size: 0.95rem; color: #576574; margin-bottom: 15px;">
+                Who may avail: <b>Lahat ng residente 18 taong gulang pataas</b>
+            </div>
+            <div class="section-title">✅ Requirements</div>
+            <table class="mini-table">
+                <tr><th>Requirement</th><th>Saan Kukuhanin</th></tr>
+                <tr><td>Information Sheet / Valid ID</td><td>Client</td></tr>
+                <tr><td>Proof of Income (for employed)</td><td>Employer</td></tr>
+                <tr><td>Business Income / Assessment (for business owners)</td><td>Business owner</td></tr>
+            </table>
+            <div class="section-title">🧩 Process</div>
+            <table class="steps-table">
+                <tr><th>Client Step</th><th>Agency Action</th><th>Fee</th><th>Oras</th><th>Person Responsible</th></tr>
+                <tr><td>1. Fill out form / magpresenta ng ID</td><td>Validation at computation ng CTC</td><td>Basic ₱5 + Add’l up to ₱5,000 (₱1 per ₱1,000 income/property)</td><td>2 mins</td><td>Leonisa Ahilon (Tax Mapping Aide)</td></tr>
+                <tr><td>2. Magpresenta ng proof of income</td><td>Validation and computation</td><td>—</td><td>5 mins</td><td>Marites C. Tolentino (Admin. Aide III)</td></tr>
+                <tr><td>3. Magbayad at pumirma sa CTC</td><td>Pag-prepare at release ng CTC</td><td>Depende sa computation</td><td>2 mins</td><td>Mark Bien P. Alvarez (RCC I)</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 9 minutes</div>
+            <div class="fees">Bayad: <b>Depende sa computation (Basic ₱5 + Add'l up to ₱5,000)</b></div>
+        </section>
+
+        <!-- 4. Issuance of Real Property Tax Clearance -->
+        <section class="ios-card" id="service4">
+            <h2>📜 4. Issuance of Real Property Tax Clearance</h2>
+            <div class="desc">Proof na updated at bayad ang lahat ng Real Property Taxes ng isang property owner.</div>
+            <div class="section-title">✅ Requirements</div>
+            <table class="mini-table">
+                <tr><th>Requirement</th><th>Saan Kukuhanin</th></tr>
+                <tr><td>Latest Tax Declaration</td><td>Municipal Assessor’s Office</td></tr>
+                <tr><td>Latest Official Receipt</td><td>MTO</td></tr>
+            </table>
+            <div class="section-title">🧩 Process</div>
+            <table class="steps-table">
+                <tr><th>Client Step</th><th>Agency Action</th><th>Fee</th><th>Oras</th><th>Person Responsible</th></tr>
+                <tr><td>1. Ipresenta ang requirements</td><td>Verification ng latest O.R.</td><td>₱75</td><td>2 mins</td><td>Mark Bien P. Alvarez (RCC I)</td></tr>
+                <tr><td>2. Magbayad kung may due at clearance fee</td><td>Pagproseso ng bayad</td><td>₱75 + dues</td><td>5 mins</td><td>Elizabeth J. Pineda (LTOO III) / Antonio P. Lapitan Jr. (Treasurer)</td></tr>
+                <tr><td>3. Hintayin ang release ng certificate</td><td>Pag-issue ng Tax Clearance</td><td>—</td><td>10 mins</td><td>Marites C. Tolentino (Admin. Aide III)</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 17 minutes</div>
+            <div class="fees">Bayad: <b>₱75.00 (Clearance Fee) + any outstanding dues</b></div>
+        </section>
+        
+        <!-- 5. Payment of Monthly Water Bill -->
+        <section class="ios-card" id="service5">
+            <h2>💧 5. Payment of Monthly Water Bill</h2>
+            <div class="desc">Pagbabayad ng buwanang konsumo ng tubig para sa mga residente ng Gabaldon Water System.</div>
+            <div class="section-title">✅ Requirements</div>
+            <table class="mini-table">
+                <tr><th>Requirement</th><th>Saan Kukuhanin</th></tr>
+                <tr><td>Notice of Billing</td><td>MTO / Engineering Office</td></tr>
+                <tr><td>1x1 Picture</td><td>Client</td></tr>
+            </table>
+            <div class="section-title">🧩 Process</div>
+            <table class="steps-table">
+                <tr><th>Client Step</th><th>Agency Action</th><th>Fee</th><th>Oras</th><th>Person Responsible</th></tr>
+                <tr><td>1. Ipresenta ang Notice of Billing</td><td>Pagtanggap ng bayad at pag-issue ng Official Receipt</td><td>₱150 (min.) + ₱17/cubic meter</td><td>2 mins</td><td>Emily M. Villacillo (Admin. Aide IV)</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 2 minutes</div>
+            <div class="fees">Bayad: <b>₱150 (min.) + ₱17/cubic meter</b></div>
+        </section>
+
+        <!-- 6. Motorized Tricycle Operator’s Permit (MTOP) -->
+        <section class="ios-card" id="service6">
+            <h2>🛵 6. Motorized Tricycle Operator’s Permit (MTOP)</h2>
+            <div class="desc">Permit na nagbibigay pahintulot sa tricycle-for-hire o service-only operations sa itinakdang ruta ng LGU.</div>
+            <div class="section-title">✅ Requirements</div>
+            <table class="mini-table">
+                <tr><th>Requirement</th><th>Saan Kukuhanin</th></tr>
+                <tr><td>For New: OR/CR ng unit</td><td>LTO</td></tr>
+                <tr><td>For Renewal: Previous MTOP</td><td>MTO</td></tr>
+            </table>
+            <div class="section-title">🧩 Process</div>
+            <table class="steps-table">
+                <tr><th>Client Step</th><th>Agency Action</th><th>Fee</th><th>Oras</th><th>Person Responsible</th></tr>
+                <tr><td>1. Mag-submit ng new application</td><td>Encode ng information</td><td>Service Only ₱100, For Hire ₱200, Plate ₱300, Sticker ₱30</td><td>5 mins</td><td>Jonathan P. Pagaragan (LTOO I)</td></tr>
+                <tr><td>2. For renewal: Present previous MTOP</td><td>Verification ng record</td><td>Service ₱100, For Hire ₱200, Sticker ₱30</td><td>2 mins</td><td>Mark Bien P. Alvarez (RCC I)</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 5–7 minutes</div>
+            <div class="fees">Bayad: <b>Depende sa type (For Hire: ₱200; Service Only: ₱100) + Plate (₱300) + Sticker (₱30)</b></div>
+        </section>
+
+        <!-- 7. Feedback and Complaints Mechanism -->
+        <section class="ios-card" id="service7">
+            <h2>📢 7. Feedback and Complaints Mechanism</h2>
+            <div class="section-title">Paano Magbigay ng Feedback</div>
+            <ul>
+                <li>Sagutan ang <b>Feedback Form</b> at ihulog sa drop box sa Public Assistance Desk.</li>
+                <li>O kaya'y mag-email sa: <a href="mailto:gabnecija_50@yahoo.com">gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</a></li>
+            </ul>
+            <div class="section-title">Processing ng Feedback</div>
+            <ul>
+                <li>Bubuksan ang drop box tuwing <b>Biyernes</b> ng Officer of the Day at ira-record ang lahat ng feedback.</li>
+                <li>Dapat sagutin ang feedback/tanong ng opisina <b>within 3 days</b>.</li>
+            </ul>
+            <div class="section-title">Paano Mag-file ng Complaint</div>
+            <ul>
+                <li>Sagutan ang <b>Complaint Form</b> at ihulog sa drop box.</li>
+                <li>Puwede ring magpadala via text/call/email. Siguraduhing isama ang:
+                    <ul>
+                        <li>Pangalan ng inaakusa</li>
+                        <li>Detalye ng insidente</li>
+                        <li>Mga ebidensya</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="section-title">Complaint Processing</div>
+            <ul>
+                <li>Araw-araw nire-review ng <b>Municipal Administrator</b>.</li>
+                <li>Magsasagawa ng imbestigasyon at ipapasa sa <b>Local Chief Executive</b> para sa aksyon.</li>
+            </ul>
+            <div class="ios-contact">
+                <div><b>Contact Information (MTO)</b></div>
+                <div>📞 <b>0998-990-1027</b></div>
+                <div>📧 <a href="mailto:gabnecija_50@yahoo.com"><b>gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</b></a></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button onclick="topFunction()" id="backToTopBtn" title="Go to top" aria-label="Go to top">
+        ↑
+    </button>
+
+    <script>
+        // Get the button
+        let mybutton = document.getElementById("backToTopBtn");
+
+        // When the user scrolls down 200px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
+</body>
+</html>

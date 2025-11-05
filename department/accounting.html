@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounting Office Services (Taglish)</title>
+    <link rel="stylesheet" href="../css/landingPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Load Tailwind CSS for utility classes (used in modern projects, though this uses internal CSS) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* General Styling and Inter Font */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #d1d8e0 100%);
+            margin: 0;
+            min-height: 100vh;
+            font-size: 1.13rem;
+        }
+        .ios-container {
+            max-width: 1000px;
+            margin: 48px auto;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 40px rgba(44,62,80,0.11);
+            padding: 36px 24px 24px 24px;
+            position: relative;
+        }
+        .ios-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .ios-header .icon {
+            font-size: 3rem;
+            color: #4a90e2; /* Blue for Finance/Accounting */
+            margin-bottom: 12px;
+        }
+        .ios-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222f3e;
+            margin: 0 0 8px 0;
+        }
+        .ios-header p {
+            color: #576574;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        /* Card Styling */
+        .ios-card {
+            background: #f7fafd;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(44,62,80,0.06);
+            margin-bottom: 28px;
+            padding: 28px 22px 18px 22px;
+            transition: box-shadow 0.18s;
+            border: 1px solid #e3e6ea;
+        }
+        .ios-card:last-child {
+            margin-bottom: 0;
+        }
+        .ios-card h2 {
+            font-size: 1.5rem;
+            color: #4a90e2;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .ios-card .desc {
+            color: #485460;
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+        }
+        /* Table Styles (Mini-Table for Requirements) */
+        .ios-card .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .ios-card .mini-table th, .ios-card .mini-table td {
+            font-size: 1.05rem;
+            padding: 10px 12px;
+            border: 1px solid #d1d8e0;
+            background: #fff;
+            color: #222f3e;
+            text-align: left;
+        }
+        .ios-card .mini-table th {
+            background: #eaf1fa; /* Light blue background for header */
+            color: #4a90e2;
+            font-weight: 600;
+        }
+        .ios-card .mini-table td:first-child, .ios-card .mini-table th:first-child {
+            width: 35%; /* Make requirement name column wider */
+        }
+
+        /* Table Styles (Steps-Table for Process) */
+        .ios-card .steps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+        .ios-card .steps-table th, .ios-card .steps-table td {
+            font-size: 0.95rem; /* Slightly smaller for detailed steps */
+            padding: 10px 7px;
+            border: 1px solid #d1d8e0;
+            background: #fff;
+            color: #222f3e;
+            text-align: left;
+            vertical-align: top;
+        }
+        .ios-card .steps-table th {
+            background: #eaf1fa;
+            color: #4a90e2;
+            font-weight: 600;
+        }
+        .ios-card .steps-table tr:nth-child(even) td {
+            background: #fcfdfe;
+        }
+        
+        .ios-card .section-title {
+            font-size: 1.15rem;
+            color: #4a90e2;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #eaf1fa;
+            padding-bottom: 5px;
+        }
+        .ios-card ul {
+            margin: 0 0 15px 18px;
+            padding: 0;
+            color: #485460;
+            font-size: 1.09rem;
+            list-style: disc;
+        }
+        .ios-card li {
+            margin-bottom: 6px;
+        }
+
+        .ios-contact {
+            background: #eaf1fa;
+            border-radius: 18px;
+            padding: 18px 18px 12px 18px;
+            margin-top: 30px;
+            color: #222f3e;
+            font-size: 1.18rem;
+        }
+        .ios-contact strong {
+            color: #4a90e2;
+        }
+        .ios-contact a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .ios-contact a:hover {
+             color: #3b74b4;
+        }
+        .total-time {
+            background: #eaf1fa;
+            color: #4a90e2;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        /* Adaptive Design */
+        @media (max-width: 700px) {
+            .ios-container { border-radius: 0; padding: 18px 2vw 16px 2vw; margin: 0 auto; }
+            .ios-card .mini-table th, .ios-card .mini-table td, .ios-card .steps-table th, .ios-card .steps-table td {
+                font-size: 0.9rem;
+                padding: 8px 6px;
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .ios-card .mini-table tr, .ios-card .steps-table tr {
+                display: block;
+                margin-bottom: 15px;
+                border: 1px solid #d1d8e0;
+                border-radius: 12px;
+                overflow: hidden;
+            }
+            .ios-card .mini-table th { display: none; }
+            .ios-card .steps-table th:nth-child(1), .ios-card .steps-table td:nth-child(1) { width: 100%; }
+        }
+
+        /* --- Tourism Office Back to Top Button Styling --- */
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            /* Using the Orange Gradient from Tourism Office */
+            background: linear-gradient(135deg, #FF6B35, #ff8a5b); 
+            color: white;
+            cursor: pointer;
+            padding: 15px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        #backToTop:hover {
+            background: linear-gradient(135deg, #ff8a5b, #ff7745);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 700px) {
+            #backToTop { bottom: 20px; right: 20px; padding: 12px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button (Styling assumes a parent index file exists) -->
+    <a href="../index.html" class="back-btn" style="position: absolute; top: 32px; left: 32px; z-index: 100; background: linear-gradient(135deg, #4a90e2, #3a75b8); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="font-size:1.2em;" aria-hidden="true">&#8592;</span>
+    </a>
+
+    <div class="ios-container">
+        <div class="ios-header">
+            <div class="icon">🧾</div>
+            <h1>Accounting Office</h1>
+            <p>Tanggapan ng Pananalapi / Accounting Services (Taglish Version)</p>
+        </div>
+
+        <!-- Table of Contents -->
+        <section class="ios-card" style="background: #eaf1fa; border: 2px solid #4a90e2;">
+            <h2 style="text-align: center; margin-bottom: 20px;">📋 Lista ng mga Serbisyo</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                <a href="#service1" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #d1d8e0; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #4a90e2;">1.</strong> Issuance of Certification
+                </a>
+                <a href="#service2" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #d1d8e0; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #4a90e2;">2.</strong> Pre-Audit of Disbursement
+                </a>
+                <a href="#service3" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #d1d8e0; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #4a90e2;">3.</strong> Feedback & Complaints Mechanism
+                </a>
+            </div>
+        </section>
+
+        <!-- 1. Issuance of Certification -->
+        <section class="ios-card" id="service1">
+            <h2>📜 1. Issuance of Certification</h2>
+            <div class="desc">
+                Nag-iisyu ang Accounting Office ng Certificate para sa mga municipal officials at employees para sa loan application at reconciliation ng premium at loan remittances.
+                <br>
+                Classification: Simple | Type of Transaction: G2C (Government to Citizen) | Who may avail: Municipal Officials and Employees
+            </div>
+
+            <div class="section-title">✅ Mga Requirements:</div>
+            <table class="mini-table">
+                <thead>
+                    <tr><th>Requirement</th><th>Saan Kukuhanin</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Request for Certification</td><td>Sa concerned Municipal Official o Employee</td></tr>
+                </tbody>
+            </table>
+
+            <div class="section-title">🧩 Proseso:</div>
+            <table class="steps-table">
+                <thead>
+                    <tr>
+                        <th>Client Steps (Hakbang ng Kliyente)</th>
+                        <th>Agency Action (Aksyon ng Ahensya)</th>
+                        <th>Fees</th>
+                        <th>Processing Time</th>
+                        <th>Person Responsible</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1. Mag-submit ng request</td>
+                        <td>Pag-prepare ng certification (PhilHealth, GSIS, Pag-IBIG remittances)</td>
+                        <td>Wala</td>
+                        <td>10 mins.</td>
+                        <td>Rina A. Corpuz – Admin. Aide IV</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Para sa previous years’ data</td>
+                        <td>Wala</td>
+                        <td>30 mins.</td>
+                        <td>Rina A. Corpuz – Admin. Aide IV</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Net Take Home Pay computation</td>
+                        <td>Wala</td>
+                        <td>10 mins.</td>
+                        <td>Jaquelyn N. Pineda – Computer Operator III / Rina A. Corpuz – Admin. Aide IV</td>
+                    </tr>
+                    <tr>
+                        <td>2. Ipa-sign sa Municipal Accountant</td>
+                        <td>Pagpirma ng Municipal Accountant</td>
+                        <td>Wala</td>
+                        <td>5 mins.</td>
+                        <td>Farrah Olive S. Alvaran – Municipal Accountant</td>
+                    </tr>
+                    <tr>
+                        <td>3. I-claim ang Certificate</td>
+                        <td>Pag-release ng Certificate</td>
+                        <td>Wala</td>
+                        <td>5 mins.</td>
+                        <td>Jaquelyn N. Pineda / Rina A. Corpuz</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="total-time">💡 Total Processing Time: 50 minutes</div>
+        </section>
+
+        <!-- 2. Pre-Audit of Disbursement – Traveling Expenses -->
+        <section class="ios-card" id="service2">
+            <h2>🚗 2. Pre-Audit of Disbursement – Traveling Expenses</h2>
+            <div class="desc">
+                Sinisiguro ng Accounting Office na ang lahat ng supporting documents para sa local travel ng municipal officials at employees ay kumpleto, at may tamang allotment para sa purpose na nakasaad.
+                <br>
+                Classification: Simple | Type of Transaction: G2C | Who may avail: Government Employees
+            </div>
+
+            <div class="section-title">✅ Mga Requirements:</div>
+            <table class="mini-table">
+                <thead>
+                    <tr><th>Requirement</th><th>Saan Kukuhanin</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Disbursement Voucher</td><td>Concerned Municipal Official or Employee</td></tr>
+                    <tr><td>Obligation Request</td><td>Concerned Office</td></tr>
+                    <tr><td>Travel Order</td><td>Concerned Office</td></tr>
+                    <tr><td>Certification of Appearance/Attendance</td><td>Event Organizer or Office Head</td></tr>
+                    <tr><td>Copy of Itinerary of Travel</td><td>Traveler</td></tr>
+                    <tr><td>Revised ITR (if not allowed)</td><td>Accounting/HR Office</td></tr>
+                    <tr><td>Certification by Head of Agency (if exceeds ₱400/day or ₱800 overnight)</td><td>Head of Agency</td></tr>
+                    <tr><td>Reimbursement Receipts (if applicable)</td><td>Traveler</td></tr>
+                    <tr><td>OR (Official Receipt) in case of refund</td><td>Cashier/Payor</td></tr>
+                    <tr><td>Certificate of Travel Completed</td><td>Concerned Employee</td></tr>
+                    <tr><td>Hotel Room Receipt</td><td>Hotel</td></tr>
+                    <tr><td>Invitation (for trainings/seminars)</td><td>Organizer</td></tr>
+                    <tr><td>OR for registration fees</td><td>Organizer</td></tr>
+                    <tr><td>Approval for reimbursement of actual travel expenses</td><td>President/Head of Agency</td></tr>
+                </tbody>
+            </table>
+
+            <div class="section-title">🧩 Proseso:</div>
+            <table class="steps-table">
+                <thead>
+                    <tr>
+                        <th>Client Steps (Hakbang ng Kliyente)</th>
+                        <th>Agency Action (Aksyon ng Ahensya)</th>
+                        <th>Fees</th>
+                        <th>Processing Time</th>
+                        <th>Person Responsible</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1. Mag-submit ng disbursement voucher para sa traveling expenses</td>
+                        <td>Pag-receive ng disbursement voucher</td>
+                        <td>Wala</td>
+                        <td rowspan="5">3 days (depende sa dami ng transactions)</td>
+                        <td>Mary Ann B. Neri – Admin. Asst. I / Arlene B. Costales – Accountant II</td>
+                    </tr>
+                    <tr>
+                        <td>2. (Internal process)</td>
+                        <td>Review ng completeness, propriety, validity, at computation ng amount due</td>
+                        <td></td>
+                        <td>Mary Ann B. Neri / Arlene B. Costales</td>
+                    </tr>
+                    <tr>
+                        <td>3. Kung may kulang, ibabalik sa client para sa compliance</td>
+                        <td>Pag-return ng documents for correction</td>
+                        <td></td>
+                        <td>Mary Ann B. Neri / Arlene B. Costales</td>
+                    </tr>
+                    <tr>
+                        <td>4. I-forward sa Municipal Accountant</td>
+                        <td>Final review and signature</td>
+                        <td></td>
+                        <td>Farrah Olive S. Alvaran – Municipal Accountant</td>
+                    </tr>
+                    <tr>
+                        <td>5. I-release ang disbursement voucher para sa pirma ng Municipal Mayor</td>
+                        <td>Pag-release for approval</td>
+                        <td></td>
+                        <td>Mary Ann B. Neri / Arlene B. Costales</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="total-time">💡 Total Processing Time: 3 days</div>
+        </section>
+
+        <!-- 3. Feedback and Complaints Mechanism -->
+        <section class="ios-card" id="service3">
+            <h2>📢 3. Feedback and Complaints Mechanism</h2>
+
+            <div class="section-title">Paano Magbigay ng Feedback:</div>
+            <ul>
+                <li>Sagutan ang Client Feedback Form at ihulog sa drop box sa Public Assistance and Complaint Desk, o</li>
+                <li>I-email sa: <a href="mailto:gabnecija_50@yahoo.com">gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</a></li>
+            </ul>
+
+            <div class="section-title">Paano Pinoproseso ang Feedback:</div>
+            <ul>
+                <li>Tuwing Biyernes, bubuksan ng Officer of the Day ang drop box at ire-record lahat ng feedback.</li>
+                <li>Feedback na may katanungan ay ipapasa sa kaukulang opisina, na kailangang sumagot within 3 days.</li>
+                <li>Ang sagot ay ibabalik sa nagbigay ng feedback.</li>
+            </ul>
+
+            <div class="section-title">Paano Mag-file ng Complaint:</div>
+            <ul>
+                <li>Sagutan ang Client Complaint Form at ihulog sa drop box sa harap ng Public Assistance Desk.</li>
+                <li>Pwede rin mag-file via text, call, o email (provide: name of person being complained, incident, evidence).</li>
+            </ul>
+
+            <div class="section-title">Paano Pinoproseso ang Complaint:</div>
+            <ul>
+                <li>Araw-araw bubuksan ng Municipal Administrator ang drop box at mag-e-evaluate ng complaint.</li>
+                <li>Kapag validated, sisimulan ang investigation at ipapasa sa concerned office.</li>
+                <li>Pagkatapos ng imbestigasyon, magre-report ang Administrator sa Local Chief Executive para sa aksyon.</li>
+                <li>Ibibigay ang feedback sa complainant.</li>
+            </ul>
+
+            <div class="ios-contact">
+                <div>Contact Information</div>
+                <div>📞 0938-590-3601</div>
+                <div>📧 <a href="mailto:gabnecija_50@yahoo.com">gabnecija_50@yahoo.com</a></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Back to Top Button (Copied from Tourism Office) -->
+    <button onclick="topFunction()" id="backToTop" title="Go to top">
+        ↑
+    </button>
+
+    <script>
+        // Get the button
+        let backToTopBtn = document.getElementById("backToTop");
+        
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction();
+        };
+        
+        function scrollFunction() {
+            // The Tourism Office uses a lower scroll threshold (20px) and display: block/none
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                backToTopBtn.style.display = "block";
+            } else {
+                backToTopBtn.style.display = "none";
+            }
+        }
+        
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            // The Tourism Office uses immediate scroll, not smooth scroll
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
+</body>
+</html>

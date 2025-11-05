@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Gabaldon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #544ba2 50%, #93a4fb 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            background: rgba(255,255,255,0.35);
+            border-color: rgba(255,255,255,0.4);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .back-button:active {
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 25px;
+            padding: 0;
+            box-shadow: 
+                0 8px 32px rgba(0,0,0,0.12),
+                0 2px 8px rgba(0,0,0,0.08),
+                inset 0 1px 0 rgba(255,255,255,0.3),
+                inset 0 -1px 0 rgba(255,255,255,0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            z-index: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.2),
+                0 10px 20px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.4),
+                inset 0 -1px 0 rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(45deg, #43cea2, #185a9d);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(0,0,0,0.1) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .card-content {
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+        }
+
+        .card-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .card-location {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .card-location::before {
+            content: '📍';
+            font-size: 0.8rem;
+        }
+
+        .card-description {
+            color: rgba(255,255,255,0.85);
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .card-button {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1rem;
+            width: 100%;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .card-button:hover::before {
+            left: 100%;
+        }
+
+        .card-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+            color: white;
+            text-decoration: none;
+        }
+
+        .card-button:active {
+            transform: translateY(0);
+        }
+
+        /* Fallback gradients for each card in case images don't load */
+        .card:nth-child(1) .card-image { background: linear-gradient(45deg, #4facfe, #00f2fe); }
+        .card:nth-child(2) .card-image { background: linear-gradient(45deg, #43e97b, #38f9d7); }
+        .card:nth-child(3) .card-image { background: linear-gradient(45deg, #fa709a, #fee140); }
+        .card:nth-child(4) .card-image { background: linear-gradient(45deg, #a8edea, #fed6e3); }
+        .card:nth-child(5) .card-image { background: linear-gradient(45deg, #ffecd2, #fcb69f); }
+        .card:nth-child(6) .card-image { background: linear-gradient(45deg, #667eea, #764ba2); }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .container { padding: 10px; }
+            
+            .back-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Image loading states */
+        .card-image img {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-image img.loaded {
+            opacity: 1;
+        }
+
+        .card-image img.error {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="../gabaldonExplore.html" class="back-button" >
+        ←
+    </a>
+
+    <div class="container">
+        <div class="header fade-in">
+            <h1>Discover Gabaldon</h1>
+            <p>Nueva Ecija's Hidden Gems</p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/activities/mtMarupok/marupok.webp" alt="Mt. Marupok scenic mountain view">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Mt. Marupok</h3>
+                    <p class="card-location">Calabasa, Gabaldon, Nueva Ecija</p>
+                    <p class="card-description">Mt. Marupok is a hidden gem in Gabaldon, Nueva Ecija—perfect for hikers seeking a peaceful, 
+                        off-the-beaten-path 
+                        adventure with raw trails and scenic views.</p>
+                    <a href="department/ActInGabaldon/mt-marupok.html" class="card-button">See More</a>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/activities/dupinga/Dupinga-River-A-Nueva-Ecija.jpg" alt="Dupinga River crystal clear waters">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Dupinga River</h3>
+                    <p class="card-location">Dupinga, Gabaldon, Nueva Ecija</p>
+                    <p class="card-description">Dupinga River is a scenic spot in Aurora, known for its clear waters, 
+                        lush surroundings, and perfect spots for swimming, picnics, and nature photos.</p>
+                    <a href="department/ActInGabaldon/seemore_dupinga.html" class="card-button">See More</a>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/activities/gabaldonFalls/unnamed.webp" alt="Gabaldon Falls natural pool">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Gabaldon Falls</h3>
+                    <p class="card-location">South Poblacion, Gabaldon, Nueva Ecija</p>
+                    <p class="card-description">Gabaldon Falls is a hidden paradise in Nueva Ecija—just a short trek through lush 
+                        forest leads to its cool, crystal-clear waters and serene natural pool. Perfect for a refreshing dip and a 
+                        peaceful nature escape!</p>
+                    <a href="department/ActInGabaldon/gabaldon-falls.html" class="card-button">See More</a>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/activities/climb/tower.jpg" alt="Gabaldon CLIMB spiritual tower">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Gabaldon CLIMB</h3>
+                    <p class="card-location">Pinamalisan, Gabaldon, Nueva Ecija</p>
+                    <p class="card-description">Discover a towering spiritual haven at Gabaldon CLIMB.</p>
+                    <a href="department/ActInGabaldon/gabaldon-climb.html" class="card-button">See More</a>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/activities/calabasaRiver/calabasa.webp" alt="Calabasa River mountain views">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Calabasa River</h3>
+                    <p class="card-location">Calabasa, Gabaldon, Nueva Ecija</p>
+                    <p class="card-description">Calabasa River in Gabaldon is a hidden paradise with crystal-clear waters, 
+                        scenic mountain views, and a peaceful vibe—perfect for picnics, refreshing swims, and soul-soothing nature escapes.</p>
+                    <a href="department/ActInGabaldon/calabasa-river.html" class="card-button">See More</a>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <div class="card-image">
+                    <img src="../assets/tourist/activities/wildlife/wild.png" alt="Calabasa Wildlife Rehabilitation Center">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Calabasa Wildlife Rehabilitation Center</h3>
+                    <p class="card-location">Calabasa, Gabaldon, Nueva Ecija</p>
+                    <p class="card-description">See rescued animals up close at the Calabasa Wildlife Rehabilitaion Center.</p>
+                    <a href="department/ActInGabaldon/wildlife-center.html" class="card-button">See More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add staggered animation to cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                }, index * 100);
+            });
+
+            // Handle image loading
+            const images = document.querySelectorAll('.card-image img');
+            images.forEach(img => {
+                img.addEventListener('load', function() {
+                    this.classList.add('loaded');
+                });
+                
+                img.addEventListener('error', function() {
+                    this.classList.add('error');
+                    console.log('Failed to load image:', this.src);
+                });
+                
+                // If image is already loaded (cached)
+                if (img.complete) {
+                    img.classList.add('loaded');
+                }
+            });
+
+            
+        });
+    </script>
+</body>
+</html>

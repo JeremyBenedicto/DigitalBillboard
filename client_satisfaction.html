@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Satisfaction Measurement (CSM) Form</title>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      background: #f9f9f9;
+      color: #000;
+      margin: 0;
+      padding: 0;
+      font-size: 16px; /* --- Base font size increased --- */
+    }
+
+    .container {
+      max-width: 950px;
+      background: #fff;
+      margin: 30px auto;
+      padding: 40px 60px;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 30px;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    header img {
+      position: absolute;
+      left: 20px;
+      top: 5px;
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+    }
+
+    header h2 {
+      font-size: 20px; /* --- Increased font size --- */
+      margin: 0;
+      font-weight: bold;
+    }
+
+    header h3 {
+      font-size: 18px; /* --- Increased font size --- */
+      margin: 0;
+    }
+
+    .divider {
+      border-bottom: 1px solid #000;
+      margin: 15px 0;
+    }
+
+    h4.section-title {
+      text-align: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    p.instructions {
+      text-align: justify;
+      font-size: 16px; /* --- Increased font size --- */
+    }
+
+    .form-section {
+      margin-top: 20px;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .inline-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    textarea {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      width: 100%;
+      border-radius: 4px;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .checkbox-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: normal;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+      font-size: 15px; /* --- Increased font size --- */
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #efefef;
+    }
+
+    .question {
+      text-align: left;
+      font-weight: normal;
+    }
+
+    .emoji {
+      font-size: 28px; /* --- Increased font size --- */
+      display: block;
+    }
+
+    /* Colored for web view */
+    .red { color: #e74c3c; }
+    .orange { color: #e67e22; }
+    .gray { color: #7f8c8d; }
+    .lightgreen { color: #2ecc71; }
+    .green { color: #27ae60; }
+    .na { color: #95a5a6; }
+
+    /* Grayscale filter (applied only in PDF generation) */
+    .grayscale {
+      filter: grayscale(100%);
+    }
+
+    .submit-btn {
+      display: block;
+      margin: 30px auto 10px;
+      padding: 10px 30px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .page-break {
+      page-break-before: always;
+      margin-top: 50px;
+    }
+
+    /* Overlay */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-size: 22px;
+      text-align: center;
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #overlay p {
+      background: rgba(0,0,0,0.8);
+      padding: 20px 40px;
+      border-radius: 10px;
+    }
+    
+    /* --- Virtual Keyboard Styles --- */
+    #virtual-keyboard {
+      display: none; /* Hidden by default */
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 8px;
+      background: #f0f0f0; /* Lighter background */
+      box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
+      z-index: 10000;
+      box-sizing: border-box;
+    }
+
+    .keyboard-row {
+      display: flex;
+      justify-content: center;
+      gap: 6px; /* Slightly more spacing */
+      margin-bottom: 6px;
+    }
+    .keyboard-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .keyboard-key {
+      font-family: Arial, sans-serif;
+      font-size: 18px; /* Larger font */
+      font-weight: bold;
+      padding: 0;
+      height: 50px; /* Taller keys */
+      min-width: 40px;
+      flex-grow: 1;
+      flex-basis: 0;
+      background: #ffffff;
+      border: 1px solid #aaa;
+      border-radius: 6px; /* Slightly more rounded */
+      cursor: pointer;
+      box-shadow: 0 2px 2px rgba(0,0,0,0.15); /* Key shadow */
+      transition: all 0.05s ease; /* Active state transition */
+    }
+    
+    .keyboard-key:last-child {
+      margin-right: 0;
+    }
+
+    .keyboard-key:hover {
+      background: #f0f0f0;
+    }
+
+    .keyboard-key:active {
+      background: #c8c8c8;
+      transform: scale(0.98); /* Press effect */
+      box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    }
+
+    .key-special {
+      flex-grow: 1.5;
+      flex-basis: 0;
+      background: #cdd8e6; /* Softer blue-gray */
+      font-size: 16px;
+    }
+    
+    .key-backspace {
+      flex-grow: 2;
+    }
+
+    .key-space {
+      flex-grow: 12;
+    }
+    
+    .key-shift-active {
+      background: #007BFF;
+      color: white;
+    }
+
+    .key-close {
+      background: #e6cdd0; /* Soft red-gray for close */
+    }
+    /* --- End Keyboard Styles --- */
+
+    /* --- Back Button Styles (NEW) --- */
+    .back-button {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1000; /* Ensure it's above the form content */
+      padding: 10px 15px;
+      background-color: #dcdada;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.2s, transform 0.1s;
+      font-size: 14px;
+    }
+
+    .back-button:hover {
+      background-color: #e0e0e0;
+      transform: translateY(-1px);
+    }
+
+    .back-button:active {
+      transform: translateY(0);
+    }
+    /* --- End Back Button Styles --- */
+  </style>
+</head>
+<body>
+  <!-- BACK BUTTON (NEW) -->
+  <!-- Using window.history.back() for simplicity, as the target URL is unknown. -->
+  <a href="/index.html" class="back-button" onclick="window.history.back(); return false;">&larr;</a>
+
+  <!-- Overlay -->
+  <div id="overlay"><p>📄 Downloading PDF... Please wait.</p></div>
+
+  <!-- PAGE 1 -->
+  <div class="container" id="page1">
+    <header>
+      <div style="width:100%">
+        <h3>Republic of the Philippines</h3>
+        <h3>PROVINCE OF NUEVA ECIJA</h3>
+        <h3>Municipality of Gabaldon</h3>
+        <p><b>- oOo -</b></p>
+        <h2>PAMBAYANG TANGGAPAN NG TAGATALA</h2>
+      </div>
+    </header>
+
+    <div class="divider"></div>
+    <h4>TULUNGAN MO KAMI MAS MAPABUTI ANG AMING MGA PROSESO AT SERBISYO!</h4>
+
+    <p class="instructions">
+      Ang Client Satisfaction Measurement (CSM) ay naglalayong masubaybayan ang karanasan ng taumbayan hinggil sa kanilang pakikitransaksyon sa mga tanggapan ng gobyerno. 
+      Makatutulong ang inyong kasagutan upang mas mapabuti at lalong mapahusay ang aming serbisyo publiko. 
+      Ang inyong ibinahaging impormasyon ay mananatiling kumpidensyal. Maaari ring piliin na hindi sagutan ang sarbey na ito.
+    </p>
+
+    <div class="form-section">
+      <div class="form-group inline-group">
+        <label>Uri ng Kliyente:</label>
+        <label><input type="checkbox"> Mamamayan</label>
+        <label><input type="checkbox"> Negosyo</label>
+        <label><input type="checkbox"> Gobyerno</label>
+      </div>
+
+      <div class="form-group inline-group">
+        <label>Petsa:</label> <input type="date">
+        <label>Kasarian:</label>
+        <label><input type="checkbox"> Lalaki</label>
+        <label><input type="checkbox"> Babae</label>
+        <label>Edad:</label> <input type="number" min="1" style="width:80px">
+      </div>
+
+      <div class="form-group inline-group">
+        <label>Rehiyon:</label> <input type="text">
+        <label>Uri ng transaksyon o serbisyo:</label> <input type="text">
+      </div>
+    </div>
+
+    <h4 class="section-title">Citizen’s Charter (CC)</h4>
+    <p class="instructions">Lagyan ng tsek (✔) ang angkop na sagot.</p>
+
+    <div class="form-section">
+      <label>CC1. Alin sa mga sumusunod ang naglalarawan sa iyong kaalaman sa CC?</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox"> 1. Alam ko ang CC at nakita ko ito sa napuntahang opisina</label>
+        <label><input type="checkbox"> 2. Alam ko ang CC pero hindi ko ito nakita sa napuntahang opisina</label>
+        <label><input type="checkbox"> 3. Nalaman ko ang CC nang makita ko ito sa napuntahang opisina</label>
+        <label><input type="checkbox"> 4. Hindi ko alam kung ano ang CC at wala akong nakita sa opisina</label>
+      </div>
+
+      <label>CC2. Kung alam ang CC, masasabi mo ba na ang CC ng opisina ay...</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox"> 1. Madaling makita</label>
+        <label><input type="checkbox"> 2. Medyo madaling makita</label>
+        <label><input type="checkbox"> 3. Mahirap makita</label>
+        <label><input type="checkbox"> 4. Hindi makita</label>
+        <label><input type="checkbox"> 5. N/A</label>
+      </div>
+
+      <label>CC3. Kung alam ang CC, gaano nakatulong ang CC sa transaksyon mo?</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox"> 1. Sobrang nakatulong</label>
+        <label><input type="checkbox"> 2. Nakatulong naman</label>
+        <label><input type="checkbox"> 3. Hindi nakatulong</label>
+        <label><input type="checkbox"> 4. N/A</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="container page-break" id="page2">
+    <h4 class="section-title">Satisfaction Questions (SQD0–8)</h4>
+    <p class="instructions">Pumili ng isang emoji na pinakaangkop sa iyong sagot.</p>
+
+    <table id="emojiTable">
+      <thead>
+        <tr>
+          <th class="question">Mga Pahayag</th>
+          <th><span class="emoji red">😠</span>Lubos na<br>hindi sumasang-ayon</th>
+          <th><span class="emoji orange">🙁</span>Hindi<br>sumasang-ayon</th>
+          <th><span class="emoji gray">😐</span>Walang<br>kinikilingan</th>
+          <th><span class="emoji lightgreen">🙂</span>Sumasang-ayon</th>
+          <th><span class="emoji green">😃</span>Labis na<br>sumasang-ayon</th>
+          <th><span class="emoji na">🚫</span>N/A</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="form-section">
+      <label>Mga suhestiyon (opsyonal):</label>
+      <textarea></textarea>
+      <label>Email address (opsyonal):</label>
+      <input type="text">
+    </div>
+
+    <button class="submit-btn" onclick="savePDF()">Isumite</button>
+
+    <div class="footer">MARAMING SALAT!</div>
+  </div>
+
+  <!-- VIRTUAL KEYBOARD START -->
+  <div id="virtual-keyboard">
+    <div class="keyboard-row">
+      <button type="button" class="keyboard-key" data-key="1">1</button>
+      <button type="button" class="keyboard-key" data-key="2">2</button>
+      <button type="button" class="keyboard-key" data-key="3">3</button>
+      <button type="button" class="keyboard-key" data-key="4">4</button>
+      <button type="button" class="keyboard-key" data-key="5">5</button>
+      <button type="button" class="keyboard-key" data-key="6">6</button>
+      <button type="button" class="keyboard-key" data-key="7">7</button>
+      <button type="button" class="keyboard-key" data-key="8">8</button>
+      <button type="button" class="keyboard-key" data-key="9">9</button>
+      <button type="button" class="keyboard-key" data-key="0">0</button>
+      <button type="button" class="keyboard-key key-special key-backspace" data-key="BACKSPACE">⌫</button>
+    </div>
+    <div class="keyboard-row">
+      <button type="button" class="keyboard-key" data-key="q">q</button>
+      <button type="button" class="keyboard-key" data-key="w">w</button>
+      <button type="button" class="keyboard-key" data-key="e">e</button>
+      <button type="button" class="keyboard-key" data-key="r">r</button>
+      <button type="button" class="keyboard-key" data-key="t">t</button>
+      <button type="button" class="keyboard-key" data-key="y">y</button>
+      <button type="button" class="keyboard-key" data-key="u">u</button>
+      <button type="button" class="keyboard-key" data-key="i">i</button>
+      <button type="button" class="keyboard-key" data-key="o">o</button>
+      <button type="button" class="keyboard-key" data-key="p">p</button>
+    </div>
+    <div class="keyboard-row">
+      <button type="button" class="keyboard-key" data-key="a">a</button>
+      <button type="button" class="keyboard-key" data-key="s">s</button>
+      <button type="button" class="keyboard-key" data-key="d">d</button>
+      <button type="button" class="keyboard-key" data-key="f">f</button>
+      <button type="button" class="keyboard-key" data-key="g">g</button>
+      <button type="button" class="keyboard-key" data-key="h">h</button>
+      <button type="button" class="keyboard-key" data-key="j">j</button>
+      <button type="button" class="keyboard-key" data-key="k">k</button>
+      <button type="button" class="keyboard-key" data-key="l">l</button>
+      <button type="button" class="keyboard-key" data-key="@">@</button>
+    </div>
+    <div class="keyboard-row">
+      <button type="button" class="keyboard-key key-special" data-key="SHIFT">⇧</button>
+      <button type="button" class="keyboard-key" data-key="z">z</button>
+      <button type="button" class="keyboard-key" data-key="x">x</button>
+      <button type="button" class="keyboard-key" data-key="c">c</button>
+      <button type="button" class="keyboard-key" data-key="v">v</button>
+      <button type="button" class="keyboard-key" data-key="b">b</button>
+      <button type="button" class="keyboard-key" data-key="n">n</button>
+      <button type="button" class="keyboard-key" data-key="m">m</button>
+      <button type="button" class="keyboard-key" data-key=".">.</button>
+      <button type="button" class="keyboard-key" data-key="-">-</button>
+    </div>
+    <div class="keyboard-row">
+      <button type="button" class="keyboard-key key-space" data-key="SPACE">Space</button>
+      <button type="button" class="keyboard-key key-special key-close" data-key="CLOSE">Close</button>
+    </div>
+  </div>
+  <!-- VIRTUAL KEYBOARD END -->
+
+  <script>
+    const questions = [
+      "Nasiyahan ako sa serbisyo na aking natanggap sa napuntahan na tanggapan.",
+      "Makatwiran ang oras na aking ginugol para sa pagproseso ng aking transaksyon.",
+      "Ang opisina ay sumusunod sa mga kinakailangang dokumento at mga hakbang batay sa impormasyong ibinigay.",
+      "Ang mga hakbang sa pagproseso, kasama na ang pagbayad ay madali at simple lamang.",
+      "Mabilis at madali akong nakahanap ng impormasyon tungkol sa aking transaksyon mula sa opisina o sa website nito.",
+      "Nagbayad ako ng makatwirang halaga para sa aking transaksyon. (Kung libre, lagyan ng tsek ang N/A.)",
+      "Pakiramdam ko ay patas ang opisina sa lahat, o “walang palakasan”, sa aking transaksyon.",
+      "Magalang akong trinato ng mga tauhan, at (kung humingi ako ng tulong) alam ko na sila ay handang tumulong sa akin.",
+      "Nakuha ko ang kinakailangan ko mula sa tanggapan ng gobyerno; kung tinanggihan man, ito ay sapat na ipinaliwanag sa akin."
+    ];
+
+    const tbody = document.querySelector("#emojiTable tbody");
+    questions.forEach((q, i) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="question">SQD${i}. ${q}</td>
+        ${Array.from({ length: 6 }, (_, j) => `<td><input type="radio" name="sqd${i}" value="${j+1}"></td>`).join("")}
+      `;
+      tbody.appendChild(row);
+    });
+
+    // --- VIRTUAL KEYBOARD LOGIC START ---
+
+    // Wait for the DOM to be fully loaded before attaching listeners
+    document.addEventListener("DOMContentLoaded", () => {
+      let activeInputElement = null;
+      let isShiftActive = false;
+      const keyboard = document.getElementById("virtual-keyboard");
+      
+      // NEW: Variables for N-Tilde long press
+      let longPressTimer = null;
+      let longPressActive = false;
+      const LONG_PRESS_DURATION = 500; // 0.5 seconds
+      
+      if (keyboard) {
+        const allKeys = keyboard.querySelectorAll(".keyboard-key");
+        const inputSelector = 'input[type="text"], input[type="number"], textarea'; // Selector for all focusable inputs
+        const nKey = keyboard.querySelector('[data-key="n"]');
+
+        // 1. Show keyboard on input focus
+        document.querySelectorAll(inputSelector).forEach(input => {
+          input.addEventListener('focus', () => {
+            activeInputElement = input;
+            keyboard.style.display = 'block';
+          });
+        });
+
+        // 2. Handle key clicks using event delegation
+        keyboard.addEventListener('click', (e) => {
+          if (!e.target.matches('.keyboard-key')) return;
+          if (!activeInputElement) return;
+
+          // Blur the input to prevent the native keyboard from re-opening
+          activeInputElement.focus();
+
+          const key = e.target.dataset.key;
+
+          // --- N-TILDE CHECK (Prevents normal 'n' input if long press already occurred) ---
+          if (key === 'n' && longPressActive) {
+              longPressActive = false; // Reset the flag after the click fires
+              return; // Do nothing, as 'ñ' or 'Ñ' was already inserted by the long-press timer
+          }
+          // ---------------------------------------------------------------------------------
+
+          switch (key) {
+            case 'BACKSPACE':
+              activeInputElement.value = activeInputElement.value.slice(0, -1);
+              break;
+            case 'SPACE':
+              activeInputElement.value += ' ';
+              break;
+            case 'CLOSE':
+              // Logic to close the keyboard
+              keyboard.style.display = 'none';
+              activeInputElement.blur(); // Remove focus from the element
+              activeInputElement = null;
+              break;
+            case 'SHIFT':
+              isShiftActive = !isShiftActive;
+              toggleShiftCase(allKeys);
+              break;
+            default:
+              // Handle regular keys (including short press 'n')
+              const value = isShiftActive ? key.toUpperCase() : key.toLowerCase();
+              activeInputElement.value += value;
+              // Disable shift after one character is typed
+              if (isShiftActive) {
+                isShiftActive = false;
+                toggleShiftCase(allKeys);
+              }
+          }
+        });
+        
+        // 3. Function to toggle key case visuals
+        function toggleShiftCase(keys) {
+          const shiftButton = keyboard.querySelector('[data-key="SHIFT"]');
+          shiftButton.classList.toggle('key-shift-active', isShiftActive);
+
+          keys.forEach(key => {
+            const keyValue = key.dataset.key;
+            // Only affect single-letter keys
+            if (keyValue && keyValue.length === 1 && keyValue.match(/[a-z]/i)) {
+              key.textContent = isShiftActive ? keyValue.toUpperCase() : keyValue.toLowerCase();
+            }
+          });
+        }
+        
+        // 4. Close keyboard when clicking/tapping anywhere outside
+        document.addEventListener('click', (e) => {
+            // 1. If the keyboard is not visible, or if the target is inside the keyboard, do nothing.
+            if (keyboard.style.display !== 'block' || keyboard.contains(e.target)) return;
+
+            // 2. Check if the click target is one of the inputs that opens the keyboard.
+            const clickedOnInput = e.target.matches(inputSelector);
+            
+            if (!clickedOnInput) {
+                // Clicked outside the keyboard AND not on a new input field -> close the keyboard.
+                keyboard.style.display = 'none';
+                if (activeInputElement) {
+                    activeInputElement.blur();
+                }
+                activeInputElement = null;
+            }
+        });
+        
+        // 5. N-TILDE LONG PRESS LOGIC
+        if (nKey) {
+            const handleNtildeInput = () => {
+                if (activeInputElement) {
+                    const char = isShiftActive ? 'Ñ' : 'ñ';
+                    activeInputElement.value += char;
+                    activeInputElement.focus(); // Keep focus on the input
+                    // Shift should only be active for one character
+                    if (isShiftActive) {
+                        isShiftActive = false;
+                        toggleShiftCase(allKeys);
+                    }
+                }
+            };
+
+            const startLongPress = (e) => {
+                // Prevent starting another timer if one is running
+                if (longPressTimer) return;
+                
+                // Ensure only primary mouse button/touch starts the timer
+                if (e.button !== 0 && !e.targetTouches) return;
+
+                longPressTimer = setTimeout(() => {
+                    longPressActive = true;
+                    handleNtildeInput();
+                }, LONG_PRESS_DURATION);
+            };
+
+            const stopLongPress = () => {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+                // If longPressActive is true, the long press successfully completed
+                // and the delegated click handler will handle the 'return'
+            };
+
+            nKey.addEventListener('mousedown', startLongPress);
+            nKey.addEventListener('mouseup', stopLongPress);
+            nKey.addEventListener('mouseleave', stopLongPress); 
+
+            // Add touch support:
+            // Use touch events to simulate mousedown/mouseup for a better touch experience
+            nKey.addEventListener('touchstart', (e) => {
+                e.preventDefault(); 
+                startLongPress(e);
+            }, { passive: false });
+            
+            nKey.addEventListener('touchend', (e) => {
+                 e.preventDefault();
+                 stopLongPress();
+            }, { passive: false });
+            
+            nKey.addEventListener('touchcancel', (e) => {
+                 e.preventDefault();
+                 stopLongPress();
+            }, { passive: false });
+        }
+      }
+    });
+    // --- VIRTUAL KEYBOARD LOGIC END ---
+
+    async function savePDF() {
+      // Set the scale factor for html2canvas. Higher scale = better PDF quality.
+      const PDF_RENDER_SCALE = 2.5;
+
+      const { jsPDF } = window.jspdf;
+      const overlay = document.getElementById("overlay");
+      const button = document.querySelector(".submit-btn");
+      const pdf = new jsPDF("p", "mm", "a4");
+      
+      // Set margin to 0 to occupy full page
+      const margin = 0; 
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const pageWidth = pdf.internal.pageSize.getWidth();
+
+      overlay.style.display = "flex";
+      button.style.display = "none";
+
+      // convert emojis to grayscale for saving
+      document.querySelectorAll(".emoji").forEach(e => e.classList.add("grayscale"));
+      await new Promise(r => setTimeout(r, 600));
+
+      const page1 = document.getElementById("page1");
+      const page2 = document.getElementById("page2");
+
+      // Use the higher scale factor for performance improvement
+      const canvas1 = await html2canvas(page1, { scale: PDF_RENDER_SCALE, useCORS: true });
+      const canvas2 = await html2canvas(page2, { scale: PDF_RENDER_SCALE, useCORS: true });
+
+      const img1 = canvas1.toDataURL("image/png");
+      const img2 = canvas2.toDataURL("image/png");
+
+      // Remove height calculations, use full page dimensions
+      // const img1Height = (canvas1.height * pageWidth) / canvas1.width;
+      // const img2Height = (canvas2.height * pageWidth) / canvas2.width;
+
+      pdf.addImage(img1, "PNG", 0, 0, pageWidth, pageHeight);
+      pdf.addPage();
+      pdf.addImage(img2, "PNG", 0, 0, pageWidth, pageHeight);
+
+      pdf.save("Client_Satisfaction_Form.pdf");
+
+      // restore colors after saving
+      document.querySelectorAll(".emoji").forEach(e => e.classList.remove("grayscale"));
+      overlay.style.display = "none";
+      button.style.display = "block";
+    }
+  </script>
+  
+</body>
+</html>

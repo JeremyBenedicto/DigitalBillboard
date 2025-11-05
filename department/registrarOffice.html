@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civil Registrar - Services</title>
+    <link rel="stylesheet" href="../css/landingPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        #backToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1e40af;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+            transition: opacity 0.3s, transform 0.2s, background 0.2s;
+            z-index: 1000;
+            outline: none;
+        }
+
+        #backToTopBtn:hover {
+            background-color: #1e40af; /* Add a dark-blue background on hover */
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #d1d8e0 100%);
+            margin: 0;
+            min-height: 100vh;
+            font-size: 1.13rem;
+        }
+        .ios-container {
+            max-width: 1000px;
+            margin: 48px auto;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 40px rgba(44,62,80,0.11);
+            padding: 36px 24px 24px 24px;
+            position: relative;
+        }
+        .ios-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .ios-header .icon {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 12px;
+        }
+        .ios-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222f3e;
+            margin: 0 0 8px 0;
+        }
+        .ios-header p {
+            color: #576574;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .ios-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .ios-card {
+            background: #f7fafd;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(44,62,80,0.06);
+            margin-bottom: 28px;
+            padding: 28px 22px 18px 22px;
+            transition: box-shadow 0.18s;
+            border: 1px solid #e3e6ea;
+        }
+        .ios-card:last-child {
+            margin-bottom: 0;
+        }
+        .ios-card h2 {
+            font-size: 1.5rem;
+            color: #007bff;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .ios-card .desc {
+            color: #485460;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table th, .ios-card .mini-table td {
+            font-size: 1.08rem;
+            padding: 6px 8px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .mini-table th {
+            background: #e7f3ff;
+            color: #007bff;
+            font-weight: 600;
+        }
+        .ios-card .mini-table td:first-child, .ios-card .mini-table th:first-child {
+            width: 120px;
+        }
+        .ios-card .steps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        .ios-card .steps-table th, .ios-card .steps-table td {
+            font-size: 1.08rem;
+            padding: 5px 7px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .steps-table th {
+            background: #e7f3ff;
+            color: #007bff;
+            font-weight: 600;
+        }
+        .ios-card .fees {
+            margin-top: 8px;
+            color: #28a745;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .ios-card .section-title {
+            font-size: 1.07rem;
+            color: #007bff;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+        .ios-card ul {
+            margin: 0 0 0 18px;
+            padding: 0;
+            color: #485460;
+            font-size: 1.09rem;
+        }
+        .ios-contact {
+            background: #e7f3ff;
+            border-radius: 18px;
+            padding: 18px 18px 12px 18px;
+            margin-top: 30px;
+            color: #222f3e;
+            font-size: 1.18rem;
+        }
+        .ios-contact strong {
+            color: #007bff;
+        }
+        .ios-contact a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .total-time {
+            background: #e7f3ff;
+            color: #007bff;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        /* Smooth scrolling and hover effects */
+        html {
+            scroll-behavior: smooth;
+        }
+        a[href^="#"]:hover {
+            background: #e7f3ff !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15) !important;
+        }
+        @media (max-width: 700px) {
+            .ios-container { border-radius: 0; padding: 18px 2vw 16px 2vw; }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-btn" style="position: absolute; top: 32px; left: 32px; z-index: 100; background: linear-gradient(135deg, #007bff, #0056b3); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="font-size:1.2em;" aria-hidden="true">&#8592;</span>
+    </a>
+    <div class="ios-container">
+        <div class="ios-header">
+            <div class="icon">📋</div>
+            <h1>Local Civil Registrar</h1>
+            <p>Civil Registration Services - Gabaldon Municipality</p>
+        </div>
+        
+        <!-- Table of Contents -->
+        <section class="ios-card" style="background: #e7f3ff; border: 2px solid #007bff;">
+            <h2 style="text-align: center; margin-bottom: 20px;">📋 Lista ng mga Serbisyo</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                <a href="#service1" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">1.</strong> Timely Registration ng Birth Certificate
+                </a>
+                <a href="#service2" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">2.</strong> Delayed Registration ng Birth Certificate
+                </a>
+                <a href="#service3" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">3.</strong> Out-of-Town Reporting of Birth
+                </a>
+                <a href="#service4" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">4.</strong> Marriage License Application
+                </a>
+                <a href="#service5" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">5.</strong> Timely Registration ng Marriage Certificate
+                </a>
+                <a href="#service6" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">6.</strong> Delayed Registration ng Marriage Certificate
+                </a>
+                <a href="#service7" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">7.</strong> Out-of-Town Reporting ng Marriage
+                </a>
+                <a href="#service8" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">8.</strong> Timely Registration ng Death Certificate
+                </a>
+                <a href="#service9" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">9.</strong> Delayed Registration ng Death Certificate
+                </a>
+                <a href="#service10" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">10.</strong> Out-of-Town Reporting ng Death
+                </a>
+                <a href="#service11" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">11.</strong> Certified Copy ng Birth Certificate
+                </a>
+                <a href="#service12" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">12.</strong> Certified Copy ng Marriage Certificate
+                </a>
+                <a href="#service13" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">13.</strong> Certified Copy ng Death Certificate
+                </a>
+                <a href="#service14" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">14.</strong> AUSF Processing (RA 9255)
+                </a>
+                <a href="#service15" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">15.</strong> Legitimation Processing
+                </a>
+                <a href="#service16" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">16.</strong> Supplemental Report for Missing Entries
+                </a>
+                <a href="#service17" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">17.</strong> Correction of Registry/Geographic Entries
+                </a>
+                <a href="#service18" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">18.</strong> Physical Transfer of Wrong Registration
+                </a>
+                <a href="#service19" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">19.</strong> Change of First Name (RA 9048)
+                </a>
+                <a href="#service20" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">20.</strong> Correction of Clerical Error (RA 9048)
+                </a>
+                <a href="#service21" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">21.</strong> Petition for Correction of Clerical Error (RA 10172)
+                </a>
+                <a href="#service22" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">22.</strong> Annotation of Birth Certificate with Court Decree
+                </a>
+                <a href="#service23" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">23.</strong> Annotation of Marriage Certificate with Court Decree
+                </a>
+                <a href="#service24" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">24.</strong> Registration of Legal Instruments
+                </a>
+                <a href="#service25" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">25.</strong> PSA Copy Requests (BREQS-LGU)
+                </a>
+                <a href="#service26" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007bff;">26.</strong> Feedback at Complaints Mechanism
+                </a>
+            </div>
+        </section>
+        
+        <!-- 1. Timely Registration ng Birth Certificate -->
+        <section class="ios-card" id="service1">
+            <h2>👶 1. Timely Registration ng Birth Certificate</h2>
+            <div class="desc">Pag-register ng Birth Certificate within 30 days from birth</div>
+            
+            <div class="section-title">Para sa Marital Child (anak ng married parents)</div>
+            <table class="mini-table">
+                <tr><th>Requirements</th><th>Bayad</th></tr>
+                <tr><td>Certificate of Live Birth (4 copies)</td><td rowspan="4">₱100.00</td></tr>
+                <tr><td>Application for Birth Registration form</td></tr>
+                <tr><td>Marriage contract ng parents</td></tr>
+                <tr><td>Valid IDs ng parents</td></tr>
+            </table>
+            
+            <div class="section-title">Para sa Non-Marital Child (anak ng hindi married)</div>
+            <table class="mini-table">
+                <tr><th>Additional Requirements</th><th>Bayad</th></tr>
+                <tr><td>Affidavit of Admission of Paternity</td><td rowspan="2">₱450.00<br>(₱100 + ₱350 AUSF)</td></tr>
+                <tr><td>Affidavit to Use the Surname of the Father</td></tr>
+            </table>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th></tr>
+                <tr><td>1. Submit accomplished Certificate of Live Birth</td><td>Review ng entries</td><td>5 min</td></tr>
+                <tr><td>2. Register at assign ng Registry Number</td><td>Data encoding</td><td>10 min</td></tr>
+                <tr><td>3. Proceed sa Municipal Treasurer's Office</td><td>Payment processing</td><td>5 min</td></tr>
+                <tr><td>4. Receive owner's copy</td><td>Release ng document</td><td>2 min</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 22 minutes</div>
+            <div class="fees">Responsible: <b>LCRO Personnel/Admin Aide</b></div>
+        </section>
+
+        <!-- 2. Delayed Registration ng Birth Certificate -->
+        <section class="ios-card" id="service2">
+            <h2>⏰ 2. Delayed Registration ng Birth Certificate</h2>
+            <div class="desc">Pag-register ng Birth Certificate after 30 days from birth</div>
+            
+            <div class="section-title">Basic Requirements (Below 18 years old)</div>
+            <ul>
+                <li>Certificate of Live Birth (4 copies, accomplished at signed)</li>
+                <li>Affidavit of Delayed Registration</li>
+                <li>Negative Certification from PSA</li>
+                <li>2 Documentary Evidence (Baptismal Certificate, School Record, etc.)</li>
+                <li>Affidavit of Two Disinterested Persons (with ID)</li>
+                <li>Marriage Certificate ng parents (kung married)</li>
+                <li>National ID/ePhilID/Digital ID</li>
+                <li>Barangay Certification as proof of residency</li>
+                <li>2x2 unedited front facing photo</li>
+                <li>Personal appearance ng parents</li>
+                <li>10 days posting</li>
+                <li>Registrant's Affidavit</li>
+            </ul>
+            
+            <div class="section-title">Additional Requirements (18 years old and above)</div>
+            <ul>
+                <li><strong>Lahat ng requirements sa taas PLUS:</strong></li>
+                <li>Personal appearance ng document owner (registrant)</li>
+                <li>Affidavit of Admission of Paternity (para sa non-marital)</li>
+                <li>Affidavit to Use the Surname of the Father (para sa non-marital)</li>
+            </ul>
+            
+            <div class="section-title">Additional Requirements for Special Cases</div>
+            <ul>
+                <li><strong>18+ years old:</strong> Personal appearance ng document owner</li>
+                <li><strong>Foreign parent:</strong> Valid Passport, BI Clearance, o ACR-I Card + Birth Certificate ng parents</li>
+                <li><strong>Deceased document owner:</strong> Death Certificate + Notarized Affidavit stating deceased na ang registrant</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th></tr>
+                <tr><td>1. Submit lahat ng requirements</td><td>Accept at examine application at attachments</td><td>30 min</td></tr>
+                <tr><td>2. Verify sa office archive</td><td>Check existing records</td><td>15 min</td></tr>
+                <tr><td>3. Encode at print Certificate</td><td>Data entry at document preparation</td><td>20 min</td></tr>
+                <tr><td>4. Check accuracy ng data</td><td>Quality control review</td><td>10 min</td></tr>
+                <tr><td>5. Proceed sa Treasurer's Office</td><td>Payment processing</td><td>15 min</td></tr>
+                <tr><td>6. 10 days posting period</td><td>Public posting requirement</td><td>10 days</td></tr>
+                <tr><td>7. Receive personal copy</td><td>Final release</td><td>10 min</td></tr>
+            </table>
+            
+            <div class="section-title">Penalty Fees Based on Age</div>
+            <table class="mini-table">
+                <tr><th>Age Range</th><th>Penalty</th></tr>
+                <tr><td>1 month to less than 4 years</td><td>₱50.00</td></tr>
+                <tr><td>4-6 years</td><td>₱75.00</td></tr>
+                <tr><td>6-12 years</td><td>₱100.00</td></tr>
+                <tr><td>12-20 years</td><td>₱75.00</td></tr>
+                <tr><td>20-30 years</td><td>₱75.00</td></tr>
+                <tr><td>30-40 years</td><td>₱200.00</td></tr>
+                <tr><td>40-50 years</td><td>₱250.00</td></tr>
+                <tr><td>50-60 years</td><td>₱300.00</td></tr>
+                <tr><td>60-70 years</td><td>₱350.00</td></tr>
+                <tr><td>70-80 years</td><td>₱400.00</td></tr>
+                <tr><td>80-90 years</td><td>₱450.00</td></tr>
+                <tr><td>90-100 years</td><td>₱500.00</td></tr>
+                <tr><td>More than 100 years</td><td>₱100.00</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Total Processing Time: 11 calendar days (includes 10-day posting)</div>
+            <div class="fees">Total Bayad: <b>Marital: ₱100 + penalty | Non-marital: ₱450 + penalty</b></div>
+        </section>
+
+        <!-- 3. Out-of-Town Reporting of Birth -->
+        <section class="ios-card" id="service3">
+            <h2>🌍 3. Out-of-Town Reporting of Birth</h2>
+            <div class="desc">Para sa mga residents ng Gabaldon na hindi nanganak dito sa municipality</div>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>Lahat ng requirements para sa Timely o Delayed Registration</li>
+                <li>Affidavit for Out of Town Registration of Birth</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th></tr>
+                <tr><td>1. Submit requirements</td><td>Receive, review at evaluate documents</td><td>15 min</td></tr>
+                <tr><td>2. Proceed sa Treasurer's Office</td><td>Payment processing</td><td>10 min</td></tr>
+                <tr><td>3. Wait for updates</td><td>Documents sent to PSA Provincial Office</td><td>Varies</td></tr>
+                <tr><td>4. Receive registered certificate</td><td>Release upon completion</td><td>5 min</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Initial Processing Time: 30 minutes</div>
+            <div class="fees">Bayad: <b>₱150.00</b> (Additional fees sa receiving office)</div>
+            <div style="background: #fff3cd; padding: 10px; border-radius: 8px; margin-top: 10px; color: #856404;">
+                <strong>Note:</strong> Multi-stage processing. Release date hindi exact kasi depends sa receiving office.
+            </div>
+        </section>
+
+        <!-- 4. Marriage License Application -->
+        <section class="ios-card" id="service4">
+            <h2>💒 4. Marriage License Application and Issuance</h2>
+            <div class="desc">Para sa couples na isa o pareho ay resident ng Gabaldon, 18+ years old</div>
+            
+            <div class="section-title">Basic Requirements</div>
+            <ul>
+                <li>Marriage Application Form (filled up)</li>
+                <li>Birth Certificate ng both applicants</li>
+                <li>CENOMAR ng both applicants (not more than 3 months old)</li>
+                <li>Recent 2x2 picture ng both applicants</li>
+                <li>Valid ID with residency o Barangay Certificate</li>
+                <li>Community Tax Certificate (CEDULA)</li>
+                <li>Barangay Certificate of Tree Planting</li>
+            </ul>
+            
+            <div class="section-title">Age-based Requirements</div>
+            <table class="mini-table">
+                <tr><th>Age Range</th><th>Additional Requirement</th></tr>
+                <tr><td>18-20 years old</td><td>Consent of Marriage form</td></tr>
+                <tr><td>21-25 years old</td><td>Advice upon Intended Marriage form</td></tr>
+                <tr><td>18+ years old</td><td>Certificate of Family Planning</td></tr>
+                <tr><td>18-25 years old</td><td>Certificate of Marriage Counseling</td></tr>
+            </table>
+            
+            <div class="section-title">Total Fees</div>
+            <table class="mini-table">
+                <tr><th>Fee Type</th><th>Amount</th></tr>
+                <tr><td>Application Fee + Marriage License</td><td>₱200.00</td></tr>
+                <tr><td>Residency-based Fee</td><td>₱250-400.00</td></tr>
+                <tr><td>Solemnization Fee</td><td>₱100.00</td></tr>
+                <tr><td>Counselling + Family Planning</td><td>₱80.00</td></tr>
+                <tr><td>Service + Receipt Fee</td><td>₱52.00</td></tr>
+            </table>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>1. Submit application form at requirements</td><td>Accept at evaluate documents</td><td>30 min</td><td>LCRO Personnel/Admin Aide</td></tr>
+                <tr><td>2. Encode data at print Official Application Form</td><td>Data processing</td><td>20 min</td><td>LCRO Personnel/Admin Aide</td></tr>
+                <tr><td>3. Review at sign ng applicants</td><td>Verification at signature</td><td>15 min</td><td>Both Applicants</td></tr>
+                <tr><td>4. Proceed sa Municipal Treasurer's Office</td><td>Payment processing</td><td>15 min</td><td>Municipal Treasurer's Office Cashier</td></tr>
+                <tr><td>5. 10 days posting period</td><td>Public posting requirement</td><td>10 days</td><td>LCRO Office</td></tr>
+                <tr><td>6. Receive Marriage License</td><td>Release ng license (120 days validity)</td><td>10 min</td><td>LCRO Personnel/Admin Aide</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Total Processing Time: 11 calendar days (includes 10-day posting)</div>
+            <div class="fees">Total Range: <b>₱590.00 - ₱830.00</b></div>
+        </section>
+
+        <!-- 5. Timely Registration ng Marriage Certificate -->
+        <section class="ios-card" id="service5">
+            <h2>💍 5. Timely Registration ng Marriage Certificate</h2>
+            <div class="desc">Within 15 days (with license) o 30 days (without license) after marriage</div>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>Certificate of Marriage (4 copies, accomplished at signed)</li>
+                <li>Original o photocopy ng Marriage License (kung applicable)</li>
+                <li>Photocopy ng Authorization to Solemnize Marriage</li>
+                <li><strong>Para sa marriage without license:</strong> Notarized Affidavit of Cohabitation</li>
+                <li><strong>Kung applicable:</strong> Authorization Letter at ID</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th></tr>
+                <tr><td>1. Submit Certificate of Marriage</td><td>Receive at check accuracy</td><td>5 min</td></tr>
+                <tr><td>2. Proceed sa Treasurer's Office</td><td>Payment processing</td><td>5 min</td></tr>
+                <tr><td>3. Register at release</td><td>Final processing</td><td>5 min</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Total Processing Time: 15 minutes</div>
+            <div class="fees">Bayad: <b>₱100.00</b></div>
+        </section>
+
+        <!-- 6. Delayed Registration ng Marriage Certificate -->
+        <section class="ios-card" id="service6">
+            <h2>⏳ 6. Delayed Registration ng Marriage Certificate</h2>
+            <div class="desc">Beyond prescribed period (after 15/30 days)</div>
+            
+            <div class="section-title">Additional Requirements</div>
+            <ul>
+                <li>Affidavit for Delayed Registration (sa likod ng Marriage Certificate)</li>
+                <li><strong>Para sa marriage 6+ months ago:</strong> Negative Certification from PSA</li>
+                <li>Lahat ng requirements sa timely registration</li>
+            </ul>
+            
+            <div class="section-title">Penalty Structure</div>
+            <table class="mini-table">
+                <tr><th>Delay Period</th><th>Penalty</th></tr>
+                <tr><td>More than 1 day to 15 days</td><td>₱50.00</td></tr>
+                <tr><td>15 days to 1 month</td><td>₱100.00</td></tr>
+                <tr><td>For every month thereafter</td><td>₱30.00</td></tr>
+            </table>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th></tr>
+                <tr><td>1. Submit requirements</td><td>Receive at evaluate documents</td><td>15 min</td></tr>
+                <tr><td>2. Payment processing</td><td>Proceed sa Treasurer's Office</td><td>10 min</td></tr>
+                <tr><td>3. 10-day posting period</td><td>Waiting period</td><td>10 days</td></tr>
+                <tr><td>4. Release certificate</td><td>Final processing</td><td>5 min</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Total Processing Time: 11 calendar days</div>
+            <div class="fees">Total: <b>₱250.00 + Penalty</b></div>
+        </section>
+
+        <!-- 7. Out-of-Town Reporting ng Marriage -->
+        <section class="ios-card" id="service7">
+            <h2>🌍 7. Out-of-Town Reporting ng Marriage</h2>
+            <div class="desc">Para sa residents ng Gabaldon na hindi naka-register ng marriage sa municipality kung saan nag-ceremony</div>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>Certificate of Marriage - accomplished na with complete signatures</li>
+                <li>Affidavit for Out-of-Town Registration of Marriage</li>
+                <li><strong>Para sa delayed:</strong> Affidavit for Delayed Registration (sa likod ng Marriage Certificate)</li>
+                <li>Original o photocopy ng Marriage License (kung applicable)</li>
+                <li>Photocopy ng Authority to Solemnize Marriage</li>
+                <li><strong>Para sa marriage without license:</strong> Notarized Affidavit of Cohabitation</li>
+                <li><strong>Kung applicable:</strong> Notarized Request for Celebration of Marriage sa ibang place</li>
+                <li><strong>Para sa 6+ months ago:</strong> Negative Certification from PSA</li>
+                <li><strong>Kung applicable:</strong> Authorization Letter at ID</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th></tr>
+                <tr><td>1. Submit ng lahat ng requirements</td><td>Receive, review at evaluate documents</td><td>20 min</td></tr>
+                <tr><td>2. Proceed sa Treasurer's Office</td><td>Payment processing</td><td>10 min</td></tr>
+                <tr><td>3. Wait for updates</td><td>Documents sent to target municipality</td><td>Varies</td></tr>
+                <tr><td>4. Receive registered certificate</td><td>Release upon completion</td><td>5 min</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Initial Processing Time: 35 minutes</div>
+            <div class="fees">Bayad: <b>₱150.00</b></div>
+            <div style="background: #fff3cd; padding: 10px; border-radius: 8px; margin-top: 10px; color: #856404;">
+                <strong>Note:</strong> Multi-stage processing. Additional fees sa registering office. Courier's fee babayaran ng client.
+            </div>
+        </section>
+
+        <!-- 8. Timely Registration ng Death Certificate -->
+        <section class="ios-card" id="service8">
+            <h2>⚰️ 8. Timely Registration ng Death Certificate</h2>
+            <div class="desc">Pag-register ng Death Certificate within 30 days from date of death</div>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>Certificate of Death - accomplished na, o Application of Death Certificate (filled out)</li>
+                <li>ID ng informant at document showing immediate relation sa deceased</li>
+                <li><strong>Kung namatay sa bahay o hindi sa hospital:</strong> Barangay Certificate</li>
+                <li><strong>Kung applicable:</strong> Autopsy Report</li>
+                <li><strong>Kung applicable:</strong> Police Report</li>
+                <li><strong>Kung applicable:</strong> Authorization Letter with ID</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th></tr>
+                <tr><td>1. Submit Certificate of Death</td><td>Receive, evaluate at examine documents</td><td>5 min</td></tr>
+                <tr><td>2. Proceed sa Treasurer's Office</td><td>Payment processing</td><td>5 min</td></tr>
+                <tr><td>3. Register at issue certificate</td><td>Final processing at release</td><td>2 min</td></tr>
+            </table>
+            
+            <div class="section-title">Fees</div>
+            <table class="mini-table">
+                <tr><th>Service</th><th>Amount</th></tr>
+                <tr><td>Death Certificate</td><td>₱50.00</td></tr>
+                <tr><td>Fetal Death Certificate</td><td>₱50.00</td></tr>
+                <tr><td>Burial Permit</td><td>₱150.00</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Total Processing Time: 12 minutes</div>
+            <div class="fees">Total: <b>₱200.00</b></div>
+        </section>
+
+        <!-- 9. Delayed Registration ng Death Certificate -->
+        <section class="ios-card" id="service9">
+            <h2>⏰ 9. Delayed Registration ng Death Certificate</h2>
+            <div class="desc">Pag-register ng Death Certificate after 30 days from date of death</div>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>Certificate of Death (4 copies, accomplished at signed)</li>
+                <li><strong>Kung applicable:</strong> Autopsy Report</li>
+                <li><strong>Para sa 6+ months ago:</strong> Negative Certification from PSA</li>
+                <li><strong>Kung hindi sa hospital namatay:</strong> Barangay Certification of Death</li>
+                <li>Printed picture ng niche with tombstone showing name ng deceased</li>
+                <li>Affidavit of Delayed Registration (sa likod ng Death Certificate)</li>
+                <li>Affidavit of Two Disinterested Persons na may alam sa facts of death</li>
+                <li>10 days posting</li>
+                <li>ID ng informant at document showing direct relation sa deceased</li>
+                <li><strong>Kung applicable:</strong> Authorization Letter with ID</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th></tr>
+                <tr><td>1. Submit requirements</td><td>Receive, check at evaluate entries at attachments</td><td>20 min</td></tr>
+                <tr><td>2. Verify sa local archive</td><td>Check for non-existence of record</td><td>15 min</td></tr>
+                <tr><td>3. Proceed sa Treasurer's Office</td><td>Payment processing</td><td>10 min</td></tr>
+                <tr><td>4. 10 days posting period</td><td>Public posting requirement</td><td>10 days</td></tr>
+                <tr><td>5. Register at issue certificate</td><td>Final processing at release</td><td>15 min</td></tr>
+            </table>
+            
+            <div class="section-title">Penalty Structure</div>
+            <table class="mini-table">
+                <tr><th>Delay Period</th><th>Penalty</th></tr>
+                <tr><td>More than 12 hours but less than 24 hours</td><td>₱50.00</td></tr>
+                <tr><td>24 hours but less than 5 days</td><td>₱75.00</td></tr>
+                <tr><td>5 days but less than 15 days</td><td>₱100.00</td></tr>
+                <tr><td>15 days to 1 month</td><td>₱150.00</td></tr>
+                <tr><td>1 month to 1 year</td><td>₱200.00</td></tr>
+                <tr><td>More than 1 year</td><td>₱300.00</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Total Processing Time: 11 calendar days</div>
+            <div class="fees">Total: <b>₱250.00 (Service ₱100 + Burial Permit ₱150) + Penalty</b></div>
+        </section>
+
+        <!-- 10. Out-of-Town Reporting ng Death -->
+        <section class="ios-card" id="service10">
+            <h2>🌍 10. Out-of-Town Reporting ng Death</h2>
+            <div class="desc">Para sa residents ng Gabaldon na hindi naka-register ng death certificate sa municipality kung saan namatay ang family member</div>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>Certificate of Death - accomplished na with complete signatures</li>
+                <li>Affidavit for Out of Town Registration of Death</li>
+                <li><strong>Para sa more than 30 days:</strong> Affidavit for Delayed Registration (sa likod ng Death Certificate)</li>
+                <li><strong>Kung hindi sa hospital namatay:</strong> Barangay Certification of Death</li>
+                <li>Printed picture ng niche with tombstone at details ng deceased</li>
+                <li><strong>Para sa more than 30 days:</strong> Notarized Affidavit of Two Disinterested Persons</li>
+                <li><strong>Para sa 6+ months ago:</strong> Negative Certification from PSA</li>
+                <li><strong>Kung applicable:</strong> Authorization Letter at ID</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th></tr>
+                <tr><td>1. Submit ng lahat ng requirements</td><td>Receive, review at evaluate documents</td><td>20 min</td></tr>
+                <tr><td>2. Proceed sa Treasurer's Office</td><td>Payment processing</td><td>5 min</td></tr>
+                <tr><td>3. Wait for updates</td><td>Documents sent to target municipality</td><td>5 working days</td></tr>
+                <tr><td>4. Receive registered certificate</td><td>Release upon completion</td><td>5 min</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Initial Processing Time: 30 minutes | Total Process: 5 working days</div>
+            <div class="fees">Bayad: <b>₱150.00</b></div>
+            <div style="background: #fff3cd; padding: 10px; border-radius: 8px; margin-top: 10px; color: #856404;">
+                <strong>Note:</strong> Multi-stage processing between LCRO offices. Additional fees sa registering office. Courier's fee babayaran ng client.
+            </div>
+        </section>
+
+        <!-- 11. Certified Copy ng Birth Certificate -->
+        <section class="ios-card" id="service11">
+            <h2>📋 11. Certified Copy ng Birth Certificate / Certificate of No Record</h2>
+            <div class="desc">Issuance ng certified copy ng Certificate of Live Birth o Certificate of No Record</div>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>Filled up request form for Birth Certificate</li>
+                <li><strong>Valid ID ng requester:</strong> Document owner, parents, legal spouse, children, sibling (21+ years old for minor child)</li>
+                <li><strong>Para sa relatives:</strong> Documents showing relation (marriage contract, birth certificate)</li>
+                <li><strong>Kung applicable:</strong> Original Authorization Letter/SPA with date at specific data + ID ng document owner + ID ng authorized representative</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th><th>Responsible</th></tr>
+                <tr><td>1. Submit request form at ID</td><td>Receive request at verify from record</td><td>5 min</td><td>LCR Personnel/Admin Aide</td></tr>
+                <tr><td>2. Proceed sa MTO for payment</td><td>Order of payment</td><td>5 min</td><td>Collection Clerk MTO</td></tr>
+                <tr><td>3. Receive certified copy</td><td>Record payment receipt at issue document</td><td>5 min</td><td>LCR Personnel/Admin Aide</td></tr>
+            </table>
+            
+            <div class="section-title">Fees</div>
+            <table class="mini-table">
+                <tr><th>Type</th><th>Amount</th></tr>
+                <tr><td>Certification Fee (Registered)</td><td>₱75.00</td></tr>
+                <tr><td>Certificate of No Record</td><td>₱50.00</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Total Processing Time: 15 minutes</div>
+        </section>
+
+        <!-- 12. Certified Copy ng Marriage Certificate -->
+        <section class="ios-card" id="service12">
+            <h2>💒 12. Certified Copy ng Marriage Certificate / Certificate of No Record</h2>
+            <div class="desc">Issuance ng certified copy ng Certificate of Marriage o Certificate of No Record</div>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>Filled up request form for Marriage Certificate</li>
+                <li><strong>Valid ID ng requester:</strong> Document owner, child ng contracting parties</li>
+                <li><strong>Para sa child:</strong> Birth certificate o document showing parent-child relationship</li>
+                <li><strong>Kung applicable:</strong> Original Authorization Letter/SPA with date at specific data + ID ng document owner + ID ng authorized representative</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th><th>Responsible</th></tr>
+                <tr><td>1. Submit request form at ID</td><td>Receive request at verify from record</td><td>5 min</td><td>LCR Personnel/Admin Aide</td></tr>
+                <tr><td>2. Proceed sa MTO for payment</td><td>Order of payment</td><td>5 min</td><td>Collection Clerk MTO</td></tr>
+                <tr><td>3. Receive certified copy</td><td>Record payment receipt at issue document</td><td>5 min</td><td>LCR Personnel/Admin Aide</td></tr>
+            </table>
+            
+            <div class="section-title">Fees</div>
+            <table class="mini-table">
+                <tr><th>Type</th><th>Amount</th></tr>
+                <tr><td>Certification Fee (Registered)</td><td>₱75.00</td></tr>
+                <tr><td>Certificate of No Record</td><td>₱50.00</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Total Processing Time: 15 minutes</div>
+        </section>
+
+        <!-- 13. Certified Copy ng Death Certificate -->
+        <section class="ios-card" id="service13">
+            <h2>⚰️ 13. Certified Copy ng Death Certificate / Certificate of No Record</h2>
+            <div class="desc">Issuance ng certified copy ng Certificate of Death o Certificate of No Record</div>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>Filled up Request Form for Death Certificate</li>
+                <li><strong>Legal Spouse:</strong> ID at Marriage Contract</li>
+                <li><strong>Marital/Non-Marital Child:</strong> ID at Birth Certificate</li>
+                <li><strong>Kung applicable:</strong> Original Authorization Letter/SPA with date at specific data + ID ng document owner + ID ng authorized representative</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th><th>Responsible</th></tr>
+                <tr><td>1. Submit request form at ID</td><td>Receive request at verify from record</td><td>5 min</td><td>LCR Personnel/Admin Aide</td></tr>
+                <tr><td>2. Proceed sa MTO for payment</td><td>Order of payment</td><td>5 min</td><td>Collection Clerk MTO</td></tr>
+                <tr><td>3. Receive certified copy</td><td>Record payment receipt at issue document</td><td>5 min</td><td>LCR Personnel/Admin Aide</td></tr>
+            </table>
+            
+            <div class="section-title">Fees</div>
+            <table class="mini-table">
+                <tr><th>Type</th><th>Amount</th></tr>
+                <tr><td>Certification Fee (Registered)</td><td>₱75.00</td></tr>
+                <tr><td>Certificate of No Record</td><td>₱50.00</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Total Processing Time: 15 minutes</div>
+        </section>
+
+        <!-- 14. AUSF Processing (RA 9255) -->
+        <section class="ios-card" id="service14">
+            <h2>📝 14. AUSF Processing through RA 9255</h2>
+            <div class="desc">Para sa non-marital children na gustong gamitin ang surname ng father</div>
+            
+            <div class="section-title">Basic Requirements</div>
+            <ul>
+                <li>PSA at Local copy ng Certificate of Live Birth</li>
+                <li><strong>Born before Aug 03, 1988:</strong> Affidavit of Acknowledgement by father</li>
+                <li><strong>Born on/after Aug 03, 1988:</strong> Affidavit of Admission of Paternity by father</li>
+                <li>Proof of father-child filiation (Baptismal, school record, SSS, etc.)</li>
+                <li>Valid ID ng affiants</li>
+            </ul>
+            
+            <div class="section-title">Age-based Requirements</div>
+            <table class="mini-table">
+                <tr><th>Age of Child</th><th>Requirement</th></tr>
+                <tr><td>0-6 years old</td><td>AUSF executed by mother/guardian</td></tr>
+                <tr><td>7-17 years old</td><td>AUSF by child with sworn attestation ng mother/guardian</td></tr>
+                <tr><td>18+ years old</td><td>AUSF by child (no attestation needed)</td></tr>
+            </table>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th></tr>
+                <tr><td>1. Submit required documents</td><td>Receive at evaluate documents for AUSF</td><td>20 min</td></tr>
+                <tr><td>2. Proceed sa MTO for payment</td><td>Order of payment</td><td>5 min</td></tr>
+                <tr><td>3. Wait for PSA approval</td><td>Assign registry number, prepare transmittal to PSA</td><td>Varies</td></tr>
+                <tr><td>4. Request annotated certificate</td><td>Notify client when approved at annotated</td><td>Varies</td></tr>
+            </table>
+            
+            <div class="section-title">Fees</div>
+            <table class="mini-table">
+                <tr><th>Fee Type</th><th>Amount</th></tr>
+                <tr><td>AUSF Fee</td><td>₱350.00</td></tr>
+                <tr><td>Certification</td><td>₱150.00</td></tr>
+                <tr><td>Endorsement</td><td>₱75.00</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Initial Processing Time: 25 minutes</div>
+            <div class="fees">Total: <b>₱525.00</b></div>
+            <div style="background: #fff3cd; padding: 10px; border-radius: 8px; margin-top: 10px; color: #856404;">
+                <strong>Note:</strong> Multi-stage processing with PSA Central Office. Courier's fee babayaran ng client. Processing depends sa PSA approval.
+            </div>
+        </section>
+
+        <!-- 15. Legitimation Processing -->
+        <section class="ios-card" id="service15">
+            <h2>⚖️ 15. Legitimation Processing</h2>
+            <div class="desc">Para sa children born outside wedlock na naging legitimate after marriage ng parents</div>
+            
+            <div class="section-title">Basic Requirements</div>
+            <ul>
+                <li>PSA at Local copy ng Certificate of Live Birth</li>
+                <li><strong>Born before Aug 03, 1988:</strong> Affidavit of Acknowledgement by father</li>
+                <li><strong>Born on/after Aug 03, 1988:</strong> Affidavit of Admission of Paternity by father</li>
+                <li>Certificate of Marriage ng Parents (PSA o Local)</li>
+                <li>CENOMAR or Advisory on Marriage</li>
+            </ul>
+            
+            <div class="section-title">Additional Requirements</div>
+            <ul>
+                <li><strong>Both parents alive:</strong> Joint Affidavit of Legitimation</li>
+                <li><strong>One parent deceased:</strong> Affidavit by surviving parent + Death Certificate</li>
+                <li><strong>Parents were minors when child was born:</strong> Supplemental Affidavit of Legitimation</li>
+                <li><strong>Widowed parent/s:</strong> Death certificate ng previous spouse</li>
+                <li><strong>Annulled/Divorced:</strong> Certified copy ng Court Decision at Finality</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon</th><th>Oras</th></tr>
+                <tr><td>1. Submit required documents</td><td>Receive at evaluate documents for Legitimation</td><td>30 min</td></tr>
+                <tr><td>2. Proceed sa MTO for payment</td><td>Order of payment</td><td>5 min</td></tr>
+                <tr><td>3. Wait for PSA approval</td><td>Assign registry number, prepare transmittal to PSA</td><td>Varies</td></tr>
+                <tr><td>4. Request annotated certificate</td><td>Notify client when approved at annotated</td><td>Varies</td></tr>
+            </table>
+            
+            <div class="section-title">Fees</div>
+            <table class="mini-table">
+                <tr><th>Fee Type</th><th>Amount</th></tr>
+                <tr><td>Legitimation Fee</td><td>₱100.00</td></tr>
+                <tr><td>Certification</td><td>₱150.00</td></tr>
+                <tr><td>Endorsement</td><td>₱75.00</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Initial Processing Time: 35 minutes</div>
+            <div class="fees">Total: <b>₱325.00</b></div>
+            <div style="background: #fff3cd; padding: 10px; border-radius: 8px; margin-top: 10px; color: #856404;">
+                <strong>Note:</strong> Multi-stage processing with PSA Central Office. Courier's fee babayaran ng client. Processing depends sa PSA approval.
+            </div>
+        </section>
+
+         <!-- 16. Supplemental Report for Missing Entries -->
+         <section class="ios-card" id="service16">
+            <div class="classification-badges">
+                <span class="badge complex">Complex</span>
+                <span class="badge g2c">G2C</span>
+            </div>
+            <h2>📝 16. Supplemental Report for Missing/Omitted Entries</h2>
+            <div class="desc">Process ng pag-supply ng missing entries sa previously registered certificates</div>
+            
+            <div class="section-title">Who May Avail</div>
+            <ul>
+                <li>Document Owner of Legal Age</li>
+                <li>Parents, Siblings of Legal Age</li>
+                <li>Authorized Representative</li>
+            </ul>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>PSA at Local copy ng applicable registered civil registry documents</li>
+                <li>Affidavit of Supplemental Report</li>
+                <li><strong>Para sa Authorized Representative:</strong> Special Power of Attorney with ID</li>
+                <li>ID ng Representative</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon ng Ahensiya</th><th>Oras</th><th>Responsible</th></tr>
+                <tr><td>1. Submit requirements</td><td>Receive at evaluate documents for supplemental report</td><td>20 min</td><td>LCR Personnel/Admin Aide</td></tr>
+                <tr><td>2. Proceed sa Treasurer's Office</td><td>Order of payment</td><td>5 min</td><td>Collection Clerk (MTO)</td></tr>
+                <tr><td>3. Wait for PSA approval</td><td>Record receipt, prepare transmittal to PSA Central</td><td>Varies</td><td>LCR Personnel/Admin Aide</td></tr>
+                <tr><td>4. Request annotated document</td><td>Notify client upon completion and annotation</td><td>-</td><td>LCR Personnel/Admin Aide</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Initial Processing Time: 25 minutes</div>
+            <div class="fees">Total: <b>₱325.00</b> (₱100 Supplemental + ₱150 Certification + ₱75 Endorsement)</div>
+            <div class="alert-note">
+                <strong>Note:</strong> Two-way process with PSA. Legitimation effect depends on PSA approval. Courier fee paid by client.
+            </div>
+        </section>
+
+        <!-- 17. MC 2010-04 Correction -->
+        <section class="ios-card" id="service17">
+            <div class="classification-badges">
+                <span class="badge complex">Complex</span>
+                <span class="badge g2c">G2C</span>
+            </div>
+            <h2>🗺️ 17. Correction via PSA Memorandum Circular 2010-04</h2>
+            <div class="desc">Para sa correction ng registry number, statistical portion, at geographical entries hindi covered ng RA 9048</div>
+            
+            <div class="section-title">Who May Avail</div>
+            <ul>
+                <li>Document Owner of Legal Age</li>
+                <li>Parents, Siblings of Legal Age</li>
+                <li>Authorized Representative</li>
+            </ul>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>PSA at Local copy ng applicable registered civil registry documents</li>
+                <li>Affidavit of Supplemental Report</li>
+                <li><strong>Para sa Authorized Representative:</strong> Authorization letter with ID</li>
+                <li>ID ng Representative</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon ng Ahensiya</th><th>Oras</th><th>Responsible</th></tr>
+                <tr><td>1. Submit requirements</td><td>Receive at evaluate documents for MC 2010-04</td><td>20 min</td><td>LCR Personnel/Admin Aide</td></tr>
+                <tr><td>2. Proceed sa Treasurer's Office</td><td>Order of payment</td><td>5 min</td><td>Collection Clerk (MTO)</td></tr>
+                <tr><td>3. Wait for PSA approval</td><td>Record receipt, forward to PSA Central Office</td><td>Varies</td><td>LCR Personnel/Admin Aide</td></tr>
+                <tr><td>4. Request annotated document</td><td>Notify client upon verification and annotation</td><td>-</td><td>LCR Personnel/Admin Aide</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Initial Processing Time: 25 minutes</div>
+            <div class="fees">Total: <b>₱325.00</b> (₱100 MC Fee + ₱150 Certification + ₱75 Endorsement)</div>
+            <div class="alert-note">
+                <strong>Note:</strong> Multi-stage process with PSA Central. Annotation depends on PSA approval. One-time courier fee.
+            </div>
+        </section>
+
+        <!-- 18. Physical Transfer -->
+        <section class="ios-card" id="service18">
+            <div class="classification-badges">
+                <span class="badge complex">Complex</span>
+                <span class="badge g2c">G2C</span>
+            </div>
+            <h2>📦 18. Physical Transfer via PSA Circular No. 91-6</h2>
+            <div class="desc">Transfer ng previously registered documents na wrong place of registration</div>
+            
+            <div class="section-title">Who May Avail</div>
+            <ul>
+                <li>Parents, Document Owner of Legal Age</li>
+                <li>Legal Spouse, Children, Siblings</li>
+                <li>Authorized Representative</li>
+            </ul>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>PSA at Local copy ng applicable registered civil registry documents</li>
+                <li>Valid ID from government agencies</li>
+                <li><strong>Para sa Authorized Representative:</strong> Authorization letter with ID</li>
+                <li>ID ng Representative</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon ng Ahensiya</th><th>Oras</th><th>Responsible</th></tr>
+                <tr><td>1. Submit documents</td><td>Receive at evaluate documents for transfer</td><td>20 min</td><td>LCR Personnel/Admin Aide</td></tr>
+                <tr><td>2. Proceed sa Treasurer's Office</td><td>Order of payment</td><td>5 min</td><td>Collection Clerk (MTO)</td></tr>
+                <tr><td>3. Receive transmittal copy</td><td>Record receipt, prepare transmittal to receiving LCRO</td><td>-</td><td>LCR Personnel/Admin Aide</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Processing Time: 25 minutes</div>
+            <div class="fees">Total: <b>₱325.00</b> (₱100 Transfer + ₱150 Certification + ₱75 Endorsement)</div>
+            <div class="alert-note">
+                <strong>Note:</strong> Multi-stage process between original at receiving LCR offices. One-time courier fee.
+            </div>
+        </section>
+
+        <!-- 19. Change of First Name -->
+        <section class="ios-card" id="service19">
+            <div class="classification-badges">
+                <span class="badge complex">Complex</span>
+                <span class="badge g2c">G2C</span>
+            </div>
+            <h2>✏️ 19. Petition for Change of First Name (R.A. 9048)</h2>
+            <div class="desc">Administrative process para sa change ng first name sa Certificate of Live Birth</div>
+            
+            <div class="section-title">Who May Avail</div>
+            <ul>
+                <li>Document owner of legal age, parents</li>
+                <li>Legal spouse, children, siblings</li>
+                <li>Authorized representative</li>
+            </ul>
+            
+            <div class="section-title">Basic Requirements</div>
+            <ul>
+                <li>PSA at Local Copy ng Certificate of Live Birth</li>
+                <li><strong>At least 2 documents showing correct first name:</strong></li>
+                <li style="margin-left: 20px;">• Baptismal Certificate, School Records (Form 137)</li>
+                <li style="margin-left: 20px;">• Voter's Registration, SSS/GSIS Record</li>
+                <li style="margin-left: 20px;">• Medical Record, Birth Certificate ng Children</li>
+                <li style="margin-left: 20px;">• Employment Record, Marriage Contract</li>
+                <li>Valid ID ng petitioner</li>
+            </ul>
+            
+            <div class="section-title">Para sa Legal Age Document Owner (Mandatory)</div>
+            <ul>
+                <li>Certificate of Employment (kung employed)</li>
+                <li>Notarized Affidavit of Unemployment (kung hindi employed)</li>
+                <li>NBI Clearance (at least 2 months validity)</li>
+                <li>Police Clearance (at least 2 months validity)</li>
+            </ul>
+            
+            <div class="section-title">Additional Requirements</div>
+            <ul>
+                <li>2 weeks Newspaper publication clippings at publisher's affidavit</li>
+                <li>10 days posting sa Municipal Bulletin Board</li>
+                <li>Authorization Letter at ID (para sa representatives)</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon ng Ahensiya</th><th>Oras</th><th>Responsible</th></tr>
+                <tr><td>1. Submit requirements</td><td>Examine at evaluate documents</td><td>20 min</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>2. Review at sign petition</td><td>Prepare petition with registry number</td><td>30 min</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>3. Proceed sa Treasurer's Office</td><td>Order of payment</td><td>5 min</td><td>Collection Clerk (MTO)</td></tr>
+                <tr><td>4. Publication period</td><td>2 weeks newspaper + 10 days posting</td><td>11 days</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>5. Submit publication proof</td><td>Receive clippings at affidavit</td><td>-</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>6. Wait for PSA decision</td><td>Forward to PSA Central Office</td><td>Varies</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>7. Receive decision</td><td>Notify client of approved decision</td><td>-</td><td>Municipal Civil Registrar</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Minimum Processing: 11 calendar days</div>
+            <div class="fees">Total: <b>₱3,375.00</b> (₱3,000 Filing + ₱300 Certification + ₱75 Endorsement)</div>
+            <div class="alert-note">
+                <strong>Note:</strong> Multi-stage process: LCRO → PSA Central → PSA Regional. Approval depends on PSA processing. Courier fee paid by petitioner.
+            </div>
+        </section>
+
+        <!-- 20. Correction of Clerical Error -->
+        <section class="ios-card" id="service20">
+            <div class="classification-badges">
+                <span class="badge complex">Complex</span>
+                <span class="badge g2c">G2C</span>
+            </div>
+            <h2>🔧 20. Petition for Correction of Clerical Error (R.A. 9048)</h2>
+            <div class="desc">Administrative process para sa correction ng clerical errors sa registered documents</div>
+            
+            <div class="section-title">Who May Avail</div>
+            <ul>
+                <li>Document owner of legal age, parents</li>
+                <li>Legal spouse, siblings, children of legal age</li>
+                <li>Authorized representative</li>
+            </ul>
+            
+            <div class="section-title">Requirements</div>
+            <ul>
+                <li>Original PSA at Certified Local Copy ng civil registry documents</li>
+                <li><strong>Supporting documents showing correct entries:</strong></li>
+                <li style="margin-left: 20px;">• Baptismal Certificate, School Records</li>
+                <li style="margin-left: 20px;">• Voter's Registration, SSS/GSIS Record</li>
+                <li style="margin-left: 20px;">• Medical Record, Employment Record</li>
+                <li style="margin-left: 20px;">• Marriage Contract, Birth Certificates</li>
+                <li style="margin-left: 20px;">• Valid IDs, other relevant documents</li>
+                <li>10 days posting requirement</li>
+            </ul>
+            
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Aksyon ng Ahensiya</th><th>Oras</th><th>Responsible</th></tr>
+                <tr><td>1. Submit requirements</td><td>Receive, review at evaluate documents</td><td>20 min</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>2. Review at sign petition</td><td>Prepare petition with registry number</td><td>30 min</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>3. Proceed sa Treasurer's Office</td><td>Order of payment</td><td>10 min</td><td>Collection Clerk (MTO)</td></tr>
+                <tr><td>4. Wait for posting completion</td><td>10 days posting sa bulletin board</td><td>11 days</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>5. Receive LCRO decision</td><td>Render decision after posting</td><td>-</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>6. Wait for OCRG decision</td><td>Forward to PSA Central for affirmation</td><td>Varies</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>7. Receive decision copy</td><td>Prepare finality, send to PSA Regional</td><td>-</td><td>Municipal Civil Registrar</td></tr>
+            </table>
+            
+            <div class="total-time">📌 Minimum Processing: 11 calendar days</div>
+            <div class="fees">Total: <b>₱1,375.00</b> (₱1,000 Filing + ₱300 Certification + ₱75 Endorsement)</div>
+            <div class="alert-note">
+                <strong>Note:</strong> Multi-stage process between LCRO, PSA Central, at PSA Regional offices. Courier fee paid by petitioner.
+            </div>
+        </section>
+        <section class="ios-card" id="service21">
+            <h2>📝 21. Petition for Correction of Clerical Error under RA 10172</h2>
+            <div class="classification complex">Complex</div>
+            <div class="desc">Administrative process para sa correction ng clerical error sa entry ng sex, day at month sa date of birth sa Registered Certificate of Live Birth.</div>
+            
+            <div class="section-title">Sino pwedeng mag-apply:</div>
+            <ul>
+                <li><strong>Correction of Sex:</strong> Document owner (legal age), o minor na kasama ang parents/legal guardian</li>
+                <li><strong>Correction of day/month sa date of birth:</strong> Document owner, parents, legal spouse, siblings, children (legal age), o authorized representative</li>
+            </ul>
+
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Original PSA at Certified Local Copy ng Certificate</td><td>PSA, Local Civil Registry Office</td></tr>
+                <tr><td>Mga dokumento na nagpapakita ng tamang entry (Baptismal Certificate, School Records, Voter's Registration, SSS/GSIS Record, Service Record, Marriage Contract, etc.)</td><td>Religious Sect, School, Comelec, SSS/GSIS, Employer/Company, PSA/LCRO</td></tr>
+                <tr><td><strong>Para sa correction ng sex:</strong><br>Medical Certification mula sa government physician</td><td>Government Physician</td></tr>
+                <tr><td>2 weeks newspaper publication clippings at publisher's affidavit</td><td>Publisher</td></tr>
+                <tr><td>10 days posting</td><td>Municipal Hall</td></tr>
+                <tr><td><strong>Kung legal age:</strong><br>Police Clearance, NBI Clearance, Certificate of Employment (kung employed) o Notarized Affidavit of Unemployment</td><td>Police, NBI, Employer/Company, Notary Public</td></tr>
+                <tr><td>Medical record at Valid ID</td><td>Medical facility, Government agencies</td></tr>
+            </table>
+
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang ng Kliyente</th><th>Aksyon ng Ahensiya</th><th>Bayad</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Submit lahat ng requirements</td><td>Receive, review, at evaluate ng documents</td><td>Filing Fee: ₱3,000.00<br>Certification: ₱300.00<br>Endorsement: ₱75.00</td><td>20 minutes</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>Review at sign ang petition</td><td>Prepare at assign registry number ng petition</td><td>-</td><td>20 minutes</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>Pumunta sa MTO para sa payment</td><td>Order of Payment</td><td>-</td><td>5 minutes</td><td>Collection Clerk</td></tr>
+                <tr><td>Maghintay ng update</td><td>Record at attach Official Receipt</td><td>-</td><td>5 minutes</td><td>LCR Personnel</td></tr>
+                <tr><td>2 weeks newspaper publication</td><td>Prepare Notice of Posting (10 consecutive days)</td><td>-</td><td>-</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>Submit publication clippings at affidavit</td><td>Receive documents</td><td>-</td><td>-</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>Maghintay ng PSA decision</td><td>Forward petition to PSA Central Office</td><td>-</td><td>-</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>Receive update at annotated certificate</td><td>Notify client ng approved decision</td><td>Courier's Fee (bayad ng petitioner)</td><td>-</td><td>Municipal Civil Registrar</td></tr>
+            </table>
+
+            <div class="total-time">⏱️ Processing Time: Multi-stage process (walang exact date dahil depende sa PSA Central Office at PSA Regional Office)</div>
+            <div class="fees">Total Fees: <b>₱3,375.00</b> + Courier's Fee</div>
+        </section>
+
+        <!-- 2. Annotation of Birth Certificate -->
+        <section class="ios-card" id="service22">
+            <h2>⚖️ 22. Annotation and Endorsement of Birth Certificate with Court Decree</h2>
+            <div class="classification simple">Simple</div>
+            <div class="desc">Processing ng annotation ng Certificate of Live Birth na dumaan sa judicial proceedings at endorsement nito sa PSA Central Office - para sa correction of entries, adoption, at cancellation.</div>
+            
+            <div class="section-title">Sino pwedeng mag-apply:</div>
+            <ul>
+                <li>Document owners</li>
+                <li>Secretary of court</li>
+                <li>Authorized representative</li>
+            </ul>
+
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Certified Copy of Court Decision/Order/Judgement/Entry of Judgment</td><td>Court</td></tr>
+                <tr><td>Certified copy of Finality</td><td>Court</td></tr>
+                <tr><td>Copy of Certificate of Court Decree Registration</td><td>Local Civil Registry Office</td></tr>
+                <tr><td>Copy of Certificate of authenticity</td><td>Court</td></tr>
+                <tr><td>Copy of Birth Certificate</td><td>PSA/Local Civil Registry Office</td></tr>
+                <tr><td>Special Power of Attorney (kung applicable)</td><td>Document Owner</td></tr>
+                <tr><td>ID ng Document Owner at Authorized representative</td><td>Document Owner</td></tr>
+                <tr><td>Copy of Notarized Affidavit of Delayed Registration (kung applicable)</td><td>Notary Public</td></tr>
+            </table>
+
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang ng Kliyente</th><th>Aksyon ng Ahensiya</th><th>Bayad</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Submit lahat ng court decree documents</td><td>Receive, review, at evaluate documents</td><td>Court Decree: ₱1,000.00<br>Certifications: ₱300.00<br>Endorsements: ₱75.00</td><td>30 minutes</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>Maghintay ma-process</td><td>Sign at certify lahat ng documents. Annotate Local Copy at prepare transmittal to PSA</td><td>-</td><td>30 minutes</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>Pumunta sa MTO para sa payment</td><td>Order of Payment</td><td>-</td><td>5 minutes</td><td>Collection Clerk</td></tr>
+                <tr><td>Receive copy ng annotated certificate</td><td>Record receipt at issue documents</td><td>-</td><td>5 minutes</td><td>LCR Personnel</td></tr>
+            </table>
+
+            <div class="total-time">⏱️ Total Processing Time: 1 hour and 10 minutes</div>
+            <div class="fees">Total Fees: <b>₱1,375.00</b></div>
+        </section>
+
+        <!-- 3. Annotation of Marriage Certificate -->
+        <section class="ios-card" id="service23">
+            <h2>💒 23. Annotation and Endorsement of Marriage Certificate with Court Decree</h2>
+            <div class="classification simple">Simple</div>
+            <div class="desc">Processing ng annotation ng Certificate of Marriage na dumaan sa judicial proceedings - para sa annulment, divorce, presumptive death, at dissolution of properties.</div>
+            
+            <div class="section-title">Sino pwedeng mag-apply:</div>
+            <ul>
+                <li>Document owners</li>
+                <li>Secretary of court</li>
+                <li>Authorized representative</li>
+            </ul>
+
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Certified Copy of Court Decision/Order/Judgement/Entry of Judgment</td><td>Court</td></tr>
+                <tr><td>Certified copy of Finality</td><td>Court</td></tr>
+                <tr><td>Copy of Certificate of Court Decree Registration</td><td>Local Civil Registry Office</td></tr>
+                <tr><td>Copy of Certificate of authenticity</td><td>Court</td></tr>
+                <tr><td>Copy of Marriage Certificate</td><td>PSA/Local Civil Registry Office</td></tr>
+                <tr><td>Special Power of Attorney (kung applicable)</td><td>Document Owner</td></tr>
+                <tr><td>ID ng Document Owner at Authorized representative</td><td>Document Owner</td></tr>
+            </table>
+
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang ng Kliyente</th><th>Aksyon ng Ahensiya</th><th>Bayad</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Submit lahat ng court decree documents</td><td>Receive, review, at evaluate documents</td><td>Court Decree: ₱1,000.00<br>Certifications: ₱300.00<br>Endorsements: ₱75.00</td><td>30 minutes</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>Maghintay ma-process</td><td>Sign at certify documents. Annotate Local Copy at prepare transmittal</td><td>-</td><td>30 minutes</td><td>Municipal Civil Registrar</td></tr>
+                <tr><td>Pumunta sa MTO para sa payment</td><td>Order of Payment</td><td>-</td><td>5 minutes</td><td>Collection Clerk</td></tr>
+                <tr><td>Receive copy ng annotated certificate</td><td>Record receipt at issue documents</td><td>-</td><td>5 minutes</td><td>LCR Personnel</td></tr>
+            </table>
+
+            <div class="total-time">⏱️ Total Processing Time: 1 hour and 10 minutes</div>
+            <div class="fees">Total Fees: <b>₱1,375.00</b></div>
+        </section>
+
+        <!-- 4. Registration of Legal Instruments -->
+        <section class="ios-card" id="service24">
+            <h2>📄 24. Registration of Other Legal Instruments</h2>
+            <div class="classification simple">Simple</div>
+            <div class="desc">Para sa registration ng Option to Elect Citizenship, Repatriation, Oath of Allegiance, Affidavit of Reappearance, Pre-nuptial Agreement.</div>
+            
+            <div class="section-title">Sino pwedeng mag-apply:</div>
+            <ul>
+                <li>Individuals na nag-execute ng Affidavit/Legal Instrument sa jurisdiction ng Municipality of Gabaldon</li>
+            </ul>
+
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Duly Notarized at Signed Affidavit/Legal Instrument</td><td>Officer authorized to administer oaths</td></tr>
+                <tr><td>Valid ID ng Affiant</td><td>Client</td></tr>
+            </table>
+
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang ng Kliyente</th><th>Aksyon ng Ahensiya</th><th>Bayad</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Present notarized affidavit</td><td>Accept at evaluate affidavit para sa registration</td><td>Option to elect Citizenship: ₱750.00<br><br>Other Legal Documents: ₱50.00</td><td>20 minutes</td><td>LCR Personnel</td></tr>
+                <tr><td>Pumunta sa MTO para sa payment</td><td>Order of Payment</td><td>-</td><td>5 minutes</td><td>Collection Clerk</td></tr>
+                <tr><td>Receive copy ng registered document</td><td>Register document, issue copy, prepare transmittal to PSA</td><td>-</td><td>5 minutes</td><td>LCR Personnel</td></tr>
+            </table>
+
+            <div class="total-time">⏱️ Total Processing Time: 30 minutes</div>
+            <div class="fees">Fees: <b>₱750.00</b> (Citizenship) / <b>₱50.00</b> (Other Legal Documents)</div>
+        </section>
+
+        <!-- 5. PSA Copy Requests -->
+        <section class="ios-card" id="service25">
+            <h2>📋 25. Request for PSA Copy of Civil Registry Documents (BREQS-LGU)</h2>
+            <div class="classification simple">Simple</div>
+            <div class="desc">MOA kung saan ang LGU ay tumatanggap ng requests para sa PSA copy documents (Birth, Marriage, Death), CENOMARs, Advisory on Marriage, at Negative Certifications.</div>
+            
+            <div class="section-title">Sino pwedeng mag-apply:</div>
+            <ul>
+                <li>Document owner (legal age)</li>
+                <li>Parents</li>
+                <li>Legal age siblings para sa minor child</li>
+                <li>Legal guardian</li>
+                <li>Authorized representative</li>
+                <li><strong>Note:</strong> CENOMAR ay pwede lang i-request ng document owner mismo kung buhay pa siya</li>
+            </ul>
+
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Filled Up Application Form</td><td>Local Civil Registry Office</td></tr>
+                <tr><td>Valid ID ng requester</td><td>Government issuing IDs</td></tr>
+                <tr><td><strong>Kung representative:</strong><br>Authorization letter at ID ng document owner<br><br><strong>Kung minor o patay na ang document owner:</strong><br>Authorization at ID ng legal spouse, acknowledged child, parents, o nearest surviving kin na may Notarized Affidavit</td><td>Document Owner<br><br>Direct Descendants<br><br>Nearest Surviving Kin</td></tr>
+            </table>
+
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang ng Kliyente</th><th>Aksyon ng Ahensiya</th><th>Bayad</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Submit filled up application form</td><td>Receive form at humingi ng ID, authorization kung kailangan</td><td><strong>MTO:</strong><br>Birth/Marriage/Death: ₱40.00<br>CENOMAR/Advisory: ₱55.00<br><br><strong>LCR (upon release):</strong><br>Birth/Marriage/Death: ₱155.00<br>CENOMAR/Advisory: ₱210.00</td><td>5 minutes</td><td>LCR Personnel</td></tr>
+                <tr><td>Pumunta sa MTO para sa payment</td><td>Order of payment</td><td>-</td><td>5 minutes</td><td>Collection Clerk</td></tr>
+                <tr><td>Maghintay ng availability</td><td>Process at encode request para sa transmittal to PSA</td><td>-</td><td>-</td><td>LCR Personnel</td></tr>
+                <tr><td>Receive requested document</td><td>Contact requester para sa pick-up</td><td>-</td><td>3 minutes</td><td>LCR Personnel</td></tr>
+            </table>
+
+            <div class="total-time">⏱️ Total Processing Time: 13 minutes</div>
+            <div class="fees">Total Fees: <br><b>Birth/Marriage/Death: ₱195.00</b><br><b>CENOMAR/Advisory on Marriage: ₱265.00</b></div>
+            
+            <div class="section-title">Schedule:</div>
+            <ul>
+                <li><strong>Transmitting to PSA:</strong> Every Wednesday 4:00 PM</li>
+                <li><strong>Release from PSA Cabanatuan:</strong> Every Thursday</li>
+                <li><strong>Estimated Release sa Municipality:</strong> Friday ng current week (subject to change)</li>
+            </ul>
+        </section>
+        <div class="ios-contact">
+            <div><b>Important Reminders</b></div>
+            <ul style="margin: 8px 0 0 18px; padding: 0;">
+                <li>Kung holiday, Saturday, o Sunday ang release date, move sa next working day</li>
+                <li>Bring valid IDs lagi para sa lahat ng transactions</li>
+                <li>Complete requirements para hindi ma-delay ang processing</li>
+                <li>May additional courier fees para sa out-of-town transactions</li>
+            </ul>
+            <div style="margin-top: 12px;"><strong>Local Civil Registrar Office - Gabaldon Municipality</strong></div>
+            <div><strong>Processing Hours:</strong> Regular office hours</div>
+            <div><strong>Legal Basis:</strong> Municipal Tax Ordinance No. 1 s. 2010</div>
+        </div>
+        <section class="ios-card" id="service26">
+            <h2>📢 26. Feedback at Complaints Mechanism</h2>
+            <div class="section-title">Paano Magbigay ng Feedback</div>
+            <ul>
+                <li>Sagutan ang <b>Client Feedback Form</b></li>
+                <li>Ihulog sa drop box ng <b>Public Assistance and Complaint Desk</b></li>
+                <li>O mag-email sa: <a href="mailto:gabnecija_50@yahoo.com">gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</a></li>
+            </ul>
+            <div class="section-title">Processing ng Feedback</div>
+            <ul>
+                <li>Tuwing Biyernes: Bubuksan ng assigned officers ang drop box</li>
+                <li>Feedback na may kailangan ng sagot ay ipapasa sa tamang opisina</li>
+                <li>Dapat masagot ito <b>within 3 days</b></li>
+            </ul>
+            <div class="section-title">Paano Mag-file ng Complaint</div>
+            <ul>
+                <li>Sagutan ang <b>Client Complaint Form</b></li>
+                <li>Ihulog sa drop box sa harap ng Public Assistance and Complaint Desk</li>
+                <li>Pwede ring mag-text, tumawag, o mag-email (siguraduhing ilagay ang mga sumusunod):
+                    <ul>
+                        <li>Pangalan ng nirereklamo</li>
+                        <li>Detalye ng insidente</li>
+                        <li>Mga ebidensya</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="section-title">Complaint Processing</div>
+            <ul>
+                <li>Araw-araw chine-check ng <b>Municipal Administrator</b> ang drop box</li>
+                <li>Gagawa ng imbestigasyon at ipapasa ito sa tamang opisina para sa paliwanag</li>
+                <li>Gagawa ng report at isusumite sa Mayor para sa action</li>
+                <li>Ipapabatid ang resulta sa complainant</li>
+            </ul>
+            <div class="ios-contact">
+                <div><b>Contact Information</b></div>
+                <div>📞 <b>0998-990-1027</b></div>
+                <div>📧 <a href="mailto:gabnecija_50@yahoo.com"><b>gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</b></a></div>
+            </div>
+        </section>
+    </div>
+<button onclick="topFunction()" id="backToTopBtn" title="Go to top">&#8593;</button>
+
+<script>
+// Get the button
+let mybutton = document.getElementById("backToTopBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+</script>
+
+</body>
+</html>

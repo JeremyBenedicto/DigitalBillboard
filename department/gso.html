@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSO - Services</title>
+    <link rel="stylesheet" href="../css/landingPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #d1d8e0 100%);
+            margin: 0;
+            min-height: 100vh;
+            font-size: 1.13rem;
+        }
+        .ios-container {
+            max-width: 1000px;
+            margin: 48px auto;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 40px rgba(44,62,80,0.11);
+            padding: 36px 24px 24px 24px;
+            position: relative;
+        }
+        .ios-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .ios-header .icon {
+            font-size: 3rem;
+            color: #007BFF;
+            margin-bottom: 12px;
+        }
+        .ios-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222f3e;
+            margin: 0 0 8px 0;
+        }
+        .ios-header p {
+            color: #576574;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .ios-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .ios-card {
+            background: #f7fafd;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(44,62,80,0.06);
+            margin-bottom: 28px;
+            padding: 28px 22px 18px 22px;
+            transition: box-shadow 0.18s;
+            border: 1px solid #e3e6ea;
+        }
+        .ios-card:last-child {
+            margin-bottom: 0;
+        }
+        .ios-card h2 {
+            font-size: 1.5rem;
+            color: #007BFF;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .ios-card .desc {
+            color: #485460;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .ios-card .mini-table th, .ios-card .mini-table td {
+            font-size: 1.08rem;
+            padding: 6px 8px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .mini-table th {
+            background: #e6f3ff;
+            color: #007BFF;
+            font-weight: 600;
+        }
+        .ios-card .mini-table td:first-child, .ios-card .mini-table th:first-child {
+            width: 120px;
+        }
+        .ios-card .steps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        .ios-card .steps-table th, .ios-card .steps-table td {
+            font-size: 1.08rem;
+            padding: 5px 7px;
+            border: 1px solid #e3e6ea;
+            background: #fff;
+            color: #222f3e;
+        }
+        .ios-card .steps-table th {
+            background: #e6f3ff;
+            color: #007BFF;
+            font-weight: 600;
+        }
+        .ios-card .fees {
+            margin-top: 8px;
+            color: #007BFF;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .ios-card .section-title {
+            font-size: 1.07rem;
+            color: #007BFF;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+        .ios-card ul {
+            margin: 0 0 0 18px;
+            padding: 0;
+            color: #485460;
+            font-size: 1.09rem;
+        }
+        .ios-contact {
+            background: #e6f3ff;
+            border-radius: 18px;
+            padding: 18px 18px 12px 18px;
+            margin-top: 30px;
+            color: #222f3e;
+            font-size: 1.18rem;
+        }
+        .ios-contact strong {
+            color: #007BFF;
+        }
+        .ios-contact a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .total-time {
+            background: #e6f3ff;
+            color: #007BFF;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        .badge {
+            background: #17a2b8;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        /* Smooth scrolling and hover effects */
+        html {
+            scroll-behavior: smooth;
+        }
+        a[href^="#"]:hover {
+            background: #e6f3ff !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15) !important;
+        }
+        @media (max-width: 700px) {
+            .ios-container { border-radius: 0; padding: 18px 2vw 16px 2vw; }
+        }
+
+        /* Back to Top Button Styling */
+        #back-to-top {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed position */
+            bottom: 30px; /* Position from the bottom */
+            right: 30px; /* Position from the right */
+            z-index: 999; /* Ensure it's above other elements */
+            border: none;
+            outline: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 24px;
+            line-height: 1;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+            transition: background-color 0.3s, opacity 0.3s, transform 0.2s;
+        }
+
+        #back-to-top:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-btn" style="position: absolute; top: 32px; left: 32px; z-index: 100; background: linear-gradient(135deg, #007BFF, #0056b3); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="font-size:1.2em;" aria-hidden="true">&#8592;</span>
+    </a>
+    <div class="ios-container">
+        <div class="ios-header">
+            <div class="icon">🛠️</div>
+            <h1>GSO</h1>
+            <p>General Services Office</p>
+        </div>
+        
+        <!-- Table of Contents -->
+        <section class="ios-card" style="background: #e6f3ff; border: 2px solid #007BFF;">
+            <h2 style="text-align: center; margin-bottom: 20px;">📋 Lista ng mga Serbisyo</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                <a href="#service1" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007BFF;">1.</strong> Inventory of PPE
+                </a>
+                <a href="#service2" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007BFF;">2.</strong> Motor Vehicle Insurance
+                </a>
+                <a href="#service3" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007BFF;">3.</strong> Repair and Maintenance
+                </a>
+                <a href="#service4" style="display: block; padding: 12px 16px; background: #fff; border-radius: 12px; text-decoration: none; color: #222f3e; border: 1px solid #e3e6ea; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: #007BFF;">4.</strong> Feedback at Reklamo
+                </a>
+            </div>
+        </section>
+        
+        <!-- 1. Inventory of PPE -->
+        <section class="ios-card" id="service1">
+            <h2>📦 1. Inventory of PPE (Personal Protective Equipment)</h2>
+            <div class="desc">Pag-inventory ng mga Personal Protective Equipment para sa lahat ng departments at opisina.</div>
+            <div style="margin-bottom: 15px;">
+                <span class="badge">Highly Technical</span>
+                <span class="badge">G2G</span>
+            </div>
+            <div class="section-title">Sino pwedeng mag-avail</div>
+            <ul>
+                <li>All Departments/Offices</li>
+                <li>Barangays</li>
+                <li>Schools</li>
+            </ul>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Inventory Form</td><td>GSO, Accounting Office, o End-user</td></tr>
+                <tr><td>Property Acknowledgement Receipt (PAR)</td><td>Accounting Office/GSO</td></tr>
+                <tr><td>List of PPE</td><td>Accounting Office/GSO</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Receive notice ng inventory schedule</td><td>5 mins/office</td><td>Markoy P. Caluducan</td></tr>
+                <tr><td>Physical inventory</td><td>3 hours/office</td><td>Inventory Committee Team</td></tr>
+                <tr><td>Reconciliation and final report</td><td>1 hour/office</td><td>Inventory Team</td></tr>
+                <tr><td>Sign final report as end-user</td><td>5 mins/office</td><td>End-user</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 5 hours and 10 minutes per office</div>
+        </section>
+
+        <!-- 2. Motor Vehicle Insurance -->
+        <section class="ios-card" id="service2">
+            <h2>🚗 2. Application/Renewal of Motor Vehicle Insurance</h2>
+            <div class="desc">Pag-apply o pag-renew ng motor vehicle insurance para sa government vehicles.</div>
+            <div style="margin-bottom: 15px;">
+                <span class="badge">Highly Technical</span>
+                <span class="badge">G2G</span>
+            </div>
+            <div class="section-title">Sino pwedeng mag-avail</div>
+            <ul>
+                <li>All Departments/Offices</li>
+            </ul>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>GSIS Application Form</td><td>GSIS</td></tr>
+                <tr><td>Photocopy ng OR/CR</td><td>GSO</td></tr>
+                <tr><td>Stencil of Motor/Chassis Number</td><td>GSO Motor Pool</td></tr>
+                <tr><td>Latest Motor Vehicle Photo</td><td>GSO</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Fill up GSIS form</td><td>5 mins</td><td>Orlando Del Rosario</td></tr>
+                <tr><td>Prepare OR/CR photocopy</td><td>5 mins</td><td>John Marc Pinto</td></tr>
+                <tr><td>Submit documents to GSIS</td><td>1 day</td><td>Orlando Del Rosario</td></tr>
+                <tr><td>GSIS processes billing</td><td>10 mins</td><td>Markoy P. Caluducan</td></tr>
+                <tr><td>Payment and issuance of policy</td><td>1 day</td><td>Orlando Del Rosario</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 3 days and 40 minutes</div>
+        </section>
+
+        <!-- 3. Repair and Maintenance -->
+        <section class="ios-card" id="service3">
+            <h2>🔧 3. Request for Repair and Maintenance</h2>
+            <div class="desc">Pagsasaayos at maintenance ng mga equipment, facilities, at vehicles ng government.</div>
+            <div style="margin-bottom: 15px;">
+                <span class="badge">Simple</span>
+                <span class="badge">G2G</span>
+            </div>
+            <div class="section-title">Sino pwedeng mag-avail</div>
+            <ul>
+                <li>All Departments/Offices</li>
+            </ul>
+            <div class="section-title">Mga Requirements</div>
+            <table class="mini-table">
+                <tr><th>Dokumento</th><th>Saan kukunin</th></tr>
+                <tr><td>Request Letter</td><td>Requesting Department/Office</td></tr>
+                <tr><td>Repair Acknowledgement Receipt/Job Order</td><td>GSO Motor Pool/Maintenance</td></tr>
+            </table>
+            <div class="section-title">Proseso</div>
+            <table class="steps-table">
+                <tr><th>Hakbang</th><th>Oras</th><th>Responsible Person</th></tr>
+                <tr><td>Submit request</td><td>5 mins</td><td>Glemer Bonita/Franco Dalacat</td></tr>
+                <tr><td>Approval and forwarding</td><td>10 mins</td><td>Markoy P. Caluducan</td></tr>
+                <tr><td>Procurement of materials</td><td>1-2 days</td><td>Requesting Office</td></tr>
+                <tr><td>Repair work</td><td>1 day</td><td>GSO Mechanics/Maintenance Personnel</td></tr>
+                <tr><td>Post-repair inspection</td><td>10 mins</td><td>Glemer Bonita/Franco Dalacat</td></tr>
+            </table>
+            <div class="total-time">📌 Total Processing Time: 3 days and 1 hour</div>
+        </section>
+
+        <!-- 4. Feedback at Reklamo -->
+        <section class="ios-card" id="service4">
+            <h2>📢 4. Feedback at Reklamo</h2>
+            <div class="section-title">Paano Magbigay ng Feedback</div>
+            <ul>
+                <li>Sagutan ang <b>Client Feedback Form</b></li>
+                <li>Ihulog sa drop box ng <b>Public Assistance and Complaint Desk</b></li>
+                <li>O mag-email sa: <a href="mailto:gabnecija_50@yahoo.com">gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</a></li>
+            </ul>
+            <div class="section-title">Processing ng Feedback</div>
+            <ul>
+                <li>Tuwing Biyernes: Bubuksan ng assigned officers ang drop box</li>
+                <li>Feedback na may kailangan ng sagot ay ipapasa sa tamang opisina</li>
+                <li>Dapat masagot ito <b>within 3 days</b></li>
+            </ul>
+            <div class="section-title">Paano Mag-file ng Complaint</div>
+            <ul>
+                <li>Sagutan ang <b>Client Complaint Form</b></li>
+                <li>Ihulog sa drop box sa harap ng Public Assistance and Complaint Desk</li>
+                <li>Pwede ring mag-text, tumawag, o mag-email (siguraduhing ilagay ang mga sumusunod):
+                    <ul>
+                        <li>Pangalan ng nirereklamo</li>
+                        <li>Detalye ng insidente</li>
+                        <li>Mga ebidensya</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="section-title">Complaint Processing</div>
+            <ul>
+                <li>Araw-araw chine-check ng <b>Municipal Administrator</b> ang drop box</li>
+                <li>Gagawa ng imbestigasyon at ipapasa ito sa tamang opisina para sa paliwanag</li>
+                <li>Gagawa ng report at isusumite sa Mayor para sa action</li>
+                <li>Ipapabatid ang resulta sa complainant</li>
+            </ul>
+            <div class="ios-contact">
+                <div><b>Contact Information</b></div>
+                <div>📞 <b>0998-990-1027</b></div>
+                <div>📧 <a href="mailto:gabnecija_50@yahoo.com"><b>gabnecija_50@yahoo.com/gabnecijahrmo@gmail.com</b></a></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button onclick="scrollToTop()" id="back-to-top" title="Go to top">
+        ↑ <!-- Unicode character for an upward-pointing triangle -->
+    </button>
+
+    <script>
+        // Get the button
+        let backToTopButton = document.getElementById("back-to-top");
+
+        // When the user scrolls down 100px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                backToTopButton.style.display = "block";
+                backToTopButton.style.opacity = "1";
+            } else {
+                backToTopButton.style.display = "none";
+                backToTopButton.style.opacity = "0";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Smooth scrolling animation
+            });
+        }
+    </script>
+</body>
+</html>

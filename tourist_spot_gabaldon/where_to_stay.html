@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where to Stay - Gabaldon Resorts & Staycations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .resorts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .resort-card {
+            background: white;
+            border-radius: 15px;
+            padding: 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resort-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .resort-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .resort-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .resort-content {
+            padding: 25px;
+        }
+
+        .resort-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            color: #34495e;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .contact-info::before {
+            content: '📞';
+            margin-right: 10px;
+            font-size: 1rem;
+        }
+
+        .location-info {
+            display: flex;
+            align-items: center;
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .location-info::before {
+            content: '📍';
+            margin-right: 10px;
+            font-size: 1rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            color: #f39c12;
+        }
+
+        .rating::before {
+            content: '⭐';
+            margin-right: 5px;
+        }
+
+        .social-media {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .facebook-btn {
+            background: #1877f2;
+            color: white;
+        }
+
+        .facebook-btn:hover {
+            background: #166fe5;
+        }
+
+        .instagram-btn {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+        }
+
+        .tiktok-btn {
+            background: #000;
+            color: white;
+        }
+
+        .tiktok-btn:hover {
+            background: #333;
+        }
+
+        .website-btn {
+            background: #34495e;
+            color: white;
+        }
+
+        .website-btn:hover {
+            background: #2c3e50;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 15px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-box:focus {
+            background: white;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+
+        .search-box::placeholder {
+            color: #7f8c8d;
+            opacity: 0.8;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        .no-results {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            margin: 40px 0;
+            opacity: 0.8;
+            display: none;
+        }
+
+        .resort-card.hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .resorts-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .resort-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../gabaldonExplore.html" class="back-btn"> ←</a>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Where to Stay in Gabaldon</h1>
+            <p>Discover the best resorts and staycation spots in Nueva Ecija's hidden gem</p>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search resorts by name, location, or barangay..." id="searchInput">
+            <div class="search-icon">🔍</div>
+        </div>
+        
+        <div class="no-results" id="noResults">
+            <p>No resorts found matching your search. Try a different keyword.</p>
+        </div>
+        <!-- 1 -->
+        <div class="resorts-grid">
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/rea.jpg" alt="Paradise Mountain Resort" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">REA'S BAMBOO RESORT</div>
+                    <div class="location-info">Brgy. Calabasa, Gabaldon</div>
+                    <div class="contact-info">+63 63 601 3183</div>
+                    <div class="rating">100% recommend (18 Reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Rea's Bamboo Resort
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 2 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/laaaa.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">LE ANNABELLE MOUNTAIN RESORT</div>
+                    <div class="location-info">Brgy. Calabasa, Gabaldon</div>
+                    <div class="contact-info">+63 38 653 9611</div>
+                    <div class="rating"> (0 reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Le Annabelle Mountain Resort
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <!-- 3 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/camp.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">MONTANA CONSERVATION CAMP</div>
+                    <div class="location-info">Brgy. Ligaya, Gabaldon</div>
+                    <div class="contact-info">+63 54 425 5698</div>
+                    <div class="rating"> 
+                        98% recommend (34 Reviews)
+                        </div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Montana Conservation Camp
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 4 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/stone8.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">STONE 8 RESORT</div>
+                    <div class="location-info">Brgy. Malinao, Gabaldon</div>
+                    <div class="contact-info">+63 98 569 6800</div>
+                    <div class="rating">64% recommend (5,896 Reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Stone 8 Resort
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 5 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/valley.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">VALLEY BREEZE RESORT</div>
+                    <div class="location-info">Brgy. Malinao, Gabaldon</div>
+                    <div class="contact-info">+63 77 427 0182</div>
+                    <div class="rating">94% recommend (342 Reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Valley Breeze Resort
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 6 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/hermies.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">HERMIRA GARDEN & RESORT</div>
+                    <div class="location-info">Brgy. Tagumpay, Gabaldon</div>
+                    <div class="contact-info">+63 08 873 5703</div>
+                    <div class="rating">Not yet rated (4 Reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Hermira Garden & Resort
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 7 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/leivy.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">LEIVEY LANCE RESORT</div>
+                    <div class="location-info">Brgy. Pantoc, Gabaldon</div>
+                    <div class="contact-info">+63 51 564 3443</div>
+                    <div class="rating">(0 reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Leivy Lance Resort, Gabaldon, NE
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 8 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/eco.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">NEUST ECO PARK</div>
+                    <div class="location-info">Brgy. North Poblacion, Gabaldon</div>
+                    <div class="contact-info">+63 39 117 4903</div>
+                    <div class="rating">Not yet rated (0 Reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Neust Eco Park
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 9 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/jm.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">JM CORPUZ RESORT</div>
+                    <div class="location-info">Brgy. Sawmill, Gabaldon</div>
+                    <div class="contact-info">+63 31 830 2054</div>
+                    <div class="rating">Not yet rated (1 Review)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            JM Corpuz Resort
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 10 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/famosa.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">FAMOSA FARM AND PRIVATE RESORT</div>
+                    <div class="location-info">Brgy. Malinao, Gabaldon</div>
+                    <div class="contact-info">+63 29 380 9344</div>
+                    <div class="rating">Not yet rated (1 Review)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            FaMoSa Farm and Private Resort
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 11 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/mike.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">UNCLE MIKE'S CAMPSITE </div>
+                    <div class="location-info">Brgy. Sawmill, Gabaldon</div>
+                    <div class="contact-info">+63 33 863 1236</div>
+                    <div class="rating">Not yet rated (3 Reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Uncle Mike's Campsite
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 12 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/janaya.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">JANAYA'S FARM AND RESORT</div>
+                    <div class="location-info">Brgy. Cuyapa, Gabaldon</div>
+                    <div class="contact-info">+63 267 451 3862</div>
+                    <div class="rating">Not yet rated (3 Reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Janaya's Farm and Resort
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 13 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/hilly.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">HILLYWOOD RESORT</div>
+                    <div class="location-info">Brgy. Cuyapa, Gabaldon</div>
+                    <div class="contact-info">+63 08 699 1669</div>
+                    <div class="rating">Not yet rated (0 Reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Hillywood Resort
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 14 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/VILLA.png" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">VILLA MERCEDES FARM AND PRIVATE RESORT</div>
+                    <div class="location-info">Brgy. Malinao, Gabaldon</div>
+                    <div class="contact-info">+63 18 910 0305</div>
+                    <div class="rating">Not yet rated (3 Reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Benedict's Place and Private Pool
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 15 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/bene.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">BENEDICT'S PLACE & PRIVATE POOL</div>
+                    <div class="location-info">Brgy. Cuyapa, Gabaldon</div>
+                    <div class="contact-info">+63 08 889 3638</div>
+                    <div class="rating">Not yet rated (1 Review)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Benedict’s Place & Private Pool 
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 16 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/candy.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">CANDYRIEL RESORT</div>
+                    <div class="location-info">Brgy. Ligaya, Gabaldon</div>
+                    <div class="contact-info">+63 18 313 1790</div>
+                    <div class="rating">42% recommend (7 Reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Candyriel Resort 
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 17 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/hiraya.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">HIRAYA FARM AND RESORT</div>
+                    <div class="location-info">Brgy. Pantoc, Gabaldon</div>
+                    <div class="contact-info">+63 39 873 0692</div>
+                    <div class="rating">Not yet rated (0 Reviews)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Hiraya Farm and Resort 
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 18 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/water.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">WATER TOWN HOTEL VILLA AND RESORT</div>
+                    <div class="location-info">Brgy. Sawmill, Gabaldon</div>
+                    <div class="contact-info">+63 19 992 7836</div>
+                    <div class="rating">Not yet rated (0 Review)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Water Town Hotel Villa & Resort 
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 19 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/ads.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">ADS FARM AND MOUNTAIN RESORT</div>
+                    <div class="location-info">Brgy. Sawmill, Gabaldon</div>
+                    <div class="contact-info">+63 22 847 1408</div>
+                    <div class="rating">Not yet rated (0 Review)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            ADS Farm & Mountain Resort 
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 20 -->
+            <div class="resort-card">
+                <img src="../assets/tourist/stay/casa.jpg" alt="Sierra Madre Lodge" class="resort-image">
+                <div class="resort-content">
+                    <div class="resort-name">CASA ALEXANDRA</div>
+                    <div class="location-info">Brgy. Calabasa, Gabaldon</div>
+                    <div class="contact-info">+63 94 294 7175</div>
+                    <div class="rating">Not yet rated (00 Review)</div>
+                    <div class="social-media">
+                        <a class="social-btn facebook-btn" target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Casa Alexandra  (Casa Alexandra Gabaldon NE)
+                        </a>                        <a class="social-btn tiktok-btn"  target="_blank">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                            @casaalexandraph
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+           
+        </div>
+    </div>
+
+    <script>
+        // Add smooth scroll animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.resort-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+
+        // Add click to call functionality
+        document.querySelectorAll('.contact-info').forEach(contact => {
+            contact.style.cursor = 'pointer';
+            contact.addEventListener('click', function() {
+                const phoneNumber = this.textContent.trim();
+                window.location.href = `tel:${phoneNumber}`;
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const resortCards = document.querySelectorAll('.resort-card');
+        const noResults = document.getElementById('noResults');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            let visibleCards = 0;
+
+            resortCards.forEach(card => {
+                const resortName = card.querySelector('.resort-name').textContent.toLowerCase();
+                const location = card.querySelector('.location-info').textContent.toLowerCase();
+                
+                // Check if search term matches resort name or location
+                if (resortName.includes(searchTerm) || location.includes(searchTerm)) {
+                    card.classList.remove('hidden');
+                    visibleCards++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // Show/hide no results message
+            if (visibleCards === 0 && searchTerm !== '') {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        });
+
+        // Clear search on escape key
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                this.value = '';
+                resortCards.forEach(card => card.classList.remove('hidden'));
+                noResults.style.display = 'none';
+            }
+        });
+    </script>
+
+    <!-- Virtual Keyboard Component -->
+    <style>
+      .vk-overlay {
+        position: fixed;
+        left: 0; right: 0; bottom: 0;
+        width: 100vw;
+        height: auto;
+        background: rgba(225, 225, 235, 0.5);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 -4px 24px rgba(0,0,0,0.1);
+        z-index: 9999;
+        display: none;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        animation: vk-slideup 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      @keyframes vk-slideup {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+      }
+      .vk-keys {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        max-width: 650px;
+        margin: 0 auto;
+        padding: 12px;
+        user-select: none;
+      }
+      .vk-row {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+      }
+      .vk-key {
+        flex: 1 1 0;
+        padding: 18px 0;
+        margin: 0;
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        color: #1d1d1f;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        font-size: 1.2rem;
+        font-family: inherit;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      .vk-key:active {
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(0.96);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .vk-key.vk-wide {
+        flex: 2.2 1 0;
+      }
+      .vk-key.vk-action {
+        background: rgba(210, 210, 220, 0.4);
+      }
+      .vk-key.vk-action:active {
+        background: rgba(210, 210, 220, 0.6);
+      }
+      .vk-close {
+        align-self: flex-end;
+        margin: 8px 16px 0;
+        background: none;
+        border: none;
+        color: #333;
+        font-size: 1.8rem;
+        font-weight: 300;
+        cursor: pointer;
+        padding: 5px;
+        line-height: 1;
+      }
+      @media (max-width: 600px) {
+        .vk-keys { max-width: 100vw; gap: 6px; padding: 8px; }
+        .vk-row { gap: 6px; }
+        .vk-key { font-size: 1rem; padding: 14px 0; border-radius: 8px; }
+      }
+    </style>
+    <div class="vk-overlay" id="vkOverlay">
+      <button class="vk-close" id="vkCloseBtn" title="Close Keyboard">&times;</button>
+      <div class="vk-keys" id="vkKeys"></div>
+    </div>
+    <script>
+      // Virtual Keyboard Layout
+      const vkLayout = [
+        ['Q','W','E','R','T','Y','U','I','O','P'],
+        ['A','S','D','F','G','H','J','K','L'],
+        ['Z','X','C','V','B','N','M'],
+        ['Space','Backspace']
+      ];
+      const vkOverlay = document.getElementById('vkOverlay');
+      const vkKeys = document.getElementById('vkKeys');
+      const vkCloseBtn = document.getElementById('vkCloseBtn');
+      let vkTargetInput = null;
+      function renderKeyboard() {
+        vkKeys.innerHTML = '';
+        vkLayout.forEach(row => {
+          const rowDiv = document.createElement('div');
+          rowDiv.className = 'vk-row';
+          row.forEach(key => {
+            const btn = document.createElement('button');
+            btn.className = 'vk-key';
+            if(key === 'Space') {
+              btn.classList.add('vk-wide', 'vk-action');
+              btn.textContent = 'Space';
+            } else if(key === 'Backspace') {
+              btn.classList.add('vk-wide', 'vk-action');
+              btn.textContent = '⌫';
+            } else {
+              btn.textContent = key;
+            }
+            btn.onclick = () => handleVkKey(key);
+            rowDiv.appendChild(btn);
+          });
+          vkKeys.appendChild(rowDiv);
+        });
+      }
+      function handleVkKey(key) {
+        if(!vkTargetInput) return;
+        if(key === 'Backspace') {
+          vkTargetInput.value = vkTargetInput.value.slice(0, -1);
+          vkTargetInput.dispatchEvent(new Event('input'));
+        } else if(key === 'Space') {
+          vkTargetInput.value += ' ';
+          vkTargetInput.dispatchEvent(new Event('input'));
+        } else {
+          vkTargetInput.value += key;
+          vkTargetInput.dispatchEvent(new Event('input'));
+        }
+        vkTargetInput.focus();
+      }
+      function showVkFor(input) {
+        vkTargetInput = input;
+        vkOverlay.style.display = 'flex';
+        renderKeyboard();
+        setTimeout(() => { vkOverlay.scrollIntoView({behavior:'smooth'}); }, 100);
+      }
+      function hideVk() {
+        vkOverlay.style.display = 'none';
+        vkTargetInput = null;
+      }
+      vkCloseBtn.onclick = hideVk;
+      // Attach to search input
+      const vkSearchInput = document.getElementById('searchInput');
+      if(vkSearchInput) {
+        vkSearchInput.addEventListener('focus', function() {
+          // Only show on touch devices or if explicitly needed (kiosk)
+          if(window.matchMedia('(pointer: coarse)').matches || true) {
+            showVkFor(this);
+          }
+        });
+        // Prevent normal keyboard on touch devices (optional, depends on kiosk setup)
+        vkSearchInput.setAttribute('readonly', 'readonly');
+        vkSearchInput.addEventListener('blur', function() {
+          // hideVk(); // Optionally hide on blur
+        });
+      }
+      // Hide VK when overlay background is clicked
+      vkOverlay.addEventListener('mousedown', function(e) {
+        if(e.target === vkOverlay) hideVk();
+      });
+    </script>
+</body>
+</html>

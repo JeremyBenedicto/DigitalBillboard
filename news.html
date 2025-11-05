@@ -1,356 +1,879 @@
 <!DOCTYPE html>
-<html lang="tl">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Client Satisfaction Measurement (CSM) Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gabaldon News and Announcements</title>
+    <style>
+        /* --- Global Styles and Reset --- */
+        :root {
+            --color-primary: #007AFF; /* Apple Blue */
+            --color-secondary: #34C759; /* Apple Green */
+            --color-background: #f5f5f7; /* Light background, similar to Apple's light mode */
+            --color-card-bg: #ffffff;
+            --color-text-dark: #1d1d1f;
+            --color-text-light: #8e8e93; /* Secondary text color */
+            --color-border: rgba(0, 0, 0, 0.08);
+            --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.1);
+            --border-radius-card: 16px;
+            --border-radius-button: 12px;
+        }
 
-  <!-- Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-  <style>
-    body {
-      font-family: "Arial", sans-serif;
-      background: #f9f9f9;
-      color: #000;
-      margin: 0;
-      padding: 0;
-      font-size: 16px;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+            background-color: var(--color-background);
+            min-height: 100vh;
+            color: var(--color-text-dark);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
 
-    .container {
-      max-width: 950px;
-      background: #fff;
-      margin: 30px auto;
-      padding: 40px 60px;
-      border: 1px solid #ccc;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+        body.keyboard-active {
+            padding-bottom: 0;
+        }
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      margin-bottom: 30px;
-      line-height: 1.4;
-      position: relative;
-    }
+        a {
+            text-decoration: none;
+            color: var(--color-primary);
+        }
 
-    header img {
-      position: absolute;
-      left: 20px;
-      top: 5px;
-      width: 70px;
-      height: 70px;
-      object-fit: contain;
-    }
+        /* --- Header/Navigation Bar --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-light);
+            gap: 15px;
+        }
 
-    header h2 { font-size: 20px; margin: 0; font-weight: bold; }
-    header h3 { font-size: 18px; margin: 0; }
+        /* --- Search Bar --- */
+        .search-container {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            max-width: 400px;
+            margin: 0 20px;
+        }
 
-    .divider {
-      border-bottom: 1px solid #000;
-      margin: 15px 0;
-    }
+        .search-input {
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 16px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-button);
+            background-color: var(--color-background);
+            color: var(--color-text-dark);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
 
-    h4.section-title {
-      text-align: center;
-      font-weight: bold;
-      text-transform: uppercase;
-      margin-top: 30px;
-      margin-bottom: 15px;
-    }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
 
-    p.instructions { text-align: justify; font-size: 16px; }
+        .search-input::placeholder {
+            color: var(--color-text-light);
+        }
 
-    .form-section { margin-top: 20px; }
+        .search-btn {
+            margin-left: 10px;
+            padding: 10px 16px;
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-button);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            font-size: 14px;
+        }
 
-    label { font-weight: 600; }
+        .search-btn:hover {
+            background-color: #0051d5;
+        }
 
-    .form-group { margin-bottom: 12px; }
+        .search-btn:active {
+            transform: scale(0.98);
+        }
 
-    .inline-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
+        .back-btn {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            background-color: var(--color-background);
+            color: var(--color-text-dark);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-button);
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    input[type="text"],
-    input[type="date"],
-    input[type="number"],
-    textarea {
-      border: 1px solid #ccc;
-      padding: 6px 10px;
-      width: 100%;
-      border-radius: 4px;
-    }
+        .back-btn:hover {
+            background-color: #e8e8e8;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-    textarea { min-height: 80px; resize: vertical; }
+        .back-btn:active {
+            transform: scale(0.98);
+        }
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 15px;
-    }
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-text-dark);
+            text-align: center;
+            flex-grow: 1;
+            margin: 0 20px;
+        }
 
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-      font-size: 15px;
-      vertical-align: middle;
-    }
+        .header-spacer {
+            width: 100px;
+        }
 
-    th { background-color: #efefef; }
-    .question { text-align: left; font-weight: normal; }
-    .emoji { font-size: 28px; display: block; }
+        /* --- No Results Message --- */
+        .no-results {
+            text-align: center;
+            padding: 60px 30px;
+            color: var(--color-text-light);
+        }
 
-    .red { color: #e74c3c; }
-    .orange { color: #e67e22; }
-    .gray { color: #7f8c8d; }
-    .lightgreen { color: #2ecc71; }
-    .green { color: #27ae60; }
-    .na { color: #95a5a6; }
-    .grayscale { filter: grayscale(100%); }
+        .no-results h2 {
+            font-size: 24px;
+            color: var(--color-text-dark);
+            margin-bottom: 10px;
+        }
 
-    .submit-btn {
-      display: block;
-      margin: 30px auto 10px;
-      padding: 10px 30px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
+        .no-results p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
 
-    .submit-btn:hover { background-color: #0056b3; }
+        .clear-search-btn {
+            padding: 10px 20px;
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-button);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            font-size: 14px;
+        }
 
-    .footer {
-      text-align: center;
-      margin-top: 20px;
-      font-weight: bold;
-    }
+        .clear-search-btn:hover {
+            background-color: #0051d5;
+        }
 
-    .page-break {
-      page-break-before: always;
-      margin-top: 50px;
-    }
+        .clear-search-btn:active {
+            transform: scale(0.98);
+        }
 
-    #overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      color: white;
-      font-size: 22px;
-      text-align: center;
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-    }
+        /* --- Main Content Layout --- */
+        .news-container {
+            padding: 40px 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-    #overlay p {
-      background: rgba(0,0,0,0.8);
-      padding: 20px 40px;
-      border-radius: 10px;
-    }
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
 
-    .back-button {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      z-index: 1000;
-      padding: 10px 15px;
-      background-color: #dcdada;
-      color: #333;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.2s, transform 0.1s;
-      font-size: 14px;
-    }
+        /* --- News Card Style --- */
+        .news-card {
+            background: var(--color-card-bg);
+            border-radius: var(--border-radius-card);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--color-border);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .back-button:hover {
-      background-color: #e0e0e0;
-      transform: translateY(-1px);
-    }
+        .news-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
 
-    .back-button:active { transform: translateY(0); }
-  </style>
+        .news-image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 66.66%;
+            overflow: hidden;
+        }
+
+        .news-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease-out;
+        }
+
+        .news-card:hover .news-image {
+            transform: scale(1.05);
+        }
+
+        .news-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-text-dark);
+            margin-bottom: 8px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .news-info p {
+            font-size: 13px;
+            color: var(--color-text-light);
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .news-type-badge {
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-pdf {
+            background-color: #f0f0ff;
+            color: var(--color-primary);
+        }
+
+        .badge-image {
+            background-color: #f0fff0;
+            color: var(--color-secondary);
+        }
+
+        /* --- Fullscreen Modal Styles --- */
+        .fullscreen-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 5000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .fullscreen-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .fullscreen-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 50%;
+            font-weight: 300;
+            line-height: 1;
+            transition: background 0.2s, transform 0.1s;
+            z-index: 5010;
+        }
+
+        .fullscreen-close:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .fullscreen-close:active {
+            transform: scale(0.95);
+        }
+
+        /* PDF Viewer Container */
+        .pdf-viewer {
+            width: 90%;
+            height: 90%;
+            background: var(--color-card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transform: scale(0.95);
+            transition: transform 0.3s ease-out;
+        }
+
+        .fullscreen-modal.active .pdf-viewer {
+            transform: scale(1);
+        }
+
+        .pdf-viewer iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Image Viewer (for non-PDFs) */
+        .fullscreen-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transform: scale(0.95);
+            transition: transform 0.3s ease-out;
+        }
+
+        .fullscreen-modal.active .fullscreen-image {
+            transform: scale(1);
+        }
+
+        /* --- Virtual Keyboard --- */
+        .virtual-keyboard {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--color-border);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            z-index: 4000;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .virtual-keyboard.active {
+            display: flex;
+        }
+
+        .keyboard-row {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .keyboard-key {
+            padding: 12px 14px;
+            background-color: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-dark);
+            transition: background-color 0.1s, transform 0.1s;
+            min-width: 40px;
+            text-align: center;
+            user-select: none;
+        }
+
+        .keyboard-key:hover {
+            background-color: #e8e8e8;
+        }
+
+        .keyboard-key:active {
+            transform: scale(0.95);
+            background-color: #d8d8d8;
+        }
+
+        .keyboard-key.space-key {
+            flex-grow: 1;
+            min-width: 200px;
+        }
+
+        .keyboard-key.backspace-key,
+        .keyboard-key.enter-key,
+        .keyboard-key.clear-key {
+            background-color: #f0f0f0;
+            color: var(--color-text-dark);
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .keyboard-key.backspace-key:hover,
+        .keyboard-key.enter-key:hover,
+        .keyboard-key.clear-key:hover {
+            background-color: #e0e0e0;
+        }
+
+        .keyboard-key.enter-key {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .keyboard-key.enter-key:hover {
+            background-color: #0051d5;
+        }
+
+        .keyboard-key.clear-key {
+            background-color: #ff3b30;
+            color: white;
+        }
+
+        .keyboard-key.clear-key:hover {
+            background-color: #ff1744;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1024px) {
+            .news-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            .search-container {
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 16px;
+                flex-wrap: wrap;
+            }
+            .page-title {
+                font-size: 20px;
+                flex-basis: 100%;
+                order: 2;
+            }
+            .back-btn {
+                padding: 6px 12px;
+                font-size: 14px;
+                order: 1;
+            }
+            .search-container {
+                flex-basis: 100%;
+                order: 3;
+                max-width: 100%;
+                margin: 10px 0 0 0;
+            }
+            .search-input {
+                font-size: 16px;
+            }
+            .header-spacer {
+                display: none;
+            }
+            .news-container {
+                padding: 20px 16px;
+                padding-bottom: 320px;
+            }
+            .news-grid {
+                gap: 20px;
+                grid-template-columns: 1fr;
+            }
+            .news-image-wrapper {
+                padding-top: 56.25%;
+            }
+            .news-info {
+                padding: 15px;
+            }
+            .news-info h3 {
+                font-size: 16px;
+            }
+            .pdf-viewer {
+                width: 95%;
+                height: 95%;
+            }
+            .fullscreen-close {
+                top: 10px;
+                right: 10px;
+                padding: 8px 14px;
+                font-size: 24px;
+            }
+            .virtual-keyboard.active {
+                max-height: 280px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 8px 12px;
+            }
+            .page-title {
+                font-size: 18px;
+            }
+            .header-spacer {
+                display: none;
+            }
+            .search-container {
+                margin: 0;
+            }
+            .search-btn {
+                margin-left: 8px;
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            .keyboard-key {
+                padding: 10px 12px;
+                font-size: 13px;
+                min-width: 36px;
+            }
+            .keyboard-key.space-key {
+                min-width: 150px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <a href="/index.html" class="back-button" onclick="window.history.back(); return false;">&larr;</a>
 
-  <div id="overlay"><p>📄 Downloading PDF... Please wait.</p></div>
+    <!-- Fullscreen Modal -->
+    <div id="fullscreen-modal" class="fullscreen-modal">
+        <button class="fullscreen-close" onclick="closeFullscreen(event)" aria-label="Close Fullscreen">&times;</button>
+        
+        <!-- Image Viewer -->
+        <img id="fullscreen-image" class="fullscreen-image" src="" alt=""> 
+        
+        <!-- PDF Viewer Container -->
+        <div id="pdf-viewer-container" class="pdf-viewer" style="display:none;">
+            <!-- The iframe will be dynamically added here to display the PDF -->
+        </div>
+    </div>
 
-  <!-- PAGE 1 -->
-  <div class="container" id="page1">
-    <header>
-      <div style="width:100%">
-        <h3>Republic of the Philippines</h3>
-        <h3>PROVINCE OF NUEVA ECIJA</h3>
-        <h3>Municipality of Gabaldon</h3>
-        <p><b>- oOo -</b></p>
-        <h2>PAMBAYANG TANGGAPAN NG TAGATALA</h2>
-      </div>
+    <header class="header">
+        <button class="back-btn" onclick="goBack()">&larr; Back</button>
+        <div class="page-title">LGU - Gabaldon Bulletin Board</div>
+        <div class="search-container">
+            <input 
+                type="text" 
+                id="searchInput" 
+                class="search-input" 
+                placeholder="Search news..."
+                autocomplete="off"
+            >
+            <button class="search-btn" onclick="performSearch()">🔍</button>
+        </div>
+        <div class="header-spacer"></div>
     </header>
 
-    <div class="divider"></div>
-    <h4>TULUNGAN MO KAMI MAS MAPABUTI ANG AMING MGA PROSESO AT SERBISYO!</h4>
+    <main class="news-container">
+        <div class="news-grid" id="newsGrid">
+            <!-- News Cards will be loaded here -->
+        </div>
+        <div id="noResults" class="no-results" style="display:none;">
+            <h2>No Results Found</h2>
+            <p>Try searching with different keywords</p>
+            <button class="clear-search-btn" onclick="clearSearch()">Clear Search</button>
+        </div>
+    </main>
 
-    <p class="instructions">
-      Ang Client Satisfaction Measurement (CSM) ay naglalayong masubaybayan ang karanasan ng taumbayan hinggil sa kanilang pakikitransaksyon sa mga tanggapan ng gobyerno.
-      Makatutulong ang inyong kasagutan upang mas mapabuti at lalong mapahusay ang aming serbisyo publiko.
-      Ang inyong ibinahaging impormasyon ay mananatiling kumpidensyal.
-    </p>
-
-    <div class="form-section">
-      <div class="form-group inline-group">
-        <label>Uri ng Kliyente:</label>
-        <label><input type="checkbox"> Mamamayan</label>
-        <label><input type="checkbox"> Negosyo</label>
-        <label><input type="checkbox"> Gobyerno</label>
-      </div>
-
-      <div class="form-group inline-group">
-        <label>Petsa:</label> <input type="date">
-        <label>Kasarian:</label>
-        <label><input type="checkbox"> Lalaki</label>
-        <label><input type="checkbox"> Babae</label>
-        <label>Edad:</label> <input type="number" min="1" style="width:80px">
-      </div>
-
-      <div class="form-group inline-group">
-        <label>Rehiyon:</label> <input type="text">
-        <label>Uri ng transaksyon o serbisyo:</label> <input type="text">
-      </div>
+    <!-- Virtual Keyboard for Kiosk Mode -->
+    <div id="virtualKeyboard" class="virtual-keyboard">
+        <div class="keyboard-row">
+            <button class="keyboard-key" onclick="addCharToSearch('Q')">Q</button>
+            <button class="keyboard-key" onclick="addCharToSearch('W')">W</button>
+            <button class="keyboard-key" onclick="addCharToSearch('E')">E</button>
+            <button class="keyboard-key" onclick="addCharToSearch('R')">R</button>
+            <button class="keyboard-key" onclick="addCharToSearch('T')">T</button>
+            <button class="keyboard-key" onclick="addCharToSearch('Y')">Y</button>
+            <button class="keyboard-key" onclick="addCharToSearch('U')">U</button>
+            <button class="keyboard-key" onclick="addCharToSearch('I')">I</button>
+            <button class="keyboard-key" onclick="addCharToSearch('O')">O</button>
+            <button class="keyboard-key" onclick="addCharToSearch('P')">P</button>
+        </div>
+        <div class="keyboard-row">
+            <button class="keyboard-key" onclick="addCharToSearch('A')">A</button>
+            <button class="keyboard-key" onclick="addCharToSearch('S')">S</button>
+            <button class="keyboard-key" onclick="addCharToSearch('D')">D</button>
+            <button class="keyboard-key" onclick="addCharToSearch('F')">F</button>
+            <button class="keyboard-key" onclick="addCharToSearch('G')">G</button>
+            <button class="keyboard-key" onclick="addCharToSearch('H')">H</button>
+            <button class="keyboard-key" onclick="addCharToSearch('J')">J</button>
+            <button class="keyboard-key" onclick="addCharToSearch('K')">K</button>
+            <button class="keyboard-key" onclick="addCharToSearch('L')">L</button>
+        </div>
+        <div class="keyboard-row">
+            <button class="keyboard-key" onclick="addCharToSearch('Z')">Z</button>
+            <button class="keyboard-key" onclick="addCharToSearch('X')">X</button>
+            <button class="keyboard-key" onclick="addCharToSearch('C')">C</button>
+            <button class="keyboard-key" onclick="addCharToSearch('V')">V</button>
+            <button class="keyboard-key" onclick="addCharToSearch('B')">B</button>
+            <button class="keyboard-key" onclick="addCharToSearch('N')">N</button>
+            <button class="keyboard-key" onclick="addCharToSearch('M')">M</button>
+            <button class="keyboard-key backspace-key" onclick="backspaceChar()">⌫ Back</button>
+        </div>
+        <div class="keyboard-row">
+            <button class="keyboard-key space-key" onclick="addCharToSearch(' ')">Space</button>
+            <button class="keyboard-key enter-key" onclick="performSearch()">Search</button>
+            <button class="keyboard-key clear-key" onclick="clearSearch()">Clear</button>
+        </div>
     </div>
 
-    <h4 class="section-title">Citizen’s Charter (CC)</h4>
-    <p class="instructions">Lagyan ng tsek (✔) ang angkop na sagot.</p>
+    <script>
+        // Data structure updated to use 'thumbnail' for the card and 'file' (PDF) for fullscreen
+        const newsItems = [
+            {
+                title: "SATELLITE SCHEDULE",
+                date: "October 30, 2025",
+                thumbnail: "assets/news/sc1-thumbnail.jpg",
+                file: "assets/news/sc1.pdf",
+                alt: "Executive Order on New Curfew Hours",
+                type: "pdf"
+            }
+            // Add more news items here
+            // {
+            //     title: "Another News Item",
+            //     date: "November 01, 2025",
+            //     thumbnail: "assets/news/another-thumbnail.jpg",
+            //     file: "assets/news/another-image.jpg",
+            //     alt: "Description of another item",
+            //     type: "image" 
+            // }
+        ];
 
-    <div class="form-section">
-      <label>CC1. Alin sa mga sumusunod ang naglalarawan sa iyong kaalaman sa CC?</label>
-      <div class="checkbox-group">
-        <label><input type="checkbox"> Alam ko ang CC at nakita ko ito sa napuntahang opisina</label>
-        <label><input type="checkbox"> Alam ko ang CC pero hindi ko ito nakita sa opisina</label>
-        <label><input type="checkbox"> Nalaman ko ang CC nang makita ko ito sa opisina</label>
-        <label><input type="checkbox"> Hindi ko alam kung ano ang CC at wala akong nakita sa opisina</label>
-      </div>
-    </div>
-  </div>
+        // --- Element References ---
+        const newsGrid = document.getElementById('newsGrid');
+        const fullscreenModal = document.getElementById('fullscreen-modal');
+        const pdfViewerContainer = document.getElementById('pdf-viewer-container');
+        const fullscreenImage = document.getElementById('fullscreen-image');
+        const searchInput = document.getElementById('searchInput');
+        const virtualKeyboard = document.getElementById('virtualKeyboard');
+        const noResults = document.getElementById('noResults');
 
-  <!-- PAGE 2 -->
-  <div class="container page-break" id="page2">
-    <h4 class="section-title">Satisfaction Questions (SQD0–8)</h4>
-    <p class="instructions">Pumili ng isang emoji na pinakaangkop sa iyong sagot.</p>
+        // --- State ---
+        let filteredNews = [...newsItems];
+        let isSearchActive = false;
 
-    <table id="emojiTable">
-      <thead>
-        <tr>
-          <th class="question">Mga Pahayag</th>
-          <th><span class="emoji red">😠</span>Lubos na<br>hindi sumasang-ayon</th>
-          <th><span class="emoji orange">🙁</span>Hindi<br>sumasang-ayon</th>
-          <th><span class="emoji gray">😐</span>Walang<br>kinikilingan</th>
-          <th><span class="emoji lightgreen">🙂</span>Sumasang-ayon</th>
-          <th><span class="emoji green">😃</span>Labis na<br>sumasang-ayon</th>
-          <th><span class="emoji na">🚫</span>N/A</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
 
-    <div class="form-section">
-      <label>Mga suhestiyon (opsyonal):</label>
-      <textarea></textarea>
-      <label>Email address (opsyonal):</label>
-      <input type="text">
-    </div>
+        // --- Navigation ---
+        function goBack() {
+            window.history.back();
+        }
 
-    <button class="submit-btn" onclick="savePDF()">Isumite</button>
+        // --- Fullscreen Modal Logic ---
+        function openFullscreen(fileSrc, altText, fileType) {
+            pdfViewerContainer.innerHTML = '';
+            pdfViewerContainer.style.display = 'none';
+            fullscreenImage.style.display = 'none';
 
-    <div class="footer">MARAMING</div>
-  </div>
+            if (fileType === 'pdf') {
+                const iframe = document.createElement('iframe');
+                iframe.src = fileSrc + '#toolbar=0&navpanes=0'; 
+                iframe.title = altText;
 
-  <script>
-    // Dynamically create table questions
-    const questions = [
-      "Nasiyahan ako sa serbisyo na aking natanggap sa napuntahan na tanggapan.",
-      "Makatwiran ang oras na aking ginugol para sa pagproseso ng aking transaksyon.",
-      "Ang opisina ay sumusunod sa mga kinakailangang dokumento at mga hakbang batay sa impormasyong ibinigay.",
-      "Ang mga hakbang sa pagproseso, kasama na ang pagbayad ay madali at simple lamang.",
-      "Mabilis at madali akong nakahanap ng impormasyon tungkol sa aking transaksyon mula sa opisina o sa website nito.",
-      "Nagbayad ako ng makatwirang halaga para sa aking transaksyon. (Kung libre, lagyan ng tsek ang N/A.)",
-      "Pakiramdam ko ay patas ang opisina sa lahat, o “walang palakasan”, sa aking transaksyon.",
-      "Magalang akong trinato ng mga tauhan, at (kung humingi ako ng tulong) alam ko na sila ay handang tumulong sa akin.",
-      "Nakuha ko ang kinakailangan ko mula sa tanggapan ng gobyerno; kung tinanggihan man, ito ay sapat na ipinaliwanag sa akin."
-    ];
+                pdfViewerContainer.appendChild(iframe);
+                pdfViewerContainer.style.display = 'block';
+            } else {
+                fullscreenImage.src = fileSrc;
+                fullscreenImage.alt = altText;
+                fullscreenImage.style.display = 'block';
+            }
 
-    const tbody = document.querySelector("#emojiTable tbody");
-    questions.forEach((q, i) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="question">SQD${i}. ${q}</td>
-        ${Array.from({ length: 6 }, (_, j) => `<td><input type="radio" name="sqd${i}" value="${j+1}"></td>`).join("")}
-      `;
-      tbody.appendChild(row);
-    });
+            fullscreenModal.classList.add('active');
+        }
 
-    // ✅ FIXED savePDF() — Android-compatible
-    async function savePDF() {
-      const PDF_RENDER_SCALE = 2.5;
-      const { jsPDF } = window.jspdf;
-      const overlay = document.getElementById("overlay");
-      const button = document.querySelector(".submit-btn");
-      const pdf = new jsPDF("p", "mm", "a4");
+        function closeFullscreen() {
+            fullscreenModal.classList.remove('active');
+            // Clear iframe content to stop any potential background processes
+            pdfViewerContainer.innerHTML = ''; 
+        }
+        
+        // Close modal if user clicks on the dark background
+        fullscreenModal.addEventListener('click', (e) => {
+            if (e.target === fullscreenModal) {
+                closeFullscreen();
+            }
+        });
 
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const pageWidth = pdf.internal.pageSize.getWidth();
 
-      overlay.style.display = "flex";
-      button.style.display = "none";
+        // --- Virtual Keyboard & Search Logic ---
 
-      document.querySelectorAll(".emoji").forEach(e => e.classList.add("grayscale"));
-      await new Promise(r => setTimeout(r, 600));
+        function showVirtualKeyboard() {
+            virtualKeyboard.classList.add('active');
+            document.body.classList.add('keyboard-active');
+        }
 
-      const page1 = document.getElementById("page1");
-      const page2 = document.getElementById("page2");
+        function hideVirtualKeyboard() {
+            virtualKeyboard.classList.remove('active');
+            document.body.classList.remove('keyboard-active');
+            // Remove focus from the input to prevent mobile keyboard from popping up
+            if (document.activeElement === searchInput) {
+                searchInput.blur();
+            }
+        }
 
-      const canvas1 = await html2canvas(page1, { scale: PDF_RENDER_SCALE, useCORS: true });
-      const canvas2 = await html2canvas(page2, { scale: PDF_RENDER_SCALE, useCORS: true });
+        function addCharToSearch(char) {
+            searchInput.value += char;
+            searchInput.focus(); // Keep focus for continuous typing
+        }
 
-      const img1 = canvas1.toDataURL("image/png");
-      const img2 = canvas2.toDataURL("image/png");
+        function backspaceChar() {
+            searchInput.value = searchInput.value.slice(0, -1);
+            searchInput.focus(); // Keep focus
+        }
 
-      pdf.addImage(img1, "PNG", 0, 0, pageWidth, pageHeight);
-      pdf.addPage();
-      pdf.addImage(img2, "PNG", 0, 0, pageWidth, pageHeight);
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            if (query === '') {
+                filteredNews = [...newsItems];
+                isSearchActive = false;
+            } else {
+                filteredNews = newsItems.filter(item => 
+                    item.title.toLowerCase().includes(query) ||
+                    item.date.toLowerCase().includes(query) ||
+                    item.alt.toLowerCase().includes(query)
+                );
+                isSearchActive = true;
+            }
+            
+            // Hide keyboard after search is performed
+            // We can remove this if we want the keyboard to stay open
+            // hideVirtualKeyboard(); 
+            renderNews();
+        }
 
-      // ✅ Android-safe download
-      const blob = pdf.output("blob");
-      const blobUrl = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = "Client_Satisfaction_Form.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+        function clearSearch() {
+            searchInput.value = '';
+            filteredNews = [...newsItems];
+            isSearchActive = false;
+            hideVirtualKeyboard(); // Always hide on clear
+            renderNews();
+        }
 
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+        // Show virtual keyboard when search input is focused
+        searchInput.addEventListener('focus', () => {
+            showVirtualKeyboard();
+        });
 
-      document.querySelectorAll(".emoji").forEach(e => e.classList.remove("grayscale"));
-      overlay.style.display = "none";
-      button.style.display = "block";
-    }
-  </script>
+        // Allow 'Enter' key on a physical keyboard to perform search
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+                hideVirtualKeyboard(); // Also hide on Enter
+            }
+        });
+
+        // --- Global Click Handler to Close Keyboard ---
+        // This is the function you requested.
+        document.addEventListener('click', (e) => {
+            const isKeyboardActive = virtualKeyboard.classList.contains('active');
+
+            // 1. If keyboard isn't active, do nothing.
+            if (!isKeyboardActive) {
+                return; 
+            }
+
+            // 2. Check if the click was on the search input.
+            const isClickOnInput = e.target === searchInput;
+
+            // 3. Check if the click was inside the virtual keyboard itself.
+            // .closest() finds the nearest ancestor matching the selector.
+            const isClickOnKeyboard = e.target.closest('.virtual-keyboard');
+
+            // 4. If the click is NOT on the input and NOT on the keyboard, hide it.
+            if (!isClickOnInput && !isClickOnKeyboard) {
+                hideVirtualKeyboard();
+            }
+        });
+        // --- End of Global Click Handler ---
+
+
+        // --- News Card Rendering ---
+
+        function createNewsCard(item) {
+            const card = document.createElement('div');
+            card.className = 'news-card';
+            // Set up click event to open the fullscreen viewer
+            card.onclick = () => openFullscreen(item.file, item.alt, item.type);
+
+            const badgeClass = item.type === 'pdf' ? 'badge-pdf' : 'badge-image';
+            const badgeText = item.type === 'pdf' ? 'PDF Document' : 'Image Post';
+
+            // Fallback image in case the thumbnail fails to load
+            const fallbackSrc = `https://placehold.co/400x300/1d1d1f/ffffff?text=${encodeURIComponent(item.title.substring(0, 25) + '...')}`;
+
+            card.innerHTML = `
+                <div class="news-image-wrapper">
+                    <img
+                        class="news-image"
+                        src="${item.thumbnail}"
+                        alt="${item.alt}"
+                        onerror="this.onerror=null; this.src='${fallbackSrc}';"
+                    >
+                </div>
+                <div class="news-info">
+                    <h3>${item.title}</h3>
+                    <p>
+                        <span>${item.date}</span>
+                        <span class="news-type-badge ${badgeClass}">${badgeText}</span>
+                    </p>
+                </div>
+            `;
+            newsGrid.appendChild(card);
+        }
+
+        // Function to render news items (filtered or all)
+        function renderNews() {
+            newsGrid.innerHTML = ''; // Clear the grid first
+            
+            if (filteredNews.length === 0) {
+                noResults.style.display = 'block'; // Show 'No Results' message
+            } else {
+                noResults.style.display = 'none'; // Hide 'No Results' message
+                filteredNews.forEach(createNewsCard); // Create a card for each item
+            }
+        }
+
+        // --- Initialization ---
+
+        // Render the news items when the page first loads
+        window.onload = function () {
+            renderNews();
+        }
+
+    </script>
 </body>
 </html>

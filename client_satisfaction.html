@@ -102,9 +102,12 @@
     textarea,
     select {
       border: 1px solid #ccc;
-      padding: 6px 10px;
+      padding: 8px 12px;
       width: 100%;
       border-radius: 4px;
+      box-sizing: border-box;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
     
     /* Specific styling for the office selector container */
@@ -420,9 +423,12 @@
         <label>Edad:</label> <input type="number" min="1" style="width:80px">
       </div>
 
-      <div class="form-group inline-group">
-        <label>Rehiyon:</label> <input type="text">
-        <label>Uri ng transaksyon o serbisyo:</label> <input type="text">
+      <div class="form-group">
+        <label>Rehiyon:</label> <input type="text" style="margin-top: 5px; min-height: 40px; padding: 10px 12px;">
+      </div>
+
+      <div class="form-group">
+        <label>Uri ng transaksyon o serbisyo:</label><input type="text" style="margin-top: 5px; min-height: 40px; padding: 10px 12px;">
       </div>
     </div>
 
@@ -459,7 +465,7 @@
 
   <!-- PAGE 2 -->
   <div class="container page-break" id="page2">
-    <h4 class="section-title">Satisfaction Questions (SQD0–8)</h4>
+    <h4 class="section-title">Satisfaction Questions (SQD0â€"8)</h4>
     <p class="instructions">Pumili ng isang emoji na pinakaangkop sa iyong sagot.</p>
 
     <table id="emojiTable">
@@ -472,6 +478,7 @@
           <th><span class="emoji lightgreen">🙂</span>Sumasang-ayon</th>
           <th><span class="emoji green">😃</span>Labis na<br>sumasang-ayon</th>
           <th><span class="emoji na">🚫</span>N/A</th>
+
         </tr>
       </thead>
       <tbody></tbody>
@@ -536,7 +543,7 @@
       <button type="button" class="keyboard-key" data-key="v">v</button>
       <button type="button" class="keyboard-key" data-key="b">b</button>
       <button type="button" class="keyboard-key" data-key="n">n</button>
-      <!-- NEW KEY FOR Ñ/ñ -->
+      <!-- NEW KEY FOR Ã'/Ã± -->
       <button type="button" class="keyboard-key" data-key="ñ">ñ</button>
       <button type="button" class="keyboard-key" data-key="m">m</button>
       <button type="button" class="keyboard-key" data-key=".">.</button>
@@ -580,6 +587,17 @@
         }
     }
 
+    // Function to get the current office name for PDF filename
+    function getCurrentOfficeName() {
+        const officeSelect = document.getElementById('officeSelect');
+        const otherOfficeInput = document.getElementById('otherOfficeName');
+        
+        if (officeSelect.value === 'OTHER' && otherOfficeInput.value.trim()) {
+            return otherOfficeInput.value.trim().replace(/[^a-zA-Z0-9_-]/g, '_');
+        }
+        
+        return officeSelect.value;
+    }
 
     document.addEventListener("DOMContentLoaded", () => {
       const questions = [
@@ -589,7 +607,7 @@
         "Ang mga hakbang sa pagproseso, kasama na ang pagbayad ay madali at simple lamang.",
         "Mabilis at madali akong nakahanap ng impormasyon tungkol sa aking transaksyon mula sa opisina o sa website nito.",
         "Nagbayad ako ng makatwirang halaga para sa aking transaksyon. (Kung libre, lagyan ng tsek ang N/A.)",
-        "Pakiramdam ko ay patas ang opisina sa lahat, o “walang palakasan”, sa aking transaksyon.",
+        "Pakiramdam ko ay patas ang opisina sa lahat, o â€œwalang palakasanâ€, sa aking transaksyon.",
         "Magalang akong trinato ng mga tauhan, at (kung humingi ako ng tulong) alam ko na sila ay handang tumulong sa akin.",
         "Nakuha ko ang kinakailangan ko mula sa tanggapan ng gobyerno; kung tinanggihan man, ito ay sapat na ipinaliwanag sa akin."
       ];
@@ -668,7 +686,7 @@
               toggleShiftCase(allKeys);
               break;
             default:
-              // This logic correctly handles capitalization for all letters, including 'ñ' -> 'Ñ'
+              // This logic correctly handles capitalization for all letters, including 'Ã±' -> 'Ã''
               const value = isShiftActive ? key.toUpperCase() : key.toLowerCase();
               activeInputElement.value += value;
               // Trigger input event manually for otherOfficeName field
@@ -717,6 +735,11 @@
       const pdf = new jsPDF("p", "mm", "a4");
       
       const pageWidth = pdf.internal.pageSize.getWidth();
+      
+      // Get the office name for the filename
+      const officeName = getCurrentOfficeName();
+      const timestamp = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+      const filename = `CSM_${officeName}_${timestamp}.pdf`;
 
       overlayMessage.textContent = "Nagsasagawa ng PDF... Paki-hintay.";
       overlay.style.display = "flex";
@@ -758,7 +781,7 @@
 
       const link = document.createElement("a");
       link.href = blobUrl;
-      link.download = "Client_Satisfaction_Form.pdf";
+      link.download = filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -781,6 +804,3 @@
       }, 2000); 
     }
   </script>
-  
-</body>
-</html>

@@ -643,11 +643,6 @@
           activeInputElement.focus();
           const key = e.target.dataset.key;
 
-          if (key === 'n' && longPressActive) {
-              longPressActive = false;
-              return;
-          }
-
           switch (key) {
             case 'BACKSPACE':
               activeInputElement.value = activeInputElement.value.slice(0, -1);
@@ -675,13 +670,13 @@
             default:
               const value = isShiftActive ? key.toUpperCase() : key.toLowerCase();
               activeInputElement.value += value;
-              if (isShiftActive) {
-                isShiftActive = false;
-                toggleShiftCase(allKeys);
-              }
               // Trigger input event manually for otherOfficeName field
               if (activeInputElement.id === 'otherOfficeName') {
                   updateOfficeTitle(activeInputElement.value);
+              }
+              // Reset long press flag after a normal click on 'n'
+              if (key === 'n') {
+                  longPressActive = false;
               }
           }
         });
@@ -716,10 +711,6 @@
                     const char = isShiftActive ? 'Ñ' : 'ñ';
                     activeInputElement.value += char;
                     activeInputElement.focus();
-                    if (isShiftActive) {
-                        isShiftActive = false;
-                        toggleShiftCase(allKeys);
-                    }
                     // Trigger input event manually for otherOfficeName field
                     if (activeInputElement.id === 'otherOfficeName') {
                         updateOfficeTitle(activeInputElement.value);
@@ -740,6 +731,10 @@
             const stopLongPress = () => {
                 clearTimeout(longPressTimer);
                 longPressTimer = null;
+                // If it was not a long press, trigger a click for 'n'
+                if (!longPressActive) {
+                    nKey.click();
+                }
             };
 
             nKey.addEventListener('mousedown', startLongPress);

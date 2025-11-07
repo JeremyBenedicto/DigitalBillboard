@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Satisfaction Measurement (CSM) Form</title>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      background: #f9f9f9;
+      color: #000;
+      margin: 0;
+      padding: 0;
+      font-size: 16px;
+    }
+
+    .container {
+      max-width: 950px;
+      background: #fff;
+      margin: 30px auto;
+      padding: 40px 60px;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 30px;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    header img {
+      position: absolute;
+      left: 20px;
+      top: 5px;
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+    }
+
+    header h2 {
+      font-size: 20px;
+      margin: 0;
+      font-weight: bold;
+    }
+
+    header h3 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .divider {
+      border-bottom: 1px solid #000;
+      margin: 15px 0;
+    }
+
+    h4.section-title {
+      text-align: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    p.instructions {
+      text-align: justify;
+      font-size: 16px;
+    }
+
+    .form-section {
+      margin-top: 20px;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .inline-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Added styling for select and specific text input */
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    textarea,
+    select {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      width: 100%;
+      border-radius: 4px;
+    }
+    
+    /* Specific styling for the office selector container */
+    #office-selector-container {
+      max-width: 500px; /* Optional: limit width */
+      margin: 10px auto;
+    }
+    
+    #office-selector-container label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: normal;
+      text-align: left;
+    }
+    
+    #otherOfficeName {
+      margin-top: 5px;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .checkbox-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: normal;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+      font-size: 15px;
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #efefef;
+    }
+
+    .question {
+      text-align: left;
+      font-weight: normal;
+    }
+
+    .emoji {
+      font-size: 28px;
+      display: block;
+    }
+
+    /* Colored for web view */
+    .red { color: #e74c3c; }
+    .orange { color: #e67e22; }
+    .gray { color: #7f8c8d; }
+    .lightgreen { color: #2ecc71; }
+    .green { color: #27ae60; }
+    .na { color: #95a5a6; }
+
+    /* Grayscale filter (applied only in PDF generation) */
+    .grayscale {
+      filter: grayscale(100%);
+    }
+
+    .submit-btn {
+      display: block;
+      margin: 30px auto 10px;
+      padding: 10px 30px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .page-break {
+      page-break-before: always;
+      margin-top: 50px;
+    }
+
+    /* Overlay */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-size: 22px;
+      text-align: center;
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #overlay p {
+      background: rgba(0,0,0,0.8);
+      padding: 20px 40px;
+      border-radius: 10px;
+    }
+    
+    /* --- Virtual Keyboard Styles --- */
+    #virtual-keyboard {
+      display: none; /* Hidden by default */
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 8px;
+      background: #f0f0f0;
+      box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
+      z-index: 10000;
+      box-sizing: border-box;
+    }
+
+    .keyboard-row {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .keyboard-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .keyboard-key {
+      font-family: Arial, sans-serif;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 0;
+      height: 50px;
+      min-width: 40px;
+      flex-grow: 1;
+      flex-basis: 0;
+      background: #ffffff;
+      border: 1px solid #aaa;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 2px rgba(0,0,0,0.15);
+      transition: all 0.05s ease;
+    }
+    
+    .keyboard-key:last-child {
+      margin-right: 0;
+    }
+
+    .keyboard-key:hover {
+      background: #f0f0f0;
+    }
+
+    .keyboard-key:active {
+      background: #c8c8c8;
+      transform: scale(0.98);
+      box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    }
+
+    .key-special {
+      flex-grow: 1.5;
+      flex-basis: 0;
+      background: #cdd8e6;
+      font-size: 16px;
+    }
+    
+    .key-backspace {
+      flex-grow: 2;
+    }
+
+    .key-space {
+      flex-grow: 12;
+    }
+    
+    .key-shift-active {
+      background: #007BFF;
+      color: white;
+    }
+
+    .key-close {
+      background: #e6cdd0;
+    }
+    /* --- End Keyboard Styles --- */
+
+    /* --- Back Button Styles --- */
+    .back-button {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1000;
+      padding: 10px 15px;
+      background-color: #dcdada;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.2s, transform 0.1s;
+      font-size: 14px;
+    }
+
+    .back-button:hover {
+      background-color: #e0e0e0;
+      transform: translateY(-1px);
+    }
+
+    .back-button:active {
+      transform: translateY(0);
+    }
+    /* --- End Back Button Styles --- */
+  </style>
+</head>
+<body>
+  <!-- BACK BUTTON -->
+  <a href="/index.html" class="back-button" onclick="window.history.back(); return false;">&larr;</a>
+
+  <!-- Overlay (Updated message: Loading...) -->
+  <div id="overlay"><p>Loading...</p></div>
+
+  <!-- PAGE 1 -->
+  <div class="container" id="page1">
+    <header>
+      <div style="width:100%">
+        <h3>Republic of the Philippines</h3>
+        <h3>PROVINCE OF NUEVA ECIJA</h3>
+        <h3>Municipality of Gabaldon</h3>
+        <p><b>- oOo -</b></p>
+        <!-- Ibinago ang Office Title para magamit ang dropdown / editable field -->
+        <h2 id="officeTitle">PAMBAYANG TANGGAPAN NG TAGATALA</h2>
+        <!-- Office Selector (Hidden in PDF/Print View, only visible on web) -->
+        <div id="office-selector-container" style="margin-top: 20px;">
+            <label for="officeSelect">Piliin ang TANGGAPAN na sinerbisyuhan:</label>
+            <select id="officeSelect" onchange="updateOfficeTitle(this.value)">
+                <!-- INAYOS ANG OPTIONS PARA MAGING ENGLISH ONLY ANG NAKIKITA NG USER -->
+                <option value="TAGATALA" selected>REGISTRY</option>
+                <option value="AGRIKULTURA">AGRICULTURE</option>
+                <option value="INHINYERO">ENGINEERING</option>
+                <option value="INGAT-YAMAN">TREASURY</option>
+                <option value="KALUSUGANG BAYAN">RHU</option>
+                <option value="PAGPAPLANO AT PAGPAPAUNLAD">PLANNING AND DEVELOPMENT</option>
+                <option value="PUNONG BAYAN">MAYOR'S OFFICE</option>
+                <option value="PAMAMAHALA SA YAMANG TAO">HRMO (HUMAN RESOURCE MANAGEMENT)</option>
+                <option value="BADYET">BUDGET OFFICE</option>
+                <option value="TAGASURI">ASSESSOR'S OFFICE</option>
+                <option value="KALIKASAN AT LIKAS NA YAMAN">MENRO (ENVIRONMENT AND NATURAL RESOURCES)</option>
+                <option value="PANANALAPI">ACCOUNTING</option>
+                <option value="SISTEMA NG TUBIG">WATER SYSTEM</option>
+                <option value="SANGGUNIANG BAYAN">SANGGUNIANG BAYAN</option>
+                <option value="PAMBAYANG PAMAMAHALA SA SAKUNA AT KALAMIDAD">MDRRMO (DISASTER RISK REDUCTION)</option>
+                <option value="TURISMO">TOURISM</option>
+                <option value="OTHER">SPECIFY / OTHER</option>
+            </select>
+            <input type="text" id="otherOfficeName" placeholder="Ipasok ang pangalan ng Tanggapan..." style="display:none;" oninput="updateOfficeTitle(this.value)">
+        </div>
+        <!-- End Office Selector -->
+      </div>
+    </header>
+
+    <div class="divider"></div>
+    <h4>TULUNGAN MO KAMI MAS MAPABUTI ANG AMING MGA PROSESO AT SERBISYO!</h4>
+
+    <p class="instructions">
+      Ang Client Satisfaction Measurement (CSM) ay naglalayong masubaybayan ang karanasan ng taumbayan hinggil sa kanilang pakikitransaksyon sa mga tanggapan ng gobyerno. 
+      Makatutulong ang inyong kasagutan upang mas mapabuti at lalong mapahusay ang aming serbisyo publiko. 
+      Ang inyong ibinahaging impormasyon ay mananatiling kumpidensyal. Maaari ring piliin na hindi sagutan ang sarbey na ito.
+    </p>
+    
+    <!-- Bagong CSS rule para itago ang dropdown at editable field sa PDF view -->
+    <style>
+      @media print {
+        #office-selector-container {
+          display: none !important;
+        }
+      }
+    </style>
+
+    <div class="form-section">
+      <div class="form-group inline-group">
+        <label>Uri ng Kliyente:</label>
+        <label><input type="checkbox"> Mamamayan</label>
+        <label><input type="checkbox"> Negosyo</label>
+        <label><input type="checkbox"> Gobyerno</label>
+      </div>
+
+      <div class="form-group inline-group">
+        <label>Petsa:</label> <input type="date">
+        <label>Kasarian:</label>
+        <label><input type="checkbox"> Lalaki</label>
+        <label><input type="checkbox"> Babae</label>
+        <label>Edad:</label> <input type="number" min="1" style="width:80px">
+      </div>
+
+      <div class="form-group inline-group">
+        <label>Rehiyon:</label> <input type="text">
+        <label>Uri ng transaksyon o serbisyo:</label> <input type="text">
+      </div>
+    </div>
+
+    <h4 class="section-title">Citizen’s Charter (CC)</h4>
+    <p class="instructions">Lagyan ng tsek (✔) ang angkop na sagot.</p>
+
+    <div class="form-section">
+      <label>CC1. Alin sa mga sumusunod ang naglalarawan sa iyong kaalaman sa CC?</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox"> 1. Alam ko ang CC at nakita ko ito sa napuntahang opisina</label>
+        <label><input type="checkbox"> 2. Alam ko ang CC pero hindi ko ito nakita sa napuntahang opisina</label>
+        <label><input type="checkbox"> 3. Nalaman ko ang CC nang makita ko ito sa napuntahang opisina</label>
+        <label><input type="checkbox"> 4. Hindi ko alam kung ano ang CC at wala akong nakita sa opisina</label>
+      </div>
+
+      <label>CC2. Kung alam ang CC, masasabi mo ba na ang CC ng opisina ay...</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox"> 1. Madaling makita</label>
+        <label><input type="checkbox"> 2. Medyo madaling makita</label>
+        <label><input type="checkbox"> 3. Mahirap makita</label>
+        <label><input type="checkbox"> 4. Hindi makita</label>
+        <label><input type="checkbox"> 5. N/A</label>
+      </div>
+
+      <label>CC3. Kung alam ang CC, gaano nakatulong ang CC sa transaksyon mo?</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox"> 1. Sobrang nakatulong</label>
+        <label><input type="checkbox"> 2. Nakatulong naman</label>
+        <label><input type="checkbox"> 3. Hindi nakatulong</label>
+        <label><input type="checkbox"> 4. N/A</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="container page-break" id="page2">
+    <h4 class="section-title">Satisfaction Questions (SQD0–8)</h4>
+    <p class="instructions">Pumili ng isang emoji na pinakaangkop sa iyong sagot.</p>
+
+    <table id="emojiTable">
+      <thead>
+        <tr>
+          <th class="question">Mga Pahayag</th>
+          <th><span class="emoji red">😠</span>Lubos na<br>hindi sumasang-ayon</th>
+          <th><span class="emoji orange">🙁</span>Hindi<br>sumasang-ayon</th>
+          <th><span class="emoji gray">😐</span>Walang<br>kinikilingan</th>
+          <th><span class="emoji lightgreen">🙂</span>Sumasang-ayon</th>
+          <th><span class="emoji green">😃</span>Labis na<br>sumasang-ayon</th>
+          <th><span class="emoji na">🚫</span>N/A</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="form-section">
+      <label>Mga suhestiyon (opsyonal):</label>
+      <textarea></textarea>
+      <label>Email address (opsyonal):</label>
+      <input type="text">
+    </div>
+
+    <button class="submit-btn" onclick="savePDF()">Isumite</button>
+
+    <div class="footer">MARAMING SALAT!</div>
+  </div>
+
+  <!-- VIRTUAL KEYBOARD START -->
+  <div id="virtual-keyboard">
+    <div class="keyboard-row">
+      <button type="button" class="keyboard-key" data-key="1">1</button>
+      <button type="button" class="keyboard-key" data-key="2">2</button>
+      <button type="button" class="keyboard-key" data-key="3">3</button>
+      <button type="button" class="keyboard-key" data-key="4">4</button>
+      <button type="button" class="keyboard-key" data-key="5">5</button>
+      <button type="button" class="keyboard-key" data-key="6">6</button>
+      <button type="button" class="keyboard-key" data-key="7">7</button>
+      <button type="button" class="keyboard-key" data-key="8">8</button>
+      <button type="button" class="keyboard-key" data-key="9">9</button>
+      <button type="button" class="keyboard-key" data-key="0">0</button>
+      <button type="button" class="keyboard-key key-special key-backspace" data-key="BACKSPACE">⌫</button>
+    </div>
+    <div class="keyboard-row">
+      <button type="button" class="keyboard-key" data-key="q">q</button>
+      <button type="button" class="keyboard-key" data-key="w">w</button>
+      <button type="button" class="keyboard-key" data-key="e">e</button>
+      <button type="button" class="keyboard-key" data-key="r">r</button>
+      <button type="button" class="keyboard-key" data-key="t">t</button>
+      <button type="button" class="keyboard-key" data-key="y">y</button>
+      <button type="button" class="keyboard-key" data-key="u">u</button>
+      <button type="button" class="keyboard-key" data-key="i">i</button>
+      <button type="button" class="keyboard-key" data-key="o">o</button>
+      <button type="button" class="keyboard-key" data-key="p">p</button>
+    </div>
+    <div class="keyboard-row">
+      <button type="button" class="keyboard-key" data-key="a">a</button>
+      <button type="button" class="keyboard-key" data-key="s">s</button>
+      <button type="button" class="keyboard-key" data-key="d">d</button>
+      <button type="button" class="keyboard-key" data-key="f">f</button>
+      <button type="button" class="keyboard-key" data-key="g">g</button>
+      <button type="button" class="keyboard-key" data-key="h">h</button>
+      <button type="button" class="keyboard-key" data-key="j">j</button>
+      <button type="button" class="keyboard-key" data-key="k">k</button>
+      <button type="button" class="keyboard-key" data-key="l">l</button>
+      <button type="button" class="keyboard-key" data-key="@">@</button>
+    </div>
+    <div class="keyboard-row">
+      <button type="button" class="keyboard-key key-special" data-key="SHIFT">⇧</button>
+      <button type="button" class="keyboard-key" data-key="z">z</button>
+      <button type="button" class="keyboard-key" data-key="x">x</button>
+      <button type="button" class="keyboard-key" data-key="c">c</button>
+      <button type="button" class="keyboard-key" data-key="v">v</button>
+      <button type="button" class="keyboard-key" data-key="b">b</button>
+      <button type="button" class="keyboard-key" data-key="n">n</button>
+      <button type="button" class="keyboard-key" data-key="m">m</button>
+      <button type="button" class="keyboard-key" data-key=".">.</button>
+      <button type="button" class="keyboard-key" data-key="-">-</button>
+    </div>
+    <div class="keyboard-row">
+      <button type="button" class="keyboard-key key-space" data-key="SPACE">Space</button>
+      <button type="button" class="keyboard-key key-special key-close" data-key="CLOSE">Close</button>
+    </div>
+  </div>
+  <!-- VIRTUAL KEYBOARD END -->
+
+  <script>
+    
+    // Function to update the office title based on dropdown selection or text input
+    function updateOfficeTitle(value) {
+        const officeTitleElement = document.getElementById('officeTitle');
+        const otherOfficeInput = document.getElementById('otherOfficeName');
+        // Ang prefix na ito ay idadagdag sa value mula sa dropdown para mabuo ang buong titulo.
+        const prefix = "PAMBAYANG TANGGAPAN NG ";
+        
+        if (value === 'OTHER') {
+            // Show the text input when 'Iba pa / Tukuyin' is selected
+            otherOfficeInput.style.display = 'block';
+            otherOfficeInput.focus();
+            // Default title until user types
+            officeTitleElement.textContent = prefix + 'IBANG TANGGAPAN'; 
+        } else if (value === 'TAGATALA' && otherOfficeInput.style.display === 'block') {
+            // If TAGATALA is selected after using "Other"
+            otherOfficeInput.style.display = 'none';
+            officeTitleElement.textContent = prefix + 'TAGATALA';
+            otherOfficeInput.value = ''; // Clear input
+        } else if (value === 'TAGATALA' && otherOfficeInput.style.display === 'none') {
+             // If TAGATALA is selected and input is already hidden (initial state)
+            officeTitleElement.textContent = prefix + 'TAGATALA';
+        } else {
+            // Use the selected value from the dropdown
+            otherOfficeInput.style.display = 'none';
+            // Use the selected value (which is just the name, e.g., AGRIKULTURA)
+            officeTitleElement.textContent = prefix + value;
+        }
+    }
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const questions = [
+        "Nasiyahan ako sa serbisyo na aking natanggap sa napuntahan na tanggapan.",
+        "Makatwiran ang oras na aking ginugol para sa pagproseso ng aking transaksyon.",
+        "Ang opisina ay sumusunod sa mga kinakailangang dokumento at mga hakbang batay sa impormasyong ibinigay.",
+        "Ang mga hakbang sa pagproseso, kasama na ang pagbayad ay madali at simple lamang.",
+        "Mabilis at madali akong nakahanap ng impormasyon tungkol sa aking transaksyon mula sa opisina o sa website nito.",
+        "Nagbayad ako ng makatwirang halaga para sa aking transaksyon. (Kung libre, lagyan ng tsek ang N/A.)",
+        "Pakiramdam ko ay patas ang opisina sa lahat, o “walang palakasan”, sa aking transaksyon.",
+        "Magalang akong trinato ng mga tauhan, at (kung humingi ako ng tulong) alam ko na sila ay handang tumulong sa akin.",
+        "Nakuha ko ang kinakailangan ko mula sa tanggapan ng gobyerno; kung tinanggihan man, ito ay sapat na ipinaliwanag sa akin."
+      ];
+
+      const tbody = document.querySelector("#emojiTable tbody");
+      questions.forEach((q, i) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="question">SQD${i}. ${q}</td>
+          ${Array.from({ length: 6 }, (_, j) => `<td><input type="radio" name="sqd${i}" value="${j+1}"></td>`).join("")}
+        `;
+        tbody.appendChild(row);
+      });
+
+      // --- VIRTUAL KEYBOARD LOGIC START ---
+      let activeInputElement = null;
+      let isShiftActive = false;
+      const keyboard = document.getElementById("virtual-keyboard");
+      
+      // Ensure the otherOfficeName input also triggers the virtual keyboard
+      const inputSelector = 'input[type="text"]:not(#otherOfficeName), input[type="number"], textarea, #otherOfficeName';
+
+      // Variables for N-Tilde long press
+      let longPressTimer = null;
+      let longPressActive = false;
+      const LONG_PRESS_DURATION = 500; // 0.5 seconds
+
+      if (keyboard) {
+        const allKeys = keyboard.querySelectorAll(".keyboard-key");
+        
+        const nKey = keyboard.querySelector('[data-key="n"]');
+
+        document.querySelectorAll(inputSelector).forEach(input => {
+          // Check if the input is the editable office name field and ensure it's displayed
+          if (input.id === 'otherOfficeName' && input.style.display === 'none') {
+             // Do nothing if it's the other office field and currently hidden
+          } else {
+             input.addEventListener('focus', () => {
+                activeInputElement = input;
+                keyboard.style.display = 'block';
+             });
+          }
+        });
+        
+        // Re-attach the focus listener to the 'otherOfficeName' field specifically
+        // It is needed for when it becomes visible later
+        const otherOfficeInput = document.getElementById('otherOfficeName');
+        otherOfficeInput.addEventListener('focus', () => {
+            activeInputElement = otherOfficeInput;
+            keyboard.style.display = 'block';
+        });
+
+
+        keyboard.addEventListener('click', (e) => {
+          if (!e.target.matches('.keyboard-key')) return;
+          if (!activeInputElement) return;
+
+          activeInputElement.focus();
+          const key = e.target.dataset.key;
+
+          switch (key) {
+            case 'BACKSPACE':
+              activeInputElement.value = activeInputElement.value.slice(0, -1);
+              // Trigger input event manually for otherOfficeName field
+              if (activeInputElement.id === 'otherOfficeName') {
+                  updateOfficeTitle(activeInputElement.value);
+              }
+              break;
+            case 'SPACE':
+              activeInputElement.value += ' ';
+              // Trigger input event manually for otherOfficeName field
+              if (activeInputElement.id === 'otherOfficeName') {
+                  updateOfficeTitle(activeInputElement.value);
+              }
+              break;
+            case 'CLOSE':
+              keyboard.style.display = 'none';
+              activeInputElement.blur();
+              activeInputElement = null;
+              break;
+            case 'SHIFT':
+              isShiftActive = !isShiftActive;
+              toggleShiftCase(allKeys);
+              break;
+            default:
+              const value = isShiftActive ? key.toUpperCase() : key.toLowerCase();
+              activeInputElement.value += value;
+              // Trigger input event manually for otherOfficeName field
+              if (activeInputElement.id === 'otherOfficeName') {
+                  updateOfficeTitle(activeInputElement.value);
+              }
+              // Reset long press flag after a normal click on 'n'
+              if (key === 'n') {
+                  longPressActive = false;
+              }
+          }
+        });
+
+        function toggleShiftCase(keys) {
+          const shiftButton = keyboard.querySelector('[data-key="SHIFT"]');
+          shiftButton.classList.toggle('key-shift-active', isShiftActive);
+
+          keys.forEach(key => {
+            const keyValue = key.dataset.key;
+            if (keyValue && keyValue.length === 1 && keyValue.match(/[a-z]/i)) {
+              key.textContent = isShiftActive ? keyValue.toUpperCase() : keyValue.toLowerCase();
+            }
+          });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (keyboard.style.display !== 'block' || keyboard.contains(e.target)) return;
+            const clickedOnInput = e.target.matches(inputSelector);
+            if (!clickedOnInput) {
+                keyboard.style.display = 'none';
+                if (activeInputElement) {
+                    activeInputElement.blur();
+                }
+                activeInputElement = null;
+            }
+        });
+
+        if (nKey) {
+            const handleNtildeInput = () => {
+                if (activeInputElement) {
+                    const char = isShiftActive ? 'Ñ' : 'ñ';
+                    activeInputElement.value += char;
+                    activeInputElement.focus();
+                    // Trigger input event manually for otherOfficeName field
+                    if (activeInputElement.id === 'otherOfficeName') {
+                        updateOfficeTitle(activeInputElement.value);
+                    }
+                }
+            };
+
+            const startLongPress = (e) => {
+                if (longPressTimer) return;
+                if (e.button !== 0 && !e.targetTouches) return;
+
+                longPressTimer = setTimeout(() => {
+                    longPressActive = true;
+                    handleNtildeInput();
+                }, LONG_PRESS_DURATION);
+            };
+
+            const stopLongPress = () => {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+                // If it was not a long press, trigger a click for 'n'
+                if (!longPressActive) {
+                    nKey.click();
+                }
+            };
+
+            nKey.addEventListener('mousedown', startLongPress);
+            nKey.addEventListener('mouseup', stopLongPress);
+            nKey.addEventListener('mouseleave', stopLongPress);
+
+            nKey.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startLongPress(e);
+            }, { passive: false });
+
+            nKey.addEventListener('touchend', (e) => {
+                 e.preventDefault();
+                 stopLongPress();
+            }, { passive: false });
+
+            nKey.addEventListener('touchcancel', (e) => {
+                 e.preventDefault();
+                 stopLongPress();
+            }, { passive: false });
+        }
+      }
+      // --- VIRTUAL KEYBOARD LOGIC END ---
+    });
+
+    async function savePDF() {
+      // Set the scale factor for html2canvas. Higher scale = better PDF quality.
+      const PDF_RENDER_SCALE = 2.5;
+
+      const { jsPDF } = window.jspdf;
+      const overlay = document.getElementById("overlay");
+      const overlayMessage = overlay.querySelector('p');
+      const button = document.querySelector(".submit-btn");
+      const pdf = new jsPDF("p", "mm", "a4");
+      
+      const pageWidth = pdf.internal.pageSize.getWidth();
+
+      overlayMessage.textContent = "Nagsasagawa ng PDF... Paki-hintay.";
+      overlay.style.display = "flex";
+      button.style.display = "none";
+
+      // convert emojis to grayscale for saving
+      document.querySelectorAll(".emoji").forEach(e => e.classList.add("grayscale"));
+      // Added a short delay to ensure grayscale is applied before capture
+      await new Promise(r => setTimeout(r, 100));
+
+      const page1 = document.getElementById("page1");
+      const page2 = document.getElementById("page2");
+
+      // Capture Page 1
+      const canvas1 = await html2canvas(page1, { scale: PDF_RENDER_SCALE, useCORS: true });
+      const img1 = canvas1.toDataURL("image/png");
+      const imgWidth1 = pageWidth;
+      // FIX: Calculate the image height proportionally based on the captured canvas ratio
+      const imgHeight1 = (canvas1.height * imgWidth1) / canvas1.width;
+
+      // Capture Page 2
+      const canvas2 = await html2canvas(page2, { scale: PDF_RENDER_SCALE, useCORS: true });
+      const img2 = canvas2.toDataURL("image/png");
+      const imgWidth2 = pageWidth;
+      // FIX: Calculate the image height proportionally based on the captured canvas ratio
+      const imgHeight2 = (canvas2.height * imgWidth2) / canvas2.width;
+      
+      // Add Page 1 image using proportional scaling (from (0, 0) to fit full width)
+      pdf.addImage(img1, "PNG", 0, 0, imgWidth1, imgHeight1); 
+      
+      // Add Page 2 image
+      pdf.addPage();
+      // Add Page 2 image using proportional scaling
+      pdf.addImage(img2, "PNG", 0, 0, imgWidth2, imgHeight2); 
+
+      // ✅ Android-safe download: create blob and trigger link click
+      const blob = pdf.output("blob");
+      const blobUrl = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = "Client_Satisfaction_Form.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // revoke after a short delay
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+
+      // restore colors after saving
+      document.querySelectorAll(".emoji").forEach(e => e.classList.remove("grayscale"));
+      
+      // Ipakita ang mensahe ng pasasalamat at i-restore ang button
+      overlayMessage.textContent = "Maraming salamat po!";
+      
+      // Itago ang overlay at ibalik ang button pagkatapos ng 2 segundo
+      setTimeout(() => {
+          overlay.style.display = "none";
+          button.style.display = "block";
+          // Ibalik ang default na message sa overlay para sa susunod na gamit (opsyonal)
+          overlayMessage.textContent = "Loading..."; 
+      }, 2000); 
+    }
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacant Positions Poster</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-download {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn-download:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 58, 138, 0.3);
+        }
+
+        .poster-container {
+            width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        #poster {
+            background: white;
+            padding: 40px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            color: #2563eb;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .header .meta {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .table-wrapper {
+            margin: 30px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            border: none;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        tr:hover {
+            background: #f3f4f6;
+        }
+
+        .position-title {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .position-subtitle {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+            margin-top: 3px;
+        }
+
+        .salary {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .instructions {
+            background: #f0f4ff;
+            border-left: 4px solid #2563eb;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        .instructions h2 {
+            color: #2563eb;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .info-section {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 3px solid #2563eb;
+        }
+
+        .info-section h3 {
+            color: #2563eb;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-section li {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.7;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .info-section li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .contact-box {
+            background: white;
+            border: 1px solid #2563eb;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .contact-box p {
+            font-size: 13px;
+            margin: 5px 0;
+        }
+
+        .contact-box .name {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .contact-box .position {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .contact-box .email {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .deadline {
+            background: #fee2e2;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .deadline-label {
+            font-weight: 600;
+            color: #991b1b;
+        }
+
+        .deadline-date {
+            color: #dc2626;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .warning {
+            background: #fef3c7;
+            border-left: 3px solid #f59e0b;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #92400e;
+            font-weight: 500;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            .controls {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="btn-download" onclick="downloadPoster('jpg')">📥 Download as JPG</button>
+        <button class="btn-download" onclick="downloadPoster('png')">📥 Download as PNG</button>
+    </div>
+
+    <div class="poster-container">
+        <div id="poster">
+            <!-- Header -->
+            <div class="header">
+                <h1>VACANT POSITIONS</h1>
+                <div class="subtitle">MGO Gabaldon (Bitulok and Sabani), Nueva Ecija</div>
+                <div class="meta">Published on October 28, 2025. Applications close on November 12, 2025.</div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>NO.</th>
+                            <th>POSITION TITLE</th>
+                            <th>SALARY GRADE</th>
+                            <th>MONTHLY SALARY</th>
+                            <th>EDUCATION / ELIGIBILITY</th>
+                            <th>PLACE OF ASSIGNMENT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div class="position-title">Local Disaster Risk Reduction Management Officer I</div>
+                                <div class="position-subtitle">(Newly Created Position)</div>
+                            </td>
+                            <td>11</td>
+                            <td class="salary">₱24,948.25</td>
+                            <td>Bachelor's Degree / Career Service Professional / 2nd Level Eligibility</td>
+                            <td>Municipal Disaster Risk Reduction and Management Office</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Instructions -->
+            <div class="instructions">
+                <h2>Application Instructions</h2>
+                <p>Qualified applicants are advised to submit their interest in writing. Applications with <strong>**incomplete documents shall NOT be entertained.**</strong></p>
+                
+                <div class="info-grid">
+                    <!-- Required Documents -->
+                    <div class="info-section">
+                        <h3>📋 Required Documents (Attached to Application Letter)</h3>
+                        <ul>
+                            <li>Fully accomplished <strong>"Personal Data Sheet (PDS)"</strong> with recent passport-sized picture (CS Form No. 212, Revised 2017) - downloadable at www.csc.gov.ph</li>
+                            <li>Performance rating in the last rating period (if applicable)</li>
+                            <li>Photocopy of <strong>"certificate of eligibility/rating/license"</strong></li>
+                            <li>Photocopy of <strong>"Transcript of Records"</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- Submission Contact & Deadline -->
+                    <div class="info-section">
+                        <h3>📮 Submission Contact & Deadline</h3>
+                        <div class="contact-box">
+                            <p class="name">JENNELYN D. DALACAT</p>
+                            <p class="position">HRMO</p>
+                            <p><strong>LGU-Gabaldon, Nueva Ecija</strong></p>
+                            <p><a href="mailto:gabnecjahrmo.rsp@gmail.com" class="email">Email: gabnecjahrmo.rsp@gmail.com</a></p>
+                            <div class="deadline">
+                                <div class="deadline-label">DEADLINE:</div>
+                                <div class="deadline-date">November 12, 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    ⚠️ <strong>APPLICATIONS WITH INCOMPLETE DOCUMENTS SHALL NOT BE ENTERTAINED.</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadPoster(format) {
+            const element = document.getElementById('poster');
+            const filename = `Vacant_Positions_Gabaldon_${new Date().toISOString().split('T')[0]}.${format}`;
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                logging: false
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL(`image/${format}`);
+                link.download = filename;
+                link.click();
+            }).catch(err => {
+                alert('Error generating image. Please try again.');
+                console.error(err);
+            });
+        }
+    </script>
+</body>
+</html>

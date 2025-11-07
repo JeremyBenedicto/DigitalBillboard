@@ -231,7 +231,10 @@
       display: none; /* Hidden by default */
       position: fixed;
       bottom: 0;
-      left: 0;
+      /* CENTERING AND MAX-WIDTH FOR LARGE SCREENS */
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 900px; 
       width: 100%;
       padding: 8px;
       background: #f0f0f0;
@@ -252,10 +255,11 @@
 
     .keyboard-key {
       font-family: Arial, sans-serif;
-      font-size: 18px;
-      font-weight: bold;
+      /* INCREASED FONT SIZE FOR KIOSK */
+      font-size: 24px;
       padding: 0;
-      height: 50px;
+      /* INCREASED KEY HEIGHT FOR KIOSK */
+      height: 60px;
       min-width: 40px;
       flex-grow: 1;
       flex-basis: 0;
@@ -265,6 +269,7 @@
       cursor: pointer;
       box-shadow: 0 2px 2px rgba(0,0,0,0.15);
       transition: all 0.05s ease;
+      font-weight: bold; /* Added bold back, it was missing in the original key style */
     }
     
     .keyboard-key:last-child {
@@ -285,7 +290,7 @@
       flex-grow: 1.5;
       flex-basis: 0;
       background: #cdd8e6;
-      font-size: 16px;
+      font-size: 20px; /* Slightly adjusted special key font size */
     }
     
     .key-backspace {
@@ -531,6 +536,8 @@
       <button type="button" class="keyboard-key" data-key="v">v</button>
       <button type="button" class="keyboard-key" data-key="b">b</button>
       <button type="button" class="keyboard-key" data-key="n">n</button>
+      <!-- NEW KEY FOR Ñ/ñ -->
+      <button type="button" class="keyboard-key" data-key="ñ">ñ</button>
       <button type="button" class="keyboard-key" data-key="m">m</button>
       <button type="button" class="keyboard-key" data-key=".">.</button>
       <button type="button" class="keyboard-key" data-key="-">-</button>
@@ -605,16 +612,9 @@
       // Ensure the otherOfficeName input also triggers the virtual keyboard
       const inputSelector = 'input[type="text"]:not(#otherOfficeName), input[type="number"], textarea, #otherOfficeName';
 
-      // Variables for N-Tilde long press
-      let longPressTimer = null;
-      let longPressActive = false;
-      const LONG_PRESS_DURATION = 500; // 0.5 seconds
-
       if (keyboard) {
         const allKeys = keyboard.querySelectorAll(".keyboard-key");
         
-        const nKey = keyboard.querySelector('[data-key="n"]');
-
         document.querySelectorAll(inputSelector).forEach(input => {
           // Check if the input is the editable office name field and ensure it's displayed
           if (input.id === 'otherOfficeName' && input.style.display === 'none') {
@@ -668,15 +668,12 @@
               toggleShiftCase(allKeys);
               break;
             default:
+              // This logic correctly handles capitalization for all letters, including 'ñ' -> 'Ñ'
               const value = isShiftActive ? key.toUpperCase() : key.toLowerCase();
               activeInputElement.value += value;
               // Trigger input event manually for otherOfficeName field
               if (activeInputElement.id === 'otherOfficeName') {
                   updateOfficeTitle(activeInputElement.value);
-              }
-              // Reset long press flag after a normal click on 'n'
-              if (key === 'n') {
-                  longPressActive = false;
               }
           }
         });
@@ -687,7 +684,8 @@
 
           keys.forEach(key => {
             const keyValue = key.dataset.key;
-            if (keyValue && keyValue.length === 1 && keyValue.match(/[a-z]/i)) {
+            // Check if it's a letter (a-z) OR the specific 'ñ' key for shifting display text
+            if (keyValue && (keyValue.length === 1 && keyValue.match(/[a-z]/i) || keyValue === 'ñ')) {
               key.textContent = isShiftActive ? keyValue.toUpperCase() : keyValue.toLowerCase();
             }
           });
@@ -704,58 +702,6 @@
                 activeInputElement = null;
             }
         });
-
-        if (nKey) {
-            const handleNtildeInput = () => {
-                if (activeInputElement) {
-                    const char = isShiftActive ? 'Ñ' : 'ñ';
-                    activeInputElement.value += char;
-                    activeInputElement.focus();
-                    // Trigger input event manually for otherOfficeName field
-                    if (activeInputElement.id === 'otherOfficeName') {
-                        updateOfficeTitle(activeInputElement.value);
-                    }
-                }
-            };
-
-            const startLongPress = (e) => {
-                if (longPressTimer) return;
-                if (e.button !== 0 && !e.targetTouches) return;
-
-                longPressTimer = setTimeout(() => {
-                    longPressActive = true;
-                    handleNtildeInput();
-                }, LONG_PRESS_DURATION);
-            };
-
-            const stopLongPress = () => {
-                clearTimeout(longPressTimer);
-                longPressTimer = null;
-                // If it was not a long press, trigger a click for 'n'
-                if (!longPressActive) {
-                    nKey.click();
-                }
-            };
-
-            nKey.addEventListener('mousedown', startLongPress);
-            nKey.addEventListener('mouseup', stopLongPress);
-            nKey.addEventListener('mouseleave', stopLongPress);
-
-            nKey.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                startLongPress(e);
-            }, { passive: false });
-
-            nKey.addEventListener('touchend', (e) => {
-                 e.preventDefault();
-                 stopLongPress();
-            }, { passive: false });
-
-            nKey.addEventListener('touchcancel', (e) => {
-                 e.preventDefault();
-                 stopLongPress();
-            }, { passive: false });
-        }
       }
       // --- VIRTUAL KEYBOARD LOGIC END ---
     });

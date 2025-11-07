@@ -423,9 +423,31 @@
         <label>Edad:</label> <input type="number" min="1" style="width:80px">
       </div>
 
+      <!-- START OF CHANGE: Replaced text input with select dropdown for Rehiyon -->
       <div class="form-group">
-        <label>Rehiyon:</label> <input type="text" style="margin-top: 5px; min-height: 40px; padding: 10px 12px;">
+        <label for="rehiyonSelect">Rehiyon:</label> 
+        <select id="rehiyonSelect" name="rehiyon" style="margin-top: 5px; min-height: 40px; padding: 10px 12px;">
+            <option value="" disabled selected>Pumili ng Rehiyon</option>
+            <option value="NCR">National Capital Region (NCR) - Metro Manila</option>
+            <option value="CAR">Cordillera Administrative Region (CAR) - Northern Luzon highlands</option>
+            <option value="Region I">Region I (Ilocos Region) - Northwest Luzon</option>
+            <option value="Region II">Region II (Cagayan Valley) - Northeast Luzon</option>
+            <option value="Region III">Region III (Central Luzon) - Central Luzon</option>
+            <option value="Region IV-A">Region IV-A (CALABARZON) - Southern Tagalog</option>
+            <option value="Region IV-B">Region IV-B (Mimaropa) - Mindoro, Marinduque, Romblon, Palawan</option>
+            <option value="Region V">Region V (Bicol Region) - Southeast Luzon</option>
+            <option value="Region VI">Region VI (Western Visayas) - Central Philippines</option>
+            <option value="Region VII">Region VII (Central Visayas) - Central Philippines</option>
+            <option value="Region VIII">Region VIII (Eastern Visayas) - Eastern Philippines</option>
+            <option value="Region IX">Region IX (Zamboanga Peninsula) - Western Mindanao</option>
+            <option value="Region X">Region X (Northern Mindanao) - Northern Mindanao</option>
+            <option value="Region XI">Region XI (Davao Region) - Southern Mindanao</option>
+            <option value="Region XII">Region XII (Soccsksargen) - South-Central Mindanao</option>
+            <option value="Region XIII">Region XIII (Caraga) - Northeastern Mindanao</option>
+            <option value="BARMM">Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)</option>
+        </select>
       </div>
+      <!-- END OF CHANGE -->
 
       <div class="form-group">
         <label>Uri ng transaksyon o serbisyo:</label><input type="text" style="margin-top: 5px; min-height: 40px; padding: 10px 12px;">
@@ -628,6 +650,7 @@
       const keyboard = document.getElementById("virtual-keyboard");
       
       // Ensure the otherOfficeName input also triggers the virtual keyboard
+      // NOTE: We exclude the new 'rehiyonSelect' from triggering the keyboard
       const inputSelector = 'input[type="text"]:not(#otherOfficeName), input[type="number"], textarea, #otherOfficeName';
 
       if (keyboard) {
@@ -711,8 +734,11 @@
 
         document.addEventListener('click', (e) => {
             if (keyboard.style.display !== 'block' || keyboard.contains(e.target)) return;
+            // Also check if the clicked element is the new region select
             const clickedOnInput = e.target.matches(inputSelector);
-            if (!clickedOnInput) {
+            const clickedOnRegionSelect = e.target.id === 'rehiyonSelect';
+            
+            if (!clickedOnInput && !clickedOnRegionSelect) {
                 keyboard.style.display = 'none';
                 if (activeInputElement) {
                     activeInputElement.blur();
@@ -804,3 +830,5 @@
       }, 2000); 
     }
   </script>
+</body>
+</html>

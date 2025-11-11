@@ -392,7 +392,7 @@
             /* Styles for the individual icon, relying on parent for positioning */
             width: 70px; /* Larger touch target */
             height: 70px;
-            background-color: #007AFF; /* iOS Blue */
+            background-color: #007bffaa; /* iOS Blue */
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -408,6 +408,12 @@
             font-size: 32px;
             color: white;
             font-weight: bold;
+        }
+        
+        /* NEW: Map Icon Style */
+        .map-icon {
+            background-color: #007bffaa; /* Green for map/location */
+            box-shadow:0 4px 15px rgba(0, 122, 255, 0.4);
         }
         /* End of Floating Action Group Structure */
 
@@ -437,16 +443,23 @@
             right: 20px;
             font-size: 30px; /* Larger X */
             cursor: pointer;
-            color: #1d1d1f;
-            background: none;
+            color: white; /* Changed color to white for better visibility on dark overlay */
+            background: rgba(0, 0, 0, 0.3); /* Slightly darker background */
             border: none;
-            padding: 5px;
-            border-radius: 50%;
+            padding: 5px 15px; /* Wider padding for easier tap */
+            border-radius: 20px; /* Pill shape */
             transition: background 0.2s;
+            font-weight: 300; /* Lighter font */
         }
         .fullscreen-close:hover {
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.5);
         }
+        /* Make sure the image is always centered within the viewport */
+        .fullscreen-modal.active .fullscreen-image {
+             align-self: center;
+             justify-self: center;
+        }
+
 
         /* Fullscreen Image Style */
         .fullscreen-image {
@@ -775,8 +788,13 @@
         </div>
     </main>
 
-    <!-- MODIFIED: Removed the News icon from this group -->
+    <!-- FLOATING ACTION GROUP (New Map button added here) -->
     <div class="floating-action-group">
+        <!-- New Building Map Button -->
+        <div class="mission-vision-icon map-icon" onclick="openMapFullscreen()" title="Building Map">
+            <span>🗺️</span>
+        </div>
+        
         <div class="mission-vision-icon survey-icon" onclick="window.location.href='client_satisfaction.html'" title="Client Satisfaction Survey">
             <span>😊</span>
         </div>
@@ -847,7 +865,14 @@
 
         function openFullscreen(src) {
             fullscreenImage.src = src;
+            fullscreenImage.alt = "Fullscreen image view"; // Set a generic alt text
             fullscreenModal.classList.add('active');
+        }
+
+        // NEW: Function to open the Building Map in fullscreen
+        function openMapFullscreen() {
+            // Use the path provided by the user
+            openFullscreen('assets/1st.jpg');
         }
 
         function closeFullscreen() {

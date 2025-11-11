@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Client Satisfaction Measurement (CSM) Form</title>
 
-  <!-- Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <!-- Libraries: Removed 'defer' to ensure they load before the body content, and added them here for clarity. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
     body {
@@ -193,6 +193,11 @@
 
     .submit-btn:hover {
       background-color: #0056b3;
+    }
+
+    .submit-btn:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
     }
 
     .footer {
@@ -408,7 +413,7 @@
     </style>
 
     <div class="form-section">
-      <div class="form-group inline-group">x
+      <div class="form-group inline-group">
         <label>Uri ng Kliyente:</label>
         <label><input type="checkbox"> Mamamayan</label>
         <label><input type="checkbox"> Negosyo</label>
@@ -487,7 +492,7 @@
 
   <!-- PAGE 2 -->
   <div class="container page-break" id="page2">
-    <h4 class="section-title">Satisfaction Questions (SQD0â€"8)</h4>
+    <h4 class="section-title">Satisfaction Questions (SQD 0-8)</h4>
     <p class="instructions">Pumili ng isang emoji na pinakaangkop sa iyong sagot.</p>
 
     <table id="emojiTable">
@@ -513,7 +518,8 @@
       <input type="text">
     </div>
 
-    <button class="submit-btn" onclick="savePDF()">Isumite</button>
+    <!-- Disabled by default, enabled when PDF libraries are loaded -->
+    <button class="submit-btn" id="submitButton" onclick="savePDF()" disabled>Loading PDF Tools...</button>
 
     <div class="footer">MARAMING SALAMAT!</div>
   </div>
@@ -621,6 +627,20 @@
         return officeSelect.value;
     }
 
+    // --- NEW: Function to check for PDF libraries and enable the button ---
+    function initializePdfGenerator() {
+        const submitButton = document.getElementById('submitButton');
+        if (typeof window.html2canvas === 'undefined' || typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
+            // Wait 250ms and check again
+            setTimeout(initializePdfGenerator, 250);
+        } else {
+            // Libraries are loaded, enable the button
+            submitButton.disabled = false;
+            submitButton.textContent = "Isumite";
+        }
+    }
+    // --- END NEW FUNCTION ---
+
     document.addEventListener("DOMContentLoaded", () => {
       const questions = [
         "Nasiyahan ako sa serbisyo na aking natanggap sa napuntahan na tanggapan.",
@@ -709,7 +729,7 @@
               toggleShiftCase(allKeys);
               break;
             default:
-              // This logic correctly handles capitalization for all letters, including 'Ã±' -> 'Ã''
+              // This logic correctly handles capitalization for all letters, including 'ñ' -> 'Ñ'
               const value = isShiftActive ? key.toUpperCase() : key.toLowerCase();
               activeInputElement.value += value;
               // Trigger input event manually for otherOfficeName field
@@ -748,6 +768,9 @@
         });
       }
       // --- VIRTUAL KEYBOARD LOGIC END ---
+
+      // Start the PDF library checker when the DOM is ready
+      initializePdfGenerator();
     });
 
     async function savePDF() {
@@ -757,7 +780,7 @@
       const { jsPDF } = window.jspdf;
       const overlay = document.getElementById("overlay");
       const overlayMessage = overlay.querySelector('p');
-      const button = document.querySelector(".submit-btn");
+      const button = document.getElementById("submitButton");
       const pdf = new jsPDF("p", "mm", "a4");
       
       const pageWidth = pdf.internal.pageSize.getWidth();
@@ -769,65 +792,72 @@
 
       overlayMessage.textContent = "Nagsasagawa ng PDF... Paki-hintay.";
       overlay.style.display = "flex";
-      button.style.display = "none";
+      button.disabled = true; // Disable button immediately
 
-      // convert emojis to grayscale for saving
-      document.querySelectorAll(".emoji").forEach(e => e.classList.add("grayscale"));
-      // Added a short delay to ensure grayscale is applied before capture
-      await new Promise(r => setTimeout(r, 100));
+      try {
+        // convert emojis to grayscale for saving
+        document.querySelectorAll(".emoji").forEach(e => e.classList.add("grayscale"));
+        // Added a short delay to ensure grayscale is applied before capture
+        await new Promise(r => setTimeout(r, 100));
 
-      const page1 = document.getElementById("page1");
-      const page2 = document.getElementById("page2");
+        const page1 = document.getElementById("page1");
+        const page2 = document.getElementById("page2");
 
-      // Capture Page 1
-      const canvas1 = await html2canvas(page1, { scale: PDF_RENDER_SCALE, useCORS: true });
-      const img1 = canvas1.toDataURL("image/png");
-      const imgWidth1 = pageWidth;
-      // FIX: Calculate the image height proportionally based on the captured canvas ratio
-      const imgHeight1 = (canvas1.height * imgWidth1) / canvas1.width;
+        // Capture Page 1
+        const canvas1 = await html2canvas(page1, { scale: PDF_RENDER_SCALE, useCORS: true });
+        const img1 = canvas1.toDataURL("image/png");
+        const imgWidth1 = pageWidth;
+        // FIX: Calculate the image height proportionally based on the captured canvas ratio
+        const imgHeight1 = (canvas1.height * imgWidth1) / canvas1.width;
 
-      // Capture Page 2
-      const canvas2 = await html2canvas(page2, { scale: PDF_RENDER_SCALE, useCORS: true });
-      const img2 = canvas2.toDataURL("image/png");
-      const imgWidth2 = pageWidth;
-      // FIX: Calculate the image height proportionally based on the captured canvas ratio
-      const imgHeight2 = (canvas2.height * imgWidth2) / canvas2.width;
-      
-      // Add Page 1 image using proportional scaling (from (0, 0) to fit full width)
-      pdf.addImage(img1, "PNG", 0, 0, imgWidth1, imgHeight1); 
-      
-      // Add Page 2 image
-      pdf.addPage();
-      // Add Page 2 image using proportional scaling
-      pdf.addImage(img2, "PNG", 0, 0, imgWidth2, imgHeight2); 
+        // Capture Page 2
+        const canvas2 = await html2canvas(page2, { scale: PDF_RENDER_SCALE, useCORS: true });
+        const img2 = canvas2.toDataURL("image/png");
+        const imgWidth2 = pageWidth;
+        // FIX: Calculate the image height proportionally based on the captured canvas ratio
+        const imgHeight2 = (canvas2.height * imgWidth2) / canvas2.width;
+        
+        // Add Page 1 image using proportional scaling (from (0, 0) to fit full width)
+        pdf.addImage(img1, "PNG", 0, 0, imgWidth1, imgHeight1); 
+        
+        // Add Page 2 image
+        pdf.addPage();
+        // Add Page 2 image using proportional scaling
+        pdf.addImage(img2, "PNG", 0, 0, imgWidth2, imgHeight2); 
 
-      // ✅ Android-safe download: create blob and trigger link click
-      const blob = pdf.output("blob");
-      const blobUrl = URL.createObjectURL(blob);
+        // ✅ Android-safe download: create blob and trigger link click
+        const blob = pdf.output("blob");
+        const blobUrl = URL.createObjectURL(blob);
 
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
 
-      // revoke after a short delay
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+        // revoke after a short delay
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
 
-      // restore colors after saving
-      document.querySelectorAll(".emoji").forEach(e => e.classList.remove("grayscale"));
-      
-      // Ipakita ang mensahe ng pasasalamat at i-restore ang button
-      overlayMessage.textContent = "Maraming salamat po!";
-      
-      // Itago ang overlay at ibalik ang button pagkatapos ng 2 segundo
-      setTimeout(() => {
-          overlay.style.display = "none";
-          button.style.display = "block";
-          // Ibalik ang default na message sa overlay para sa susunod na gamit (opsyonal)
-          overlayMessage.textContent = "Loading..."; 
-      }, 2000); 
+        // Ipakita ang mensahe ng pasasalamat
+        overlayMessage.textContent = "Maraming salamat po!";
+
+      } catch (error) {
+          console.error("PDF Generation Failed:", error);
+          overlayMessage.textContent = "Pumalya ang paggawa ng PDF. Pakisubukang muli. (Tingnan ang console para sa detalye)";
+      } finally {
+          // restore colors and button state
+          document.querySelectorAll(".emoji").forEach(e => e.classList.remove("grayscale"));
+
+          // Itago ang overlay at ibalik ang button pagkatapos ng 2 segundo
+          setTimeout(() => {
+              overlay.style.display = "none";
+              button.disabled = false;
+              button.textContent = "Isumite";
+              // Ibalik ang default na message sa overlay para sa susunod na gamit (opsyonal)
+              overlayMessage.textContent = "Loading..."; 
+          }, 2000); 
+      }
     }
   </script>
 </body>

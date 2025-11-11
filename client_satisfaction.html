@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="tl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Client Satisfaction Measurement (CSM) Form</title>
 
-  <!-- Libraries: Removed 'defer' to ensure they load before the body content, and added them here for clarity. -->
+  <!-- PDF libs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -95,7 +95,6 @@
       align-items: center;
     }
 
-    /* Added styling for select and specific text input */
     input[type="text"],
     input[type="date"],
     input[type="number"],
@@ -109,20 +108,19 @@
       word-wrap: break-word;
       overflow-wrap: break-word;
     }
-    
-    /* Specific styling for the office selector container */
+
     #office-selector-container {
-      max-width: 500px; /* Optional: limit width */
+      max-width: 500px;
       margin: 10px auto;
     }
-    
+
     #office-selector-container label {
       display: block;
       margin-bottom: 5px;
       font-weight: normal;
       text-align: left;
     }
-    
+
     #otherOfficeName {
       margin-top: 5px;
     }
@@ -166,7 +164,6 @@
       display: block;
     }
 
-    /* Colored for web view */
     .red { color: #e74c3c; }
     .orange { color: #e67e22; }
     .gray { color: #7f8c8d; }
@@ -174,7 +171,6 @@
     .green { color: #27ae60; }
     .na { color: #95a5a6; }
 
-    /* Grayscale filter (applied only in PDF generation) */
     .grayscale {
       filter: grayscale(100%);
     }
@@ -196,8 +192,8 @@
     }
 
     .submit-btn:disabled {
-        background-color: #cccccc;
-        cursor: not-allowed;
+      background-color: #cccccc;
+      cursor: not-allowed;
     }
 
     .footer {
@@ -211,7 +207,6 @@
       margin-top: 50px;
     }
 
-    /* Overlay */
     #overlay {
       display: none;
       position: fixed;
@@ -233,16 +228,15 @@
       padding: 20px 40px;
       border-radius: 10px;
     }
-    
-    /* --- Virtual Keyboard Styles --- */
+
+    /* Virtual Keyboard styles */
     #virtual-keyboard {
-      display: none; /* Hidden by default */
+      display: none;
       position: fixed;
       bottom: 0;
-      /* CENTERING AND MAX-WIDTH FOR LARGE SCREENS */
       left: 50%;
       transform: translateX(-50%);
-      max-width: 900px; 
+      max-width: 900px;
       width: 100%;
       padding: 8px;
       background: #f0f0f0;
@@ -257,16 +251,11 @@
       gap: 6px;
       margin-bottom: 6px;
     }
-    .keyboard-row:last-child {
-      margin-bottom: 0;
-    }
 
     .keyboard-key {
       font-family: Arial, sans-serif;
-      /* INCREASED FONT SIZE FOR KIOSK */
       font-size: 24px;
       padding: 0;
-      /* INCREASED KEY HEIGHT FOR KIOSK */
       height: 60px;
       min-width: 40px;
       flex-grow: 1;
@@ -277,30 +266,16 @@
       cursor: pointer;
       box-shadow: 0 2px 2px rgba(0,0,0,0.15);
       transition: all 0.05s ease;
-      font-weight: bold; /* Added bold back, it was missing in the original key style */
-    }
-    
-    .keyboard-key:last-child {
-      margin-right: 0;
-    }
-
-    .keyboard-key:hover {
-      background: #f0f0f0;
-    }
-
-    .keyboard-key:active {
-      background: #c8c8c8;
-      transform: scale(0.98);
-      box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+      font-weight: bold;
     }
 
     .key-special {
       flex-grow: 1.5;
       flex-basis: 0;
       background: #cdd8e6;
-      font-size: 20px; /* Slightly adjusted special key font size */
+      font-size: 20px;
     }
-    
+
     .key-backspace {
       flex-grow: 2;
     }
@@ -308,7 +283,7 @@
     .key-space {
       flex-grow: 12;
     }
-    
+
     .key-shift-active {
       background: #007BFF;
       color: white;
@@ -317,9 +292,8 @@
     .key-close {
       background: #e6cdd0;
     }
-    /* --- End Keyboard Styles --- */
 
-    /* --- Back Button Styles --- */
+    /* Back button */
     .back-button {
       position: fixed;
       top: 15px;
@@ -337,22 +311,15 @@
       font-size: 14px;
     }
 
-    .back-button:hover {
-      background-color: #e0e0e0;
-      transform: translateY(-1px);
-    }
-
-    .back-button:active {
-      transform: translateY(0);
-    }
-    /* --- End Back Button Styles --- */
+    .back-button:hover { background-color: #e0e0e0; transform: translateY(-1px); }
+    .back-button:active { transform: translateY(0); }
   </style>
 </head>
 <body>
   <!-- BACK BUTTON -->
   <a href="/index.html" class="back-button" onclick="window.history.back(); return false;">&larr;</a>
 
-  <!-- Overlay (Updated message: Loading...) -->
+  <!-- Overlay -->
   <div id="overlay"><p>Loading...</p></div>
 
   <!-- PAGE 1 -->
@@ -363,34 +330,34 @@
         <h3>PROVINCE OF NUEVA ECIJA</h3>
         <h3>Municipality of Gabaldon</h3>
         <p><b>- oOo -</b></p>
-        <!-- Ibinago ang Office Title para magamit ang dropdown / editable field -->
         <h2 id="officeTitle">PAMBAYANG TANGGAPAN NG TAGATALA</h2>
-        <!-- Office Selector (Hidden in PDF/Print View, only visible on web) -->
+
+        <!-- Office Selector -->
         <div id="office-selector-container" style="margin-top: 20px;">
-            <label for="officeSelect">Piliin ang TANGGAPAN na sinerbisyuhan:</label>
-            <select id="officeSelect" onchange="updateOfficeTitle(this.value)">
-                <!-- INAYOS ANG OPTIONS PARA MAGING ENGLISH ONLY ANG NAKIKITA NG USER -->
-                <option value="TAGATALA" selected>REGISTRY</option>
-                <option value="AGRIKULTURA">AGRICULTURE</option>
-                <option value="INHINYERO">ENGINEERING</option>
-                <option value="INGAT-YAMAN">TREASURY</option>
-                <option value="KALUSUGANG BAYAN">RHU</option>
-                <option value="PAGPAPLANO AT PAGPAPAUNLAD">PLANNING AND DEVELOPMENT</option>
-                <option value="PUNONG BAYAN">MAYOR'S OFFICE</option>
-                <option value="PAMAMAHALA SA YAMANG TAO">HRMO (HUMAN RESOURCE MANAGEMENT)</option>
-                <option value="BADYET">BUDGET OFFICE</option>
-                <option value="TAGASURI">ASSESSOR'S OFFICE</option>
-                <option value="KALIKASAN AT LIKAS NA YAMAN">MENRO (ENVIRONMENT AND NATURAL RESOURCES)</option>
-                <option value="PANANALAPI">ACCOUNTING</option>
-                <option value="SISTEMA NG TUBIG">WATER SYSTEM</option>
-                <option value="SANGGUNIANG BAYAN">SANGGUNIANG BAYAN</option>
-                <option value="PAMBAYANG PAMAMAHALA SA SAKUNA AT KALAMIDAD">MDRRMO (DISASTER RISK REDUCTION)</option>
-                <option value="TURISMO">TOURISM</option>
-                <option value="OTHER">SPECIFY / OTHER</option>
-            </select>
-            <input type="text" id="otherOfficeName" placeholder="Ipasok ang pangalan ng Tanggapan..." style="display:none;" oninput="updateOfficeTitle(this.value)">
+          <label for="officeSelect">Piliin ang TANGGAPAN na sinerbisyuhan:</label>
+          <select id="officeSelect" onchange="updateOfficeTitle(this.value)">
+            <option value="TAGATALA" selected>REGISTRY</option>
+            <option value="AGRIKULTURA">AGRICULTURE</option>
+            <option value="INHINYERO">ENGINEERING</option>
+            <option value="INGAT-YAMAN">TREASURY</option>
+            <option value="KALUSUGANG BAYAN">RHU</option>
+            <option value="PAGPAPLANO AT PAGPAPAUNLAD">PLANNING AND DEVELOPMENT</option>
+            <option value="PUNONG BAYAN">MAYOR'S OFFICE</option>
+            <option value="PAMAMAHALA SA YAMANG TAO">HRMO (HUMAN RESOURCE MANAGEMENT)</option>
+            <option value="BADYET">BUDGET OFFICE</option>
+            <option value="TAGASURI">ASSESSOR'S OFFICE</option>
+            <option value="KALIKASAN AT LIKAS NA YAMAN">MENRO (ENVIRONMENT AND NATURAL RESOURCES)</option>
+            <option value="PANANALAPI">ACCOUNTING</option>
+            <option value="SISTEMA NG TUBIG">WATER SYSTEM</option>
+            <option value="SANGGUNIANG BAYAN">SANGGUNIANG BAYAN</option>
+            <option value="PAMBAYANG PAMAMAHALA SA SAKUNA AT KALAMIDAD">MDRRMO (DISASTER RISK REDUCTION)</option>
+            <option value="TURISMO">TOURISM</option>
+            <option value="OTHER">SPECIFY / OTHER</option>
+          </select>
+          <input type="text" id="otherOfficeName" placeholder="Ipasok ang pangalan ng Tanggapan..." style="display:none;" oninput="updateOfficeTitle(this.value)">
         </div>
         <!-- End Office Selector -->
+
       </div>
     </header>
 
@@ -402,8 +369,7 @@
       Makatutulong ang inyong kasagutan upang mas mapabuti at lalong mapahusay ang aming serbisyo publiko. 
       Ang inyong ibinahaging impormasyon ay mananatiling kumpidensyal. Maaari ring piliin na hindi sagutan ang sarbey na ito.
     </p>
-    
-    <!-- Bagong CSS rule para itago ang dropdown at editable field sa PDF view -->
+
     <style>
       @media print {
         #office-selector-container {
@@ -428,7 +394,6 @@
         <label>Edad:</label> <input type="number" min="1" style="width:80px">
       </div>
 
-      <!-- START OF CHANGE: Replaced text input with select dropdown for Rehiyon -->
       <div class="form-group">
         <label for="rehiyonSelect">Rehiyon:</label> 
         <select id="rehiyonSelect" name="rehiyon" style="margin-top: 5px; min-height: 40px; padding: 10px 12px;">
@@ -452,7 +417,6 @@
             <option value="BARMM">Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)</option>
         </select>
       </div>
-      <!-- END OF CHANGE -->
 
       <div class="form-group">
         <label>Uri ng transaksyon o serbisyo:</label><input type="text" style="margin-top: 5px; min-height: 40px; padding: 10px 12px;">
@@ -505,7 +469,6 @@
           <th><span class="emoji lightgreen">🙂</span>Sumasang-ayon</th>
           <th><span class="emoji green">😃</span>Labis na<br>sumasang-ayon</th>
           <th><span class="emoji na">🚫</span>N/A</th>
-
         </tr>
       </thead>
       <tbody></tbody>
@@ -518,13 +481,12 @@
       <input type="text">
     </div>
 
-    <!-- Disabled by default, enabled when PDF libraries are loaded -->
     <button class="submit-btn" id="submitButton" onclick="savePDF()" disabled>Loading PDF Tools...</button>
 
     <div class="footer">MARAMING SALAMAT!</div>
   </div>
 
-  <!-- VIRTUAL KEYBOARD START -->
+  <!-- VIRTUAL KEYBOARD -->
   <div id="virtual-keyboard">
     <div class="keyboard-row">
       <button type="button" class="keyboard-key" data-key="1">1</button>
@@ -571,7 +533,6 @@
       <button type="button" class="keyboard-key" data-key="v">v</button>
       <button type="button" class="keyboard-key" data-key="b">b</button>
       <button type="button" class="keyboard-key" data-key="n">n</button>
-      <!-- NEW KEY FOR Ã'/Ã± -->
       <button type="button" class="keyboard-key" data-key="ñ">ñ</button>
       <button type="button" class="keyboard-key" data-key="m">m</button>
       <button type="button" class="keyboard-key" data-key=".">.</button>
@@ -582,68 +543,57 @@
       <button type="button" class="keyboard-key key-special key-close" data-key="CLOSE">Close</button>
     </div>
   </div>
-  <!-- VIRTUAL KEYBOARD END -->
+  <!-- END VIRTUAL KEYBOARD -->
 
   <script>
-    
-    // Function to update the office title based on dropdown selection or text input
+    // Update office title
     function updateOfficeTitle(value) {
         const officeTitleElement = document.getElementById('officeTitle');
         const otherOfficeInput = document.getElementById('otherOfficeName');
-        // Ang prefix na ito ay idadagdag sa value mula sa dropdown para mabuo ang buong titulo.
         const prefix = "PAMBAYANG TANGGAPAN NG ";
-        
+
         if (value === 'OTHER') {
-            // Show the text input when 'Iba pa / Tukuyin' is selected
             otherOfficeInput.style.display = 'block';
             otherOfficeInput.focus();
-            // Default title until user types
-            officeTitleElement.textContent = prefix + 'IBANG TANGGAPAN'; 
+            officeTitleElement.textContent = prefix + 'IBANG TANGGAPAN';
         } else if (value === 'TAGATALA' && otherOfficeInput.style.display === 'block') {
-            // If TAGATALA is selected after using "Other"
             otherOfficeInput.style.display = 'none';
             officeTitleElement.textContent = prefix + 'TAGATALA';
-            otherOfficeInput.value = ''; // Clear input
+            otherOfficeInput.value = '';
         } else if (value === 'TAGATALA' && otherOfficeInput.style.display === 'none') {
-             // If TAGATALA is selected and input is already hidden (initial state)
             officeTitleElement.textContent = prefix + 'TAGATALA';
         } else {
-            // Use the selected value from the dropdown
             otherOfficeInput.style.display = 'none';
-            // Use the selected value (which is just the name, e.g., AGRIKULTURA)
             officeTitleElement.textContent = prefix + value;
         }
     }
 
-    // Function to get the current office name for PDF filename
+    // Get office name for filename
     function getCurrentOfficeName() {
         const officeSelect = document.getElementById('officeSelect');
         const otherOfficeInput = document.getElementById('otherOfficeName');
-        
+
         if (officeSelect.value === 'OTHER' && otherOfficeInput.value.trim()) {
             return otherOfficeInput.value.trim().replace(/[^a-zA-Z0-9_-]/g, '_');
         }
-        
+
         return officeSelect.value;
     }
 
-    // --- NEW: Function to check for PDF libraries and enable the button ---
+    // Initialize PDF generator (enable button when libs loaded)
     function initializePdfGenerator() {
         const submitButton = document.getElementById('submitButton');
         if (typeof window.html2canvas === 'undefined' || typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
-            // Wait 250ms and check again
             setTimeout(initializePdfGenerator, 250);
         } else {
-            // Libraries are loaded, enable the button
             submitButton.disabled = false;
             submitButton.textContent = "Isumite";
         }
     }
-    // --- END NEW FUNCTION ---
 
     document.addEventListener("DOMContentLoaded", () => {
       const questions = [
-        "Nasiyahan ako sa serbisyo na aking natanggap sa napuntahan na tanggapan.",
+        "Nasiyahan ako sa serbisyo na aking natanggap sa napuntahang tanggapan.",
         "Makatwiran ang oras na aking ginugol para sa pagproseso ng aking transaksyon.",
         "Ang opisina ay sumusunod sa mga kinakailangang dokumento at mga hakbang batay sa impormasyong ibinigay.",
         "Ang mga hakbang sa pagproseso, kasama na ang pagbayad ay madali at simple lamang.",
@@ -664,38 +614,32 @@
         tbody.appendChild(row);
       });
 
-      // --- VIRTUAL KEYBOARD LOGIC START ---
+      // Virtual keyboard logic
       let activeInputElement = null;
       let isShiftActive = false;
       const keyboard = document.getElementById("virtual-keyboard");
-      
-      // Ensure the otherOfficeName input also triggers the virtual keyboard
-      // NOTE: We exclude the new 'rehiyonSelect' from triggering the keyboard
+
       const inputSelector = 'input[type="text"]:not(#otherOfficeName), input[type="number"], textarea, #otherOfficeName';
 
       if (keyboard) {
         const allKeys = keyboard.querySelectorAll(".keyboard-key");
-        
+
         document.querySelectorAll(inputSelector).forEach(input => {
-          // Check if the input is the editable office name field and ensure it's displayed
           if (input.id === 'otherOfficeName' && input.style.display === 'none') {
-             // Do nothing if it's the other office field and currently hidden
+            // do nothing until shown
           } else {
-             input.addEventListener('focus', () => {
-                activeInputElement = input;
-                keyboard.style.display = 'block';
-             });
+            input.addEventListener('focus', () => {
+              activeInputElement = input;
+              keyboard.style.display = 'block';
+            });
           }
         });
-        
-        // Re-attach the focus listener to the 'otherOfficeName' field specifically
-        // It is needed for when it becomes visible later
+
         const otherOfficeInput = document.getElementById('otherOfficeName');
         otherOfficeInput.addEventListener('focus', () => {
             activeInputElement = otherOfficeInput;
             keyboard.style.display = 'block';
         });
-
 
         keyboard.addEventListener('click', (e) => {
           if (!e.target.matches('.keyboard-key')) return;
@@ -707,14 +651,12 @@
           switch (key) {
             case 'BACKSPACE':
               activeInputElement.value = activeInputElement.value.slice(0, -1);
-              // Trigger input event manually for otherOfficeName field
               if (activeInputElement.id === 'otherOfficeName') {
                   updateOfficeTitle(activeInputElement.value);
               }
               break;
             case 'SPACE':
               activeInputElement.value += ' ';
-              // Trigger input event manually for otherOfficeName field
               if (activeInputElement.id === 'otherOfficeName') {
                   updateOfficeTitle(activeInputElement.value);
               }
@@ -729,10 +671,8 @@
               toggleShiftCase(allKeys);
               break;
             default:
-              // This logic correctly handles capitalization for all letters, including 'ñ' -> 'Ñ'
               const value = isShiftActive ? key.toUpperCase() : key.toLowerCase();
               activeInputElement.value += value;
-              // Trigger input event manually for otherOfficeName field
               if (activeInputElement.id === 'otherOfficeName') {
                   updateOfficeTitle(activeInputElement.value);
               }
@@ -745,7 +685,6 @@
 
           keys.forEach(key => {
             const keyValue = key.dataset.key;
-            // Check if it's a letter (a-z) OR the specific 'ñ' key for shifting display text
             if (keyValue && (keyValue.length === 1 && keyValue.match(/[a-z]/i) || keyValue === 'ñ')) {
               key.textContent = isShiftActive ? keyValue.toUpperCase() : keyValue.toLowerCase();
             }
@@ -754,50 +693,46 @@
 
         document.addEventListener('click', (e) => {
             if (keyboard.style.display !== 'block' || keyboard.contains(e.target)) return;
-            // Also check if the clicked element is the new region select
             const clickedOnInput = e.target.matches(inputSelector);
             const clickedOnRegionSelect = e.target.id === 'rehiyonSelect';
-            
+
             if (!clickedOnInput && !clickedOnRegionSelect) {
                 keyboard.style.display = 'none';
-                if (activeInputElement) {
-                    activeInputElement.blur();
-                }
+                if (activeInputElement) activeInputElement.blur();
                 activeInputElement = null;
             }
         });
       }
-      // --- VIRTUAL KEYBOARD LOGIC END ---
 
       // Start the PDF library checker when the DOM is ready
       initializePdfGenerator();
     });
 
     async function savePDF() {
-      // Set the scale factor for html2canvas. Higher scale = better PDF quality.
       const PDF_RENDER_SCALE = 2.5;
 
+      // obtain jsPDF from window (imported from CDN)
       const { jsPDF } = window.jspdf;
       const overlay = document.getElementById("overlay");
       const overlayMessage = overlay.querySelector('p');
       const button = document.getElementById("submitButton");
+
+      // create a new jsPDF instance per invocation
       const pdf = new jsPDF("p", "mm", "a4");
-      
       const pageWidth = pdf.internal.pageSize.getWidth();
-      
-      // Get the office name for the filename
+
       const officeName = getCurrentOfficeName();
-      const timestamp = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+      const timestamp = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
       const filename = `CSM_${officeName}_${timestamp}.pdf`;
 
       overlayMessage.textContent = "Nagsasagawa ng PDF... Paki-hintay.";
       overlay.style.display = "flex";
-      button.disabled = true; // Disable button immediately
+      button.disabled = true; // prevent double clicks
 
       try {
         // convert emojis to grayscale for saving
         document.querySelectorAll(".emoji").forEach(e => e.classList.add("grayscale"));
-        // Added a short delay to ensure grayscale is applied before capture
+        // short delay to ensure styles applied
         await new Promise(r => setTimeout(r, 100));
 
         const page1 = document.getElementById("page1");
@@ -807,56 +742,56 @@
         const canvas1 = await html2canvas(page1, { scale: PDF_RENDER_SCALE, useCORS: true });
         const img1 = canvas1.toDataURL("image/png");
         const imgWidth1 = pageWidth;
-        // FIX: Calculate the image height proportionally based on the captured canvas ratio
         const imgHeight1 = (canvas1.height * imgWidth1) / canvas1.width;
 
         // Capture Page 2
         const canvas2 = await html2canvas(page2, { scale: PDF_RENDER_SCALE, useCORS: true });
         const img2 = canvas2.toDataURL("image/png");
         const imgWidth2 = pageWidth;
-        // FIX: Calculate the image height proportionally based on the captured canvas ratio
         const imgHeight2 = (canvas2.height * imgWidth2) / canvas2.width;
-        
-        // Add Page 1 image using proportional scaling (from (0, 0) to fit full width)
-        pdf.addImage(img1, "PNG", 0, 0, imgWidth1, imgHeight1); 
-        
-        // Add Page 2 image
-        pdf.addPage();
-        // Add Page 2 image using proportional scaling
-        pdf.addImage(img2, "PNG", 0, 0, imgWidth2, imgHeight2); 
 
-        // ✅ Android-safe download: create blob and trigger link click
+        // Add Page 1
+        pdf.addImage(img1, "PNG", 0, 0, imgWidth1, imgHeight1);
+
+        // Add Page 2
+        pdf.addPage();
+        pdf.addImage(img2, "PNG", 0, 0, imgWidth2, imgHeight2);
+
+        // Generate blob and use object URL for download
         const blob = pdf.output("blob");
         const blobUrl = URL.createObjectURL(blob);
 
+        // Create and click a fresh link each time
         const link = document.createElement("a");
         link.href = blobUrl;
         link.download = filename;
         document.body.appendChild(link);
+
+        // Some browsers require link to be in document to work reliably
         link.click();
+
+        // Remove the link immediately
         document.body.removeChild(link);
 
-        // revoke after a short delay
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+        // Revoke object URL after a delay (allow browser to finish)
+        setTimeout(() => {
+          try { URL.revokeObjectURL(blobUrl); } catch (e) { /* ignore */ }
+        }, 10000); // 10s
 
-        // Ipakita ang mensahe ng pasasalamat
         overlayMessage.textContent = "Maraming salamat po!";
-
       } catch (error) {
-          console.error("PDF Generation Failed:", error);
-          overlayMessage.textContent = "Pumalya ang paggawa ng PDF. Pakisubukang muli. (Tingnan ang console para sa detalye)";
+        console.error("PDF Generation Failed:", error);
+        overlayMessage.textContent = "Pumalya ang paggawa ng PDF. Pakisubukang muli. (Tingnan ang console para sa detalye)";
       } finally {
-          // restore colors and button state
-          document.querySelectorAll(".emoji").forEach(e => e.classList.remove("grayscale"));
+        // restore UI state and remove grayscale
+        document.querySelectorAll(".emoji").forEach(e => e.classList.remove("grayscale"));
 
-          // Itago ang overlay at ibalik ang button pagkatapos ng 2 segundo
-          setTimeout(() => {
-              overlay.style.display = "none";
-              button.disabled = false;
-              button.textContent = "Isumite";
-              // Ibalik ang default na message sa overlay para sa susunod na gamit (opsyonal)
-              overlayMessage.textContent = "Loading..."; 
-          }, 2000); 
+        setTimeout(() => {
+          overlay.style.display = "none";
+          button.disabled = false;
+          button.textContent = "Isumite";
+          overlayMessage.textContent = "Loading..."; // reset
+        }, 2000);
       }
     }
   </script>

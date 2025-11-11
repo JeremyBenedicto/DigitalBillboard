@@ -312,40 +312,43 @@
     .key-close {
       background: #e6cdd0;
     }
-    /* --- End Keyboard Styles --- */
+    /* --- End Keyboard Styles --- */    
 
-    /* --- Back Button Styles --- */
+    /* --- NEW Back Button Styles (from missionVision.html) --- */
     .back-button {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      z-index: 1000;
-      padding: 10px 15px;
-      background-color: #dcdada;
-      color: #333;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.2s, transform 0.1s;
-      font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 600;
+        color: #007AFF;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        padding: 12px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        margin: 20px 0 0 20px; /* Positioned with margin */
+        position: absolute; /* Changed from fixed */
+        top: 0;
+        left: 0;
+        z-index: 1000;
     }
-
     .back-button:hover {
-      background-color: #e0e0e0;
-      transform: translateY(-1px);
+        background: white;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
     }
-
-    .back-button:active {
-      transform: translateY(0);
+    .back-button span {
+        font-size: 24px;
+        margin-right: 8px;
     }
-    /* --- End Back Button Styles --- */
   </style>
 </head>
 <body>
   <!-- BACK BUTTON -->
-  <a href="/index.html" class="back-button" onclick="window.history.back(); return false;">&larr;</a>
+  <a href="index.html" class="back-button"><span>❮</span> Back to Home</a>
 
   <!-- Overlay (Updated message: Loading...) -->
   <div id="overlay"><p>Loading...</p></div>
@@ -579,6 +582,20 @@
   <!-- VIRTUAL KEYBOARD END -->
 
   <script>
+    // --- LOADING OVERLAY LOGIC ---
+    const loadingOverlay = document.getElementById('overlay');
+    
+    function navigateWithLoading(url) {
+        if (!loadingOverlay) {
+            window.location.href = url;
+            return;
+        }
+        loadingOverlay.style.display = 'flex';
+        // Short delay to show animation before navigating
+        setTimeout(() => {
+            window.location.href = url;
+        }, 1000);
+    }
     
     // Function to update the office title based on dropdown selection or text input
     function updateOfficeTitle(value) {

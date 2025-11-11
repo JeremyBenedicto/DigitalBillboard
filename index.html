@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Municipality of Gabaldon - Kiosk Portal</title>
-    <!-- Font for iOS look: uses system font stack -->
     <style>
         /* General iOS/Kiosk Reset and Global Styles */
         * {
@@ -203,7 +202,7 @@
         .right-section {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 10px;
         }
 
         /* --- Explore Section (Vibrant Card) --- */
@@ -213,34 +212,34 @@
             background-repeat: no-repeat;
             background-image: linear-gradient(135deg, rgba(0, 122, 255, 0.9), rgba(0, 78, 163, 0.9)), url('assets/blur.jpg'); /* Blue Overlay */
             border-radius: 30px;
-            padding: 30px;
+            padding: 20px; /* MODIFIED: Reduced padding */
             text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
-            min-height: 180px;
+            min-height: 140px; /* MODIFIED: Reduced height */
         }
          .explore-section h2 {
-            font-size: 30px; /* Adjusted size for the smaller column */
+            font-size: 26px; /* MODIFIED: Reduced font size */
             color: white;
-            margin-bottom: 8px;
+            margin-bottom: 5px; /* MODIFIED: Reduced margin */
             font-weight: 700;
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
         .explore-section .subtitle {
-            font-size: 18px;
+            font-size: 16px; /* MODIFIED: Reduced font size */
             color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* MODIFIED: Reduced margin */
         }
 
         .discover-btn {
             background: white;
             color: #007AFF;
             border: none;
-            padding: 15px 40px;
+            padding: 12px 35px; /* MODIFIED: Reduced padding */
             border-radius: 25px; /* Pill shape */
-            font-size: 18px;
+            font-size: 16px; /* MODIFIED: Reduced font size */
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -263,8 +262,9 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             border: 1px solid rgba(0,0,0,0.05);
             flex-grow: 1; /* Take up remaining space */
-            /* Match the height of the slideshow container minus the explore section and gap */
-            height: calc(800px - 180px - 30px);
+            /* MODIFIED: Adjusted height for the new news card */
+            /* Was: height: calc(800px - 180px - 30px - 180px - 30px); */
+            height: calc(800px - 140px - 30px - 140px - 30px); /* MODIFIED: Increased height */
             overflow: hidden;
         }
 
@@ -413,7 +413,7 @@
 
 
         /* --- Modal Styles (Frosted Glass Look) --- */
-        .mission-vision-modal, .fullscreen-modal, .loading-overlay {
+        .fullscreen-modal, .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -427,37 +427,11 @@
             align-items: center;
             display: none;
         }
-        .mission-vision-modal.active, .fullscreen-modal.active, .loading-overlay.active {
+        .fullscreen-modal.active, .loading-overlay.active {
             display: flex;
         }
 
-        .mission-vision-content {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 40px;
-            border-radius: 25px;
-            max-width: 650px;
-            width: 90%;
-            max-height: 90%;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-        .mission-vision-content h2 {
-            color: #007AFF;
-            font-size: 32px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .mission-vision-content h3 {
-            color: #1d1d1f;
-            font-size: 24px;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-        .close-modal, .fullscreen-close {
+        .fullscreen-close {
             position: absolute;
             top: 20px;
             right: 20px;
@@ -470,7 +444,7 @@
             border-radius: 50%;
             transition: background 0.2s;
         }
-        .close-modal:hover, .fullscreen-close:hover {
+        .fullscreen-close:hover {
             background: rgba(0, 0, 0, 0.1);
         }
 
@@ -672,26 +646,10 @@
     </style>
 </head>
 <body>
-    <!-- Loading Overlay (Updated to use logo popup) -->
     <div id="loading-overlay" class="loading-overlay">
         <img id="loading-logo" class="logo-popup" src="assets/logo.png" alt="Gabaldon LGU Logo" onerror="this.onerror=null; this.src='https://placehold.co/150x150/1d1d1f/ffffff?text=LGU+Logo'">
     </div>
 
-    <!-- Mission/Vision Modal (Kept in case other links need it, but the icon now navigates) -->
-    <div id="missionVisionModal" class="mission-vision-modal">
-        <div class="mission-vision-content">
-            <button class="close-modal" onclick="closeMissionVision()" aria-label="Close Mission and Vision">&times;</button>
-            <h2>Mission & Vision</h2>
-            <p>This modal used to be linked to the 'i' icon, which now navigates to the news page.
-            It is kept here in case another button needs to link to the mission and vision statements.</p>
-            <h3>Mission</h3>
-            <p>To provide innovative and effective digital communication solutions that enhance public awareness, promote transparency, and foster community engagement through strategically placed digital billboards.</p>
-            <h3>Vision</h3>
-            <p>To become a leading provider of digital billboard solutions that transform how communities connect with information, creating smarter, more informed, and engaged citizens through cutting-edge technology and compelling content.</p>
-        </div>
-    </div>
-
-    <!-- Fullscreen Modal -->
     <div id="fullscreen-modal" class="fullscreen-modal">
         <button class="fullscreen-close" onclick="closeFullscreen()" aria-label="Close Fullscreen">&times;</button>
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
@@ -708,7 +666,6 @@
                 <div>Nueva Ecija, Philippines</div>
             </div>
         </div>
-        <!-- Real-time Clock -->
         <div class="clock-container">
             <div id="time"></div>
             <div id="date"></div>
@@ -716,33 +673,21 @@
     </header>
 
     <main class="main-content">
-        <!-- Slideshow Section (Wide Column) -->
         <div class="slideshow-container">
             <div class="slideshow">
-              <!-- slide 0 -->
-                <div class="slide active" data-index="0">
+              <div class="slide active" data-index="0">
                     <img src="assets/slides/1.png" alt="Slide 1: ARTA" onerror="this.onerror=null; this.src='https://placehold.co/1000x800/2ecc71/ffffff?text=ARTA+Notice+1'">
                 </div>
-                <!-- slide 1 -->
                 <div class="slide" data-index="1">
                     <img src="assets/slides/2.png" alt="Slide 2: ARTA" onerror="this.onerror=null; this.src='https://placehold.co/1000x800/f39c12/ffffff?text=ARTA+Notice+2'">
                 </div>
-                <!-- slide 2 -->
                 <div class="slide" data-index="2">
                     <img src="assets/slides/3.jpg" alt="Slide 2: ARTA" onerror="this.onerror=null; this.src='https://placehold.co/1000x800/f39c12/ffffff?text=ARTA+Notice+2'">
                 </div>
-                <!-- slide 3 -->
-                
-                <!-- slide 4 -->
-                
-                <!-- slide 5 -->
-                
-            </div>
-            <!-- UPDATED: Pass 'event' object to changeSlide -->
+                </div>
             <button class="nav-arrow left" onclick="changeSlide(event, -1)" aria-label="Previous Slide">❮</button>
             <button class="nav-arrow right" onclick="changeSlide(event, 1)" aria-label="Next Slide">❯</button>
             <div class="slide-indicators">
-                <!-- UPDATED: Pass 'event' object to goToSlide -->
                 <div class="indicator active" onclick="goToSlide(event, 0)"></div>
                 <div class="indicator" onclick="goToSlide(event, 1)"></div>
                 <div class="indicator" onclick="goToSlide(event, 2)"></div>
@@ -757,16 +702,21 @@
                 <button class="discover-btn" onclick="discoverWithLoading()">Discover</button>
             </div>
 
+            <!-- NEW: News section card, using explore-section class with inline style overrides -->
+            <div class="explore-section" style="background-image: linear-gradient(135deg, rgba(39, 174, 96, 0.9), rgba(22, 160, 133, 0.9)), url('assets/blur.jpg');">
+                <h2>News & Updates</h2>
+                <p class="subtitle">Stay informed with the latest happenings</p>
+                <button class="discover-btn" onclick="navigateWithLoading('news.html')" style="color: #27ae60;">View News</button>
+            </div>
+            <!-- END: News section card -->
+
             <div class="services-section">
                 <h3>Municipal Services</h3>
                 <div class="search-container">
                     <input type="text" class="search-input" placeholder="Search for services..." id="searchInput" readonly>
-                    <!-- Search button now ONLY closes the keyboard after filtering -->
                     <button class="search-btn" onclick="searchServices()" aria-label="Search">🔍</button>
                 </div>
-                <!-- Service Tiles (New Kiosk Grid) -->
                 <div class="service-grid" id="serviceGrid">
-                    <!-- START: UPDATED onclick to use navigateWithLoading -->
                     <div class="service-tile" onclick="navigateWithLoading('department/agricultureOffice.html')">
                         <span class="service-tile-icon">🚜</span>
                         <span class="service-tile-text">AGRICULTURE</span>
@@ -799,7 +749,6 @@
                         <span class="service-tile-icon">🏥</span>
                         <span class="service-tile-text">RHU (HEALTH)</span>
                     </div>
-                    <!-- UPDATED: SBO for Sangguniang Bayan Office (Legislative) -->
                     <div class="service-tile" onclick="navigateWithLoading('department/sbo.html')">
                         <span class="service-tile-icon">🔨</span>
                         <span class="service-tile-text">SBO (LEGIS.)</span>
@@ -820,28 +769,24 @@
                         <span class="service-tile-icon">📝</span>
                         <span class="service-tile-text">REGISTRAR</span>
                     </div>
-                    <!-- END: UPDATED onclick to use navigateWithLoading -->
-                </div>
+                    </div>
             </div>
 
         </div>
     </main>
 
-    <!-- Floating Action Group -->
+    <!-- MODIFIED: Removed the News icon from this group -->
     <div class="floating-action-group">
-        <!-- NEW Button: Client Satisfaction Survey -->
         <div class="mission-vision-icon survey-icon" onclick="window.location.href='client_satisfaction.html'" title="Client Satisfaction Survey">
             <span>😊</span>
         </div>
-
-        <!-- Existing Button: News -->
-        <div class="mission-vision-icon" onclick="window.location.href='news.html'" title="News and Updates">
-            <span>📰</span>
+        
+        <div class="mission-vision-icon" onclick="window.location.href='missionVision.html'" title="Mission and Vision">
+            <span>📜</span>
         </div>
     </div>
 
 
-    <!-- Virtual Keyboard Overlay -->
     <div class="vk-overlay" id="vkOverlay">
       <button class="vk-close" id="vkCloseBtn" title="Close Keyboard">❌</button>
       <div class="vk-keys" id="vkKeys"></div>
@@ -895,21 +840,10 @@
             showSlides();
         }
 
-        // --- MODAL LOGIC (Mission/Vision, Fullscreen, Loading) ---
-        const missionVisionModal = document.getElementById('missionVisionModal');
+        // --- MODAL LOGIC (Fullscreen, Loading) ---
         const fullscreenModal = document.getElementById('fullscreen-modal');
         const fullscreenImage = document.getElementById('fullscreen-image');
         const loadingOverlay = document.getElementById('loading-overlay');
-
-        // NOTE: openMissionVision() is no longer called by the floating 'i' button, but is kept
-        // in case you want to link the modal to a different element later.
-        function openMissionVision() {
-            missionVisionModal.classList.add('active');
-        }
-
-        function closeMissionVision() {
-            missionVisionModal.classList.remove('active');
-        }
 
         function openFullscreen(src) {
             fullscreenImage.src = src;
@@ -1080,7 +1014,7 @@
             // Add event listener for fullscreen view on slide click only after initialization
             if(slideshowContainer) {
                  slideshowContainer.addEventListener('click', (event) => {
-                    // This listener now only fires if the event hasn't been stopped by a child element (like a button)
+                    // This listener now fires if the event hasn't been stopped by a child element (like a button)
                     const activeSlide = document.querySelector('.slide.active');
                     if (activeSlide) {
                         const img = activeSlide.querySelector('img');

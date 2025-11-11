@@ -115,31 +115,32 @@
             transform: scale(0.98);
         }
 
+        /* --- NEW Back Button Styles (from missionVision.html) --- */
         .back-btn {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            padding: 8px 16px;
-            background-color: var(--color-background);
-            color: var(--color-text-dark);
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius-button);
-            text-decoration: none;
+            font-size: 18px;
             font-weight: 600;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
-            font-size: 16px;
+            color: #007AFF;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 12px 25px;
+            border-radius: 25px;
             cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
-
         .back-btn:hover {
-            background-color: #e8e8e8;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
         }
-
-        .back-btn:active {
-            transform: scale(0.98);
+        .back-btn span {
+            font-size: 24px;
+            margin-right: 8px;
         }
-
+        
         .page-title {
             font-size: 24px;
             font-weight: 700;
@@ -147,10 +148,6 @@
             text-align: center;
             flex-grow: 1;
             margin: 0 20px;
-        }
-
-        .header-spacer {
-            width: 100px;
         }
 
         /* --- No Results Message --- */
@@ -486,13 +483,6 @@
             }
             .page-title {
                 font-size: 20px;
-                flex-basis: 100%;
-                order: 2;
-            }
-            .back-btn {
-                padding: 6px 12px;
-                font-size: 14px;
-                order: 1;
             }
             .search-container {
                 flex-basis: 100%;
@@ -502,9 +492,6 @@
             }
             .search-input {
                 font-size: 16px;
-            }
-            .header-spacer {
-                display: none;
             }
             .news-container {
                 padding: 20px 16px;
@@ -545,9 +532,6 @@
             .page-title {
                 font-size: 18px;
             }
-            .header-spacer {
-                display: none;
-            }
             .search-container {
                 margin: 0;
             }
@@ -580,10 +564,18 @@
         <div id="pdf-viewer-container" class="pdf-viewer" style="display:none;">
             <!-- The iframe will be dynamically added here to display the PDF -->
         </div>
+        <!-- NEW: Loading Overlay -->
+        <div id="loading-overlay" class="fullscreen-modal">
+            <img id="loading-logo" style="width: 150px; height: 150px; border-radius: 100px; object-fit: contain; background: white; padding: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);" src="assets/logo.png" alt="Gabaldon LGU Logo" onerror="this.onerror=null; this.src='https://placehold.co/150x150/1d1d1f/ffffff?text=LGU+Logo'">
+        </div>
     </div>
 
     <header class="header">
-        <button class="back-btn" onclick="goBack()">&larr; Back</button>
+        <!-- UPDATED Back Button -->
+        <a href="index.html" class="back-btn" onclick="event.preventDefault(); navigateWithLoading('index.html');">
+            <span>❮</span> Back to Home
+        </a>
+
         <div class="page-title">LGU - Gabaldon Bulletin Board</div>
         <div class="search-container">
             <input 
@@ -595,7 +587,6 @@
             >
             <button class="search-btn" onclick="performSearch()">🔍</button>
         </div>
-        <div class="header-spacer"></div>
     </header>
 
     <main class="news-container">
@@ -695,10 +686,22 @@
         let isSearchActive = false;
 
 
-        // --- Navigation ---
-        function goBack() {
-            window.history.back();
+        // --- NEW: Loading Overlay & Navigation ---
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        function navigateWithLoading(url) {
+            if (!loadingOverlay) {
+                window.location.href = url;
+                return;
+            }
+            loadingOverlay.classList.add('active');
+            // Allow the user to see the animation for a moment
+            setTimeout(() => {
+                window.location.href = url;
+            }, 1000);
         }
+
+        // The old goBack() function is no longer needed
 
         // --- Fullscreen Modal Logic ---
         function openFullscreen(fileSrc, altText, fileType) {

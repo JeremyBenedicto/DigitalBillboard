@@ -447,7 +447,7 @@
         <label><input type="checkbox"> 1. Sobrang nakatulong</label>
         <label><input type="checkbox"> 2. Nakatulong naman</label>
         <label><input type="checkbox"> 3. Hindi nakatulong</label>
-        <label><input type="checkbox"> 4. N/A</label>
+        <label><input type="checkbox"> 4. N/ A</label>
       </div>
     </div>
   </div>
@@ -733,7 +733,8 @@
       const pageWidth = pdf.internal.pageSize.getWidth();
 
       const officeName = getCurrentOfficeName();
-      const timestamp = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+      const now = new Date();
+      const timestamp = now.toISOString().replace(/[:.]/g, '-').slice(0, -5); // More unique timestamp
       const filename = `CSM_${officeName}_${timestamp}.pdf`;
 
       overlayMessage.textContent = "Nagsasagawa ng PDF... Paki-hintay.";
@@ -774,22 +775,25 @@
         const blob = pdf.output("blob");
         const blobUrl = URL.createObjectURL(blob);
 
-        // Create and click a fresh link each time
+        // Create a completely fresh anchor element for each download
         const link = document.createElement("a");
+        link.style.display = "none";
         link.href = blobUrl;
         link.download = filename;
+        link.target = "_blank"; // Help with some kiosk browsers
+        
         document.body.appendChild(link);
-
-        // Some browsers require link to be in document to work reliably
-        link.click();
-
-        // Remove the link immediately
-        document.body.removeChild(link);
-
-        // Revoke object URL after a delay (allow browser to finish)
+        
+        // Force click with delay to ensure DOM updates
         setTimeout(() => {
-          try { URL.revokeObjectURL(blobUrl); } catch (e) { /* ignore */ }
-        }, 10000); // 10s
+          link.click();
+          
+          // Clean up after a short delay
+          setTimeout(() => {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl);
+          }, 500);
+        }, 100);
 
         overlayMessage.textContent = "Maraming salamat po!";
       } catch (error) {

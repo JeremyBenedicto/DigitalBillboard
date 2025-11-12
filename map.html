@@ -137,6 +137,8 @@
         .back-button span {
             font-size: 24px;
             margin-right: 8px;
+            display: inline-block;
+            transform: scaleX(-1);
         }
 
         .map-container {
@@ -152,12 +154,7 @@
             justify-content: center;
             min-height: 0;
             position: relative;
-            cursor: grab;
             overflow: hidden;
-        }
-
-        .map-container.panning {
-            cursor: grabbing;
         }
 
         .map-wrapper {
@@ -334,20 +331,14 @@
 
     <main class="main-content">
         <a href="index.html" class="back-button">
-            <span>❮</span> Back to Home
+            <span>➜</span> Back to Home
         </a>
         <div class="map-layout">
             <div class="department-list" id="departmentList">
                 <h3>Departments</h3>
             </div>
             <div class="map-container" id="mapContainer">
-                <button class="reset-btn" id="resetBtn">Reset View</button>
-                <div class="zoom-level" id="zoomLevel">Zoom: 100%</div>
-                <div class="zoom-controls">
-                    <button class="zoom-btn" id="zoomInBtn">+</button>
-                    <button class="zoom-btn" id="zoomOutBtn">−</button>
-                </div>
-                <div class="gesture-hint" id="gestureHint">Pinch to zoom • Drag to pan</div>
+
                 <div class="map-wrapper">
                     <img id="mapImage" src="assets/maps/1.png" alt="Building Map" class="map-image" onerror="this.onerror=null; this.src='https://placehold.co/1200x800/eef1f6/1d1d1f?text=Map+Not+Available'">
                 </div>
@@ -358,6 +349,7 @@
     <script>
         const departments = [    
             { name: "Restroom", map: "assets/maps/RESTROOM.png" },
+            { name: "Assessor", map: "assets/maps/MAO.png" },
             { name: "Agriculture", map: "assets/maps/DA.png" },
             { name: "Accounting", map: "assets/maps/accounting.jpg" },
             { name: "BPLO", map: "assets/maps/BPLO.png" },
@@ -377,189 +369,9 @@
         const mapImage = document.getElementById('mapImage');
         const mapContainer = document.getElementById('mapContainer');
         const mapWrapper = document.querySelector('.map-wrapper');
-        const zoomLevelDisplay = document.getElementById('zoomLevel');
-        const gestureHint = document.getElementById('gestureHint');
         let currentActiveButton = null;
-        
-        // --- Enhanced Touch & Zoom/Pan Functionality ---
-        let scale = 1;
-        let minScale = 1;
-        let maxScale = 5;
-        let pointX = 0;
-        let pointY = 0;
-        let isPanning = false;
-        let start = { x: 0, y: 0 };
-        let lastDistance = 0;
-        let touchPoints = [];
-
-        function setTransform() {
-            mapImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
-            updateZoomDisplay();
-        }
-
-        function updateZoomDisplay() {
-            zoomLevelDisplay.textContent = `Zoom: ${Math.round(scale * 100)}%`;
-        }
-
-        function resetZoom() {
-            scale = 1;
-            pointX = 0;
-            pointY = 0;
-            setTransform();
-        }
-
-        function constrainPan() {
-            const containerRect = mapContainer.getBoundingClientRect();
-            const imageRect = mapImage.getBoundingClientRect();
-            
-            const maxX = (imageRect.width * scale - containerRect.width) / 2;
-            const maxY = (imageRect.height * scale - containerRect.height) / 2;
-            
-            pointX = Math.max(-maxX, Math.min(maxX, pointX));
-            pointY = Math.max(-maxY, Math.min(maxY, pointY));
-        }
-
-        function getDistance(touches) {
-            if (touches.length < 2) return 0;
-            const dx = touches[0].clientX - touches[1].clientX;
-            const dy = touches[0].clientY - touches[1].clientY;
-            return Math.sqrt(dx * dx + dy * dy);
-        }
-
-        function getMidpoint(touches) {
-            if (touches.length < 2) return { x: 0, y: 0 };
-            return {
-                x: (touches[0].clientX + touches[1].clientX) / 2,
-                y: (touches[0].clientY + touches[1].clientY) / 2
-            };
-        }
-
-        // Mouse events for desktop testing
-        mapContainer.addEventListener('pointerdown', (e) => {
-            e.preventDefault();
-            isPanning = true;
-            start = { x: e.clientX - pointX, y: e.clientY - pointY };
-            mapContainer.classList.add('panning');
-        }, false);
-
-        mapContainer.addEventListener('pointerup', () => {
-            isPanning = false;
-            mapContainer.classList.remove('panning');
-            constrainPan();
-            setTransform();
-        }, false);
-
-        mapContainer.addEventListener('pointerleave', () => {
-            isPanning = false;
-            mapContainer.classList.remove('panning');
-        }, false);
-
-        mapContainer.addEventListener('pointermove', (e) => {
-            e.preventDefault();
-            if (!isPanning) return;
-            pointX = e.clientX - start.x;
-            pointY = e.clientY - start.y;
-            setTransform();
-        }, false);
-
-        // Touch events for multi-touch gestures
-        mapContainer.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            touchPoints = Array.from(e.touches);
-            
-            if (touchPoints.length === 1) {
-                isPanning = true;
-                start = { x: touchPoints[0].clientX - pointX, y: touchPoints[0].clientY - pointY };
-                mapContainer.classList.add('panning');
-            } else if (touchPoints.length === 2) {
-                isPanning = false;
-                mapContainer.classList.remove('panning');
-                lastDistance = getDistance(touchPoints);
-            }
-        }, false);
-
-        mapContainer.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            touchPoints = Array.from(e.touches);
-
-            if (touchPoints.length === 1 && isPanning) {
-                // Single touch: pan
-                pointX = touchPoints[0].clientX - start.x;
-                pointY = touchPoints[0].clientY - start.y;
-                setTransform();
-            } else if (touchPoints.length === 2) {
-                // Two finger: pinch zoom
-                const currentDistance = getDistance(touchPoints);
-                const midpoint = getMidpoint(touchPoints);
-                const containerRect = mapContainer.getBoundingClientRect();
-                
-                const xs = (midpoint.x - containerRect.left - pointX) / scale;
-                const ys = (midpoint.y - containerRect.top - pointY) / scale;
-                
-                if (lastDistance > 0) {
-                    const delta = currentDistance - lastDistance;
-                    const newScale = scale * (delta > 0 ? 1.05 : 0.95);
-                    scale = Math.max(minScale, Math.min(newScale, maxScale));
-                    
-                    pointX = (midpoint.x - containerRect.left) - xs * scale;
-                    pointY = (midpoint.y - containerRect.top) - ys * scale;
-                    constrainPan();
-                    setTransform();
-                }
-                lastDistance = currentDistance;
-            }
-        }, false);
-
-        mapContainer.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            touchPoints = Array.from(e.touches);
-            
-            if (touchPoints.length < 2) {
-                isPanning = false;
-                mapContainer.classList.remove('panning');
-                lastDistance = 0;
-                constrainPan();
-                setTransform();
-            }
-        }, false);
-
-        // Mouse wheel zoom
-        mapContainer.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            const containerRect = mapContainer.getBoundingClientRect();
-            const xs = (e.clientX - containerRect.left - pointX) / scale;
-            const ys = (e.clientY - containerRect.top - pointY) / scale;
-            const delta = -e.deltaY;
-
-            const newScale = scale * (delta > 0 ? 1.2 : 1 / 1.2);
-            scale = Math.max(minScale, Math.min(newScale, maxScale));
-
-            pointX = (e.clientX - containerRect.left) - xs * scale;
-            pointY = (e.clientY - containerRect.top) - ys * scale;
-            
-            constrainPan();
-            setTransform();
-        }, false);
-
-        // Button controls
-        document.getElementById('zoomInBtn').addEventListener('click', () => {
-            scale = Math.min(scale * 1.2, maxScale);
-            constrainPan();
-            setTransform();
-        });
-
-        document.getElementById('zoomOutBtn').addEventListener('click', () => {
-            scale = Math.max(scale / 1.2, minScale);
-            constrainPan();
-            setTransform();
-        });
-
-        document.getElementById('resetBtn').addEventListener('click', () => {
-            resetZoom();
-        });
 
         function changeMap(mapSrc, buttonElement) {
-            resetZoom();
             mapImage.classList.add('fade-out');
 
             setTimeout(() => {

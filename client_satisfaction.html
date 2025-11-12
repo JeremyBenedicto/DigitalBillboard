@@ -313,11 +313,17 @@
 
     .back-button:hover { background-color: #e0e0e0; transform: translateY(-1px); }
     .back-button:active { transform: translateY(0); }
+
+    @media print {
+      #office-selector-container {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
   <!-- BACK BUTTON -->
-  <a href="/index.html" class="back-button" onclick="window.history.back(); return false;">&larr;</a>
+  <a href="javascript:void(0);" class="back-button" onclick="window.history.back();">&larr;</a>
 
   <!-- Overlay -->
   <div id="overlay"><p>Loading...</p></div>
@@ -370,14 +376,6 @@
       Ang inyong ibinahaging impormasyon ay mananatiling kumpidensyal. Maaari ring piliin na hindi sagutan ang sarbey na ito.
     </p>
 
-    <style>
-      @media print {
-        #office-selector-container {
-          display: none !important;
-        }
-      }
-    </style>
-
     <div class="form-section">
       <div class="form-group inline-group">
         <label>Uri ng Kliyente:</label>
@@ -423,8 +421,8 @@
       </div>
     </div>
 
-    <h4 class="section-title">Citizen’s Charter (CC)</h4>
-    <p class="instructions">Lagyan ng tsek (✔) ang angkop na sagot.</p>
+    <h4 class="section-title">Citizen's Charter (CC)</h4>
+    <p class="instructions">Lagyan ng tsek (✓) ang angkop na sagot.</p>
 
     <div class="form-section">
       <label>CC1. Alin sa mga sumusunod ang naglalarawan sa iyong kaalaman sa CC?</label>
@@ -583,12 +581,25 @@
     // Initialize PDF generator (enable button when libs loaded)
     function initializePdfGenerator() {
         const submitButton = document.getElementById('submitButton');
-        if (typeof window.html2canvas === 'undefined' || typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
-            setTimeout(initializePdfGenerator, 250);
-        } else {
-            submitButton.disabled = false;
-            submitButton.textContent = "Isumite";
+        let retryCount = 0;
+        const maxRetries = 40; // 10 seconds max wait (40 * 250ms)
+
+        function checkLibraries() {
+            if (typeof window.html2canvas === 'undefined' || typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
+                retryCount++;
+                if (retryCount < maxRetries) {
+                    setTimeout(checkLibraries, 250);
+                } else {
+                    submitButton.textContent = "Error: PDF libraries failed to load";
+                    submitButton.style.backgroundColor = "#dc3545";
+                }
+            } else {
+                submitButton.disabled = false;
+                submitButton.textContent = "Isumite";
+            }
         }
+
+        checkLibraries();
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -730,8 +741,10 @@
       button.disabled = true; // prevent double clicks
 
       try {
-        // convert emojis to grayscale for saving
+        // Hide elements for PDF generation
         document.querySelectorAll(".emoji").forEach(e => e.classList.add("grayscale"));
+        button.style.display = "none";
+        
         // short delay to ensure styles applied
         await new Promise(r => setTimeout(r, 100));
 
@@ -785,6 +798,7 @@
       } finally {
         // restore UI state and remove grayscale
         document.querySelectorAll(".emoji").forEach(e => e.classList.remove("grayscale"));
+        button.style.display = "block";
 
         setTimeout(() => {
           overlay.style.display = "none";

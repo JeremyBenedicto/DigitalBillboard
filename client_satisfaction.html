@@ -150,6 +150,11 @@
       vertical-align: middle;
     }
 
+    /* NEW: Make the entire table cell clickable for ratings */
+    td.rating-cell {
+        cursor: pointer;
+    }
+
     th {
       background-color: #efefef;
     }
@@ -172,6 +177,12 @@
     .na { color: #95a5a6; }
 
     .grayscale {
+      filter: grayscale(100%);
+    }
+
+    /* NEW: Style for the selected rating cell */
+    .selected-rating {
+      background-color: #d4edda !important; /* A light green to indicate selection */
       filter: grayscale(100%);
     }
 
@@ -624,6 +635,25 @@
         `;
         tbody.appendChild(row);
       });
+
+      // --- NEW: Make entire table cell clickable for ratings ---
+      const ratingCells = document.querySelectorAll("#emojiTable td");
+      ratingCells.forEach(cell => {
+          const radio = cell.querySelector('input[type="radio"]');
+          if (radio) {
+              cell.classList.add('rating-cell'); // Add class for styling and cursor
+              cell.addEventListener('click', () => {
+                  // Remove 'selected' from other cells in the same row
+                  const rowCells = cell.parentElement.querySelectorAll('td');
+                  rowCells.forEach(c => c.classList.remove('selected-rating'));
+                  
+                  // Select the radio button and add class to the clicked cell
+                  radio.checked = true;
+                  cell.classList.add('selected-rating');
+              });
+          }
+      });
+      // --- END NEW ---
 
       // Virtual keyboard logic
       let activeInputElement = null;

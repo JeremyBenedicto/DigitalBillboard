@@ -791,7 +791,7 @@
     <!-- FLOATING ACTION GROUP (New Map button added here) -->
     <div class="floating-action-group">
         <!-- New Building Map Button -->
-        <div class="mission-vision-icon map-icon" onclick="openMapFullscreen()" title="Building Map">
+        <div class="mission-vision-icon map-icon" onclick="navigateWithLoading('map.html')" title="Building Map">
             <span>🗺️</span>
         </div>
         
@@ -867,12 +867,6 @@
             fullscreenImage.src = src;
             fullscreenImage.alt = "Fullscreen image view"; // Set a generic alt text
             fullscreenModal.classList.add('active');
-        }
-
-        // NEW: Function to open the Building Map in fullscreen
-        function openMapFullscreen() {
-            // Use the path provided by the user
-            openFullscreen('assets/1st.jpg');
         }
 
         function closeFullscreen() {

@@ -137,9 +137,11 @@
         .slide img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            object-position: center;
             cursor: pointer;
             transition: transform 0.3s;
+            background: #f5f5f7; /* Light background for any empty space */
         }
         .slide img:hover {
             transform: scale(1.01);

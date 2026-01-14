@@ -514,6 +514,113 @@
         }
         /* --- END NEW: Logo Popup Style for Loading --- */
 
+        /* --- PIN Modal Styles --- */
+        .pin-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        .pin-modal-content h3 {
+            margin-bottom: 20px;
+            color: #1d1d1f;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .pin-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .pin-digit {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+            pointer-events: none; /* Prevent manual typing */
+        }
+        .pin-digit.active {
+            border-color: #007AFF;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+        }
+        .pin-keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            max-width: 250px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .pin-key {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: none;
+            background: #f5f5f7;
+            color: #1d1d1f;
+            font-size: 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pin-key:hover {
+            background: #e9e9eb;
+            transform: scale(1.05);
+        }
+        .pin-key:active {
+            transform: scale(0.95);
+        }
+        .pin-key.backspace {
+            background: #ff3b30;
+            color: white;
+        }
+        .pin-key.backspace:hover {
+            background: #d63028;
+        }
+        .pin-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .pin-btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .pin-btn.cancel {
+            background: #f5f5f7;
+            color: #1d1d1f;
+        }
+        .pin-btn.cancel:hover {
+            background: #e9e9eb;
+        }
+        .pin-btn.submit {
+            background: #007AFF;
+            color: white;
+        }
+        .pin-btn.submit:hover {
+            background: #005ac9;
+        }
+        /* --- END PIN Modal Styles --- */
+
 
         /* --- Virtual Keyboard (iOS Style) --- */
         .vk-overlay {
@@ -666,6 +773,36 @@
     <div id="fullscreen-modal" class="fullscreen-modal">
         <button class="fullscreen-close" onclick="closeFullscreen()" aria-label="Close Fullscreen">&times;</button>
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
+    </div>
+
+    <!-- PIN Modal -->
+    <div id="pin-modal" class="fullscreen-modal">
+        <div class="pin-modal-content">
+            <h3>Enter PIN Code</h3>
+            <div class="pin-inputs">
+                <input type="password" class="pin-digit" maxlength="1" pattern="[0-9]">
+                <input type="password" class="pin-digit" maxlength="1" pattern="[0-9]">
+                <input type="password" class="pin-digit" maxlength="1" pattern="[0-9]">
+                <input type="password" class="pin-digit" maxlength="1" pattern="[0-9]">
+            </div>
+            <div class="pin-keypad">
+                <button class="pin-key" onclick="enterPinDigit('1')">1</button>
+                <button class="pin-key" onclick="enterPinDigit('2')">2</button>
+                <button class="pin-key" onclick="enterPinDigit('3')">3</button>
+                <button class="pin-key" onclick="enterPinDigit('4')">4</button>
+                <button class="pin-key" onclick="enterPinDigit('5')">5</button>
+                <button class="pin-key" onclick="enterPinDigit('6')">6</button>
+                <button class="pin-key" onclick="enterPinDigit('7')">7</button>
+                <button class="pin-key" onclick="enterPinDigit('8')">8</button>
+                <button class="pin-key" onclick="enterPinDigit('9')">9</button>
+                <button class="pin-key backspace" onclick="clearPinDigit()">⌫</button>
+                <button class="pin-key" onclick="enterPinDigit('0')">0</button>
+                <button class="pin-btn submit" onclick="verifyPin()" style="grid-column: span 2;">Submit</button>
+            </div>
+            <div class="pin-buttons">
+                <button class="pin-btn cancel" onclick="closePinModal()">Cancel</button>
+            </div>
+        </div>
     </div>
 
     <header class="header">
@@ -1021,30 +1158,218 @@
         });
 
 
-        // --- INITIALIZATION ---
-        window.onload = function () {
-            // Query elements AFTER the entire DOM is loaded, ensuring they exist
+        // --- PIN MODAL LOGIC ---
+        const pinModal = document.getElementById('pin-modal');
+        const pinDigits = document.querySelectorAll('.pin-digit');
+        let currentPinIndex = 0;
+
+        function openPinModal() {
+            pinModal.classList.add('active');
+            currentPinIndex = 0;
+            pinDigits.forEach(digit => digit.value = '');
+            pinDigits.forEach(digit => digit.classList.remove('active'));
+            pinDigits[0].classList.add('active');
+        }
+
+        function closePinModal() {
+            pinModal.classList.remove('active');
+            pinDigits.forEach(digit => {
+                digit.value = '';
+                digit.classList.remove('active');
+            });
+            currentPinIndex = 0;
+        }
+
+        function enterPinDigit(digit) {
+            if (currentPinIndex < pinDigits.length) {
+                pinDigits[currentPinIndex].value = digit;
+                pinDigits[currentPinIndex].classList.remove('active');
+                currentPinIndex++;
+                if (currentPinIndex < pinDigits.length) {
+                    pinDigits[currentPinIndex].classList.add('active');
+                }
+            }
+        }
+
+        function clearPinDigit() {
+            if (currentPinIndex > 0) {
+                currentPinIndex--;
+                pinDigits[currentPinIndex].value = '';
+                pinDigits[currentPinIndex].classList.add('active');
+                if (currentPinIndex < pinDigits.length - 1) {
+                    pinDigits[currentPinIndex + 1].classList.remove('active');
+                }
+            }
+        }
+
+        function verifyPin() {
+            const pin = Array.from(pinDigits).map(digit => digit.value).join('');
+            if (pin === '2026') {
+                closePinModal();
+                navigateWithLoading('setting.html');
+            } else {
+                alert('Incorrect PIN. Please try again.');
+                openPinModal();
+            }
+        }
+
+        // --- INDEXEDDB LOGIC ---
+        let slideshowDB;
+        let slideshowImages = [];
+
+        function initSlideshowDB() {
+            const request = indexedDB.open('SlideshowDB', 1);
+
+            request.onerror = function(event) {
+                console.error('Slideshow Database error:', event.target.error);
+                // Fall back to static images
+                loadStaticSlides();
+            };
+
+            request.onsuccess = function(event) {
+                slideshowDB = event.target.result;
+                loadSlideshowImages();
+            };
+
+            request.onupgradeneeded = function(event) {
+                slideshowDB = event.target.result;
+                const objectStore = slideshowDB.createObjectStore('images', { keyPath: 'id', autoIncrement: true });
+                objectStore.createIndex('src', 'src', { unique: false });
+                // Fall back to static images
+                loadStaticSlides();
+            };
+        }
+
+        function loadSlideshowImages() {
+            const transaction = slideshowDB.transaction(['images'], 'readonly');
+            const objectStore = transaction.objectStore('images');
+            const request = objectStore.getAll();
+
+            request.onsuccess = function(event) {
+                slideshowImages = event.target.result;
+                if (slideshowImages.length > 0) {
+                    populateSlideshow(slideshowImages);
+                } else {
+                    loadStaticSlides();
+                }
+            };
+
+            request.onerror = function(event) {
+                console.error('Error loading slideshow images:', event.target.error);
+                loadStaticSlides();
+            };
+        }
+
+        function populateSlideshow(images) {
+            const slideshow = document.querySelector('.slideshow');
+            slideshow.innerHTML = '';
+
+            // Update indicators
+            const slideIndicators = document.querySelector('.slide-indicators');
+            slideIndicators.innerHTML = '';
+
+            images.forEach((image, index) => {
+                // Create slide
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                if (index === 0) slide.classList.add('active');
+                slide.setAttribute('data-index', index);
+
+                const img = document.createElement('img');
+                img.src = image.src;
+                img.alt = `Slide ${index + 1}`;
+                img.onerror = function() {
+                    this.src = 'https://placehold.co/1000x800/cccccc/666666?text=Image+Not+Found';
+                };
+
+                slide.appendChild(img);
+                slideshow.appendChild(slide);
+
+                // Create indicator
+                const indicator = document.createElement('div');
+                indicator.className = 'indicator';
+                if (index === 0) indicator.classList.add('active');
+                indicator.onclick = (e) => goToSlide(e, index);
+                slideIndicators.appendChild(indicator);
+            });
+
+            // Re-query slides and indicators after populating
             slides = document.querySelectorAll('.slide');
             indicators = document.querySelectorAll('.indicator');
-            slideshowContainer = document.querySelector('.slideshow-container');
+        }
 
-            showSlides(); // Start the slideshow (Now guaranteed to have elements)
+        function loadStaticSlides() {
+            // Use existing static slides
+            slideshowImages = [
+                { src: 'assets/slides/1.png', alt: 'Slide 1: ARTA' },
+                { src: 'assets/slides/2.png', alt: 'Slide 2: ARTA' },
+                { src: 'assets/slides/payout.jpg', alt: 'Slide 3: Payout' }
+            ];
+            populateSlideshow(slideshowImages);
+        }
+
+        // --- LONG PRESS LOGIC ---
+        const gabaldonLogo = document.querySelector('.logo img:last-child'); // Second logo (Gabaldon)
+        let longPressTimer;
+
+        function handleLongPress() {
+            openPinModal();
+        }
+
+        gabaldonLogo.addEventListener('mousedown', () => {
+            longPressTimer = setTimeout(handleLongPress, 1000); // 1 second long press
+        });
+
+        gabaldonLogo.addEventListener('mouseup', () => {
+            clearTimeout(longPressTimer);
+        });
+
+        gabaldonLogo.addEventListener('mouseleave', () => {
+            clearTimeout(longPressTimer);
+        });
+
+        // Touch events for mobile
+        gabaldonLogo.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            longPressTimer = setTimeout(handleLongPress, 1000);
+        });
+
+        gabaldonLogo.addEventListener('touchend', () => {
+            clearTimeout(longPressTimer);
+        });
+
+        gabaldonLogo.addEventListener('touchcancel', () => {
+            clearTimeout(longPressTimer);
+        });
+
+        // --- INITIALIZATION ---
+        window.onload = function () {
+            initSlideshowDB(); // Initialize slideshow database and load images
             updateClock();
             setInterval(updateClock, 1000);
 
-            // Add event listener for fullscreen view on slide click only after initialization
-            if(slideshowContainer) {
-                 slideshowContainer.addEventListener('click', (event) => {
-                    // This listener now fires if the event hasn't been stopped by a child element (like a button)
-                    const activeSlide = document.querySelector('.slide.active');
-                    if (activeSlide) {
-                        const img = activeSlide.querySelector('img');
-                        if (img) {
-                            openFullscreen(img.src);
+            // Query elements AFTER the DOM is loaded and slideshow is populated
+            setTimeout(() => {
+                slides = document.querySelectorAll('.slide');
+                indicators = document.querySelectorAll('.indicator');
+                slideshowContainer = document.querySelector('.slideshow-container');
+
+                showSlides(); // Start the slideshow after DB load
+
+                // Add event listener for fullscreen view on slide click only after initialization
+                if(slideshowContainer) {
+                     slideshowContainer.addEventListener('click', (event) => {
+                        // This listener now fires if the event hasn't been stopped by a child element (like a button)
+                        const activeSlide = document.querySelector('.slide.active');
+                        if (activeSlide) {
+                            const img = activeSlide.querySelector('img');
+                            if (img) {
+                                openFullscreen(img.src);
+                            }
                         }
-                    }
-                });
-            }
+                    });
+                }
+            }, 100); // Small delay to ensure DB operations complete
         }
 
     </script>

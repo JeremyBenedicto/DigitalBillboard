@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Client Satisfaction Measurement (CSM) Form</title>
 
-  <!-- PDF libs -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
   <style>
     body {
       font-family: "Arial", sans-serif;
@@ -390,17 +386,17 @@
     <div class="form-section">
       <div class="form-group inline-group">
         <label>Uri ng Kliyente:</label>
-        <label><input type="checkbox"> Mamamayan</label>
-        <label><input type="checkbox"> Negosyo</label>
-        <label><input type="checkbox"> Gobyerno</label>
+        <label><input type="checkbox" id="clientTypeCitizen"> Mamamayan</label>
+        <label><input type="checkbox" id="clientTypeBusiness"> Negosyo</label>
+        <label><input type="checkbox" id="clientTypeGovernment"> Gobyerno</label>
       </div>
 
       <div class="form-group inline-group">
-        <label>Petsa:</label> <input type="date">
+        <label>Petsa:</label> <input type="date" id="visitDate">
         <label>Kasarian:</label>
-        <label><input type="checkbox"> Lalaki</label>
-        <label><input type="checkbox"> Babae</label>
-        <label>Edad:</label> <input type="number" min="1" style="width:80px">
+        <label><input type="checkbox" id="genderMale"> Lalaki</label>
+        <label><input type="checkbox" id="genderFemale"> Babae</label>
+        <label>Edad:</label> <input type="number" min="1" id="ageInput" style="width:80px">
       </div>
 
       <div class="form-group">
@@ -428,7 +424,7 @@
       </div>
 
       <div class="form-group">
-        <label>Uri ng transaksyon o serbisyo:</label><input type="text" style="margin-top: 5px; min-height: 40px; padding: 10px 12px;">
+        <label>Uri ng transaksyon o serbisyo:</label><input type="text" id="transactionType" style="margin-top: 5px; min-height: 40px; padding: 10px 12px;">
       </div>
     </div>
 
@@ -438,27 +434,27 @@
     <div class="form-section">
       <label>CC1. Alin sa mga sumusunod ang naglalarawan sa iyong kaalaman sa CC?</label>
       <div class="checkbox-group">
-        <label><input type="checkbox"> 1. Alam ko ang CC at nakita ko ito sa napuntahang opisina</label>
-        <label><input type="checkbox"> 2. Alam ko ang CC pero hindi ko ito nakita sa napuntahang opisina</label>
-        <label><input type="checkbox"> 3. Nalaman ko ang CC nang makita ko ito sa napuntahang opisina</label>
-        <label><input type="checkbox"> 4. Hindi ko alam kung ano ang CC at wala akong nakita sa opisina</label>
+        <label><input type="radio" name="cc1" id="cc1_1"> 1. Alam ko ang CC at nakita ko ito sa napuntahang opisina</label>
+        <label><input type="radio" name="cc1" id="cc1_2"> 2. Alam ko ang CC pero hindi ko ito nakita sa napuntahang opisina</label>
+        <label><input type="radio" name="cc1" id="cc1_3"> 3. Nalaman ko ang CC nang makita ko ito sa napuntahang opisina</label>
+        <label><input type="radio" name="cc1" id="cc1_4"> 4. Hindi ko alam kung ano ang CC at wala akong nakita sa opisina</label>
       </div>
 
       <label>CC2. Kung alam ang CC, masasabi mo ba na ang CC ng opisina ay...</label>
       <div class="checkbox-group">
-        <label><input type="checkbox"> 1. Madaling makita</label>
-        <label><input type="checkbox"> 2. Medyo madaling makita</label>
-        <label><input type="checkbox"> 3. Mahirap makita</label>
-        <label><input type="checkbox"> 4. Hindi makita</label>
-        <label><input type="checkbox"> 5. N/A</label>
+        <label><input type="radio" name="cc2" id="cc2_1"> 1. Madaling makita</label>
+        <label><input type="radio" name="cc2" id="cc2_2"> 2. Medyo madaling makita</label>
+        <label><input type="radio" name="cc2" id="cc2_3"> 3. Mahirap makita</label>
+        <label><input type="radio" name="cc2" id="cc2_4"> 4. Hindi makita</label>
+        <label><input type="radio" name="cc2" id="cc2_5"> 5. N/A</label>
       </div>
 
       <label>CC3. Kung alam ang CC, gaano nakatulong ang CC sa transaksyon mo?</label>
       <div class="checkbox-group">
-        <label><input type="checkbox"> 1. Sobrang nakatulong</label>
-        <label><input type="checkbox"> 2. Nakatulong naman</label>
-        <label><input type="checkbox"> 3. Hindi nakatulong</label>
-        <label><input type="checkbox"> 4. N/ A</label>
+        <label><input type="radio" name="cc3" id="cc3_1"> 1. Sobrang nakatulong</label>
+        <label><input type="radio" name="cc3" id="cc3_2"> 2. Nakatulong naman</label>
+        <label><input type="radio" name="cc3" id="cc3_3"> 3. Hindi nakatulong</label>
+        <label><input type="radio" name="cc3" id="cc3_4"> 4. N/ A</label>
       </div>
     </div>
   </div>
@@ -485,12 +481,12 @@
 
     <div class="form-section">
       <label>Mga suhestiyon (opsyonal):</label>
-      <textarea></textarea>
+      <textarea id="suggestionsInput"></textarea>
       <label>Email address (opsyonal):</label>
-      <input type="text">
+      <input type="text" id="emailInput">
     </div>
 
-    <button class="submit-btn" id="submitButton" onclick="savePDF()" disabled>Loading PDF Tools...</button>
+    <button class="submit-btn" id="submitButton" onclick="submitResponse()">Isumite</button>
 
     <div class="footer">MARAMING SALAMAT!</div>
   </div>
@@ -589,28 +585,136 @@
         return officeSelect.value;
     }
 
-    // Initialize PDF generator (enable button when libs loaded)
-    function initializePdfGenerator() {
-        const submitButton = document.getElementById('submitButton');
-        let retryCount = 0;
-        const maxRetries = 40; // 10 seconds max wait (40 * 250ms)
+    function collectFormData() {
+      function isChecked(id) {
+        const el = document.getElementById(id);
+        return !!(el && el.checked);
+      }
 
-        function checkLibraries() {
-            if (typeof window.html2canvas === 'undefined' || typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
-                retryCount++;
-                if (retryCount < maxRetries) {
-                    setTimeout(checkLibraries, 250);
-                } else {
-                    submitButton.textContent = "Error: PDF libraries failed to load";
-                    submitButton.style.backgroundColor = "#dc3545";
-                }
-            } else {
-                submitButton.disabled = false;
-                submitButton.textContent = "Isumite";
-            }
-        }
+      const officeSelect = document.getElementById('officeSelect');
+      const officeTitle = document.getElementById('officeTitle');
+      const otherOfficeName = document.getElementById('otherOfficeName');
+      const visitDate = document.getElementById('visitDate');
+      const ageInput = document.getElementById('ageInput');
+      const regionSelect = document.getElementById('rehiyonSelect');
+      const transactionType = document.getElementById('transactionType');
+      const suggestionsInput = document.getElementById('suggestionsInput');
+      const emailInput = document.getElementById('emailInput');
 
-        checkLibraries();
+      const sqdRatings = {};
+      for (let i = 0; i <= 8; i++) {
+        const checked = document.querySelector(`input[name="sqd${i}"]:checked`);
+        sqdRatings[`sqd${i}`] = checked ? checked.value : null;
+      }
+
+      return {
+        office: {
+          selected: officeSelect ? officeSelect.value : null,
+          custom_name: otherOfficeName ? otherOfficeName.value.trim() : '',
+          title: officeTitle ? officeTitle.textContent.trim() : ''
+        },
+        client_type: {
+          mamamayan: isChecked('clientTypeCitizen'),
+          negosyo: isChecked('clientTypeBusiness'),
+          gobyerno: isChecked('clientTypeGovernment')
+        },
+        respondent: {
+          date: visitDate ? visitDate.value : null,
+          kasarian: {
+            lalaki: isChecked('genderMale'),
+            babae: isChecked('genderFemale')
+          },
+          edad: ageInput && ageInput.value !== '' ? Number(ageInput.value) : null,
+          rehiyon: regionSelect ? regionSelect.value : null
+        },
+        transaction_type: transactionType ? transactionType.value.trim() : '',
+        citizen_charter: {
+          cc1: [
+            isChecked('cc1_1'),
+            isChecked('cc1_2'),
+            isChecked('cc1_3'),
+            isChecked('cc1_4')
+          ],
+          cc2: [
+            isChecked('cc2_1'),
+            isChecked('cc2_2'),
+            isChecked('cc2_3'),
+            isChecked('cc2_4'),
+            isChecked('cc2_5')
+          ],
+          cc3: [
+            isChecked('cc3_1'),
+            isChecked('cc3_2'),
+            isChecked('cc3_3'),
+            isChecked('cc3_4')
+          ]
+        },
+        sqd_ratings: sqdRatings,
+        suggestions: suggestionsInput ? suggestionsInput.value.trim() : '',
+        email: emailInput ? emailInput.value.trim() : ''
+      };
+    }
+
+    async function saveResponseToDatabase(payload) {
+      const response = await fetch('save_client_satisfaction.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save response.');
+      }
+
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error(result.message || 'Failed to save response.');
+      }
+      return result;
+    }
+
+    function resetCsmForm() {
+      const officeSelect = document.getElementById('officeSelect');
+      const otherOfficeName = document.getElementById('otherOfficeName');
+      const visitDate = document.getElementById('visitDate');
+      const ageInput = document.getElementById('ageInput');
+      const regionSelect = document.getElementById('rehiyonSelect');
+      const transactionType = document.getElementById('transactionType');
+      const suggestionsInput = document.getElementById('suggestionsInput');
+      const emailInput = document.getElementById('emailInput');
+
+      if (officeSelect) {
+        officeSelect.value = 'TAGATALA';
+        updateOfficeTitle('TAGATALA');
+      }
+      if (otherOfficeName) {
+        otherOfficeName.value = '';
+        otherOfficeName.style.display = 'none';
+      }
+
+      if (visitDate) visitDate.value = '';
+      if (ageInput) ageInput.value = '';
+      if (regionSelect) regionSelect.selectedIndex = 0;
+      if (transactionType) transactionType.value = '';
+      if (suggestionsInput) suggestionsInput.value = '';
+      if (emailInput) emailInput.value = '';
+
+      const checks = document.querySelectorAll('input[type=\"checkbox\"], input[type=\"radio\"]');
+      checks.forEach((input) => {
+        input.checked = false;
+      });
+
+      const ratingCells = document.querySelectorAll('#emojiTable td.selected-rating');
+      ratingCells.forEach((cell) => {
+        cell.classList.remove('selected-rating');
+      });
+
+      const keyboard = document.getElementById('virtual-keyboard');
+      if (keyboard) {
+        keyboard.style.display = 'none';
+      }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -745,101 +849,36 @@
         });
       }
 
-      // Start the PDF library checker when the DOM is ready
-      initializePdfGenerator();
     });
 
-    async function savePDF() {
-      const PDF_RENDER_SCALE = 2.5;
-
-      // obtain jsPDF from window (imported from CDN)
-      const { jsPDF } = window.jspdf;
+    async function submitResponse() {
       const overlay = document.getElementById("overlay");
       const overlayMessage = overlay.querySelector('p');
       const button = document.getElementById("submitButton");
+      let isSaved = false;
 
-      // create a new jsPDF instance per invocation
-      const pdf = new jsPDF("p", "mm", "a4");
-      const pageWidth = pdf.internal.pageSize.getWidth();
-
-      const officeName = getCurrentOfficeName();
-      const now = new Date();
-      const timestamp = now.toISOString().replace(/[:.]/g, '-').slice(0, -5); // More unique timestamp
-      const filename = `CSM_${officeName}_${timestamp}.pdf`;
-
-      overlayMessage.textContent = "Nagsasagawa ng PDF... Paki-hintay.";
+      overlayMessage.textContent = "Sine-save ang iyong sagot... Paki-hintay.";
       overlay.style.display = "flex";
       button.disabled = true; // prevent double clicks
 
       try {
-        // Hide elements for PDF generation
-        document.querySelectorAll(".emoji").forEach(e => e.classList.add("grayscale"));
-        button.style.display = "none";
-        
-        // short delay to ensure styles applied
-        await new Promise(r => setTimeout(r, 100));
-
-        const page1 = document.getElementById("page1");
-        const page2 = document.getElementById("page2");
-
-        // Capture Page 1
-        const canvas1 = await html2canvas(page1, { scale: PDF_RENDER_SCALE, useCORS: true });
-        const img1 = canvas1.toDataURL("image/png");
-        const imgWidth1 = pageWidth;
-        const imgHeight1 = (canvas1.height * imgWidth1) / canvas1.width;
-
-        // Capture Page 2
-        const canvas2 = await html2canvas(page2, { scale: PDF_RENDER_SCALE, useCORS: true });
-        const img2 = canvas2.toDataURL("image/png");
-        const imgWidth2 = pageWidth;
-        const imgHeight2 = (canvas2.height * imgWidth2) / canvas2.width;
-
-        // Add Page 1
-        pdf.addImage(img1, "PNG", 0, 0, imgWidth1, imgHeight1);
-
-        // Add Page 2
-        pdf.addPage();
-        pdf.addImage(img2, "PNG", 0, 0, imgWidth2, imgHeight2);
-
-        // Generate blob and use object URL for download
-        const blob = pdf.output("blob");
-        const blobUrl = URL.createObjectURL(blob);
-
-        // Create a completely fresh anchor element for each download
-        const link = document.createElement("a");
-        link.style.display = "none";
-        link.href = blobUrl;
-        link.download = filename;
-        link.target = "_blank"; // Help with some kiosk browsers
-        
-        document.body.appendChild(link);
-        
-        // Force click with delay to ensure DOM updates
-        setTimeout(() => {
-          link.click();
-          
-          // Clean up after a short delay
-          setTimeout(() => {
-            document.body.removeChild(link);
-            URL.revokeObjectURL(blobUrl);
-          }, 500);
-        }, 100);
-
-        overlayMessage.textContent = "Maraming salamat po!";
+        const formPayload = collectFormData();
+        await saveResponseToDatabase(formPayload);
+        isSaved = true;
+        overlayMessage.textContent = "Maraming salamat sa inyong pagsagot. Malaking tulong ito sa patuloy na pagpapabuti ng aming mga serbisyo.";
       } catch (error) {
-        console.error("PDF Generation Failed:", error);
-        overlayMessage.textContent = "Pumalya ang paggawa ng PDF. Pakisubukang muli. (Tingnan ang console para sa detalye)";
+        console.error("Submission failed:", error);
+        overlayMessage.textContent = "Pumalya ang pagsumite. Pakisubukang muli.";
       } finally {
-        // restore UI state and remove grayscale
-        document.querySelectorAll(".emoji").forEach(e => e.classList.remove("grayscale"));
-        button.style.display = "block";
-
         setTimeout(() => {
+          if (isSaved) {
+            resetCsmForm();
+          }
           overlay.style.display = "none";
           button.disabled = false;
           button.textContent = "Isumite";
           overlayMessage.textContent = "Loading..."; // reset
-        }, 2000);
+        }, 3500);
       }
     }
   </script>

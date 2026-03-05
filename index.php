@@ -780,7 +780,7 @@
     <!-- PIN Modal -->
     <div id="pin-modal" class="fullscreen-modal">
         <div class="pin-modal-content">
-            <h3>Enter PIN Code</h3>
+            <h3>Enter Admin PIN</h3>
             <div class="pin-inputs">
                 <input type="password" class="pin-digit" maxlength="1" pattern="[0-9]">
                 <input type="password" class="pin-digit" maxlength="1" pattern="[0-9]">
@@ -1208,58 +1208,43 @@
             const pin = Array.from(pinDigits).map(digit => digit.value).join('');
             if (pin === '2026') {
                 closePinModal();
-                navigateWithLoading('setting.html');
+                navigateWithLoading('admin.php');
             } else {
                 alert('Incorrect PIN. Please try again.');
                 openPinModal();
             }
         }
 
-        // --- INDEXEDDB LOGIC ---
-        let slideshowDB;
+        // --- SLIDESHOW SOURCE LOGIC (SERVER + STATIC FALLBACK) ---
         let slideshowImages = [];
 
         function initSlideshowDB() {
-            const request = indexedDB.open('SlideshowDB', 1);
-
-            request.onerror = function(event) {
-                console.error('Slideshow Database error:', event.target.error);
-                // Fall back to static images
-                loadStaticSlides();
-            };
-
-            request.onsuccess = function(event) {
-                slideshowDB = event.target.result;
-                loadSlideshowImages();
-            };
-
-            request.onupgradeneeded = function(event) {
-                slideshowDB = event.target.result;
-                const objectStore = slideshowDB.createObjectStore('images', { keyPath: 'id', autoIncrement: true });
-                objectStore.createIndex('src', 'src', { unique: false });
-                // Fall back to static images
-                loadStaticSlides();
-            };
+            loadSlideshowImages();
         }
 
         function loadSlideshowImages() {
-            const transaction = slideshowDB.transaction(['images'], 'readonly');
-            const objectStore = transaction.objectStore('images');
-            const request = objectStore.getAll();
-
-            request.onsuccess = function(event) {
-                slideshowImages = event.target.result;
-                if (slideshowImages.length > 0) {
+            fetch('slideshow_api.php', { cache: 'no-store' })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to load slideshow API');
+                }
+                return response.json();
+            })
+            .then((images) => {
+                if (Array.isArray(images) && images.length > 0) {
+                    slideshowImages = images.map((image, index) => ({
+                        src: image.src,
+                        alt: `Slide ${index + 1}`
+                    }));
                     populateSlideshow(slideshowImages);
                 } else {
                     loadStaticSlides();
                 }
-            };
-
-            request.onerror = function(event) {
-                console.error('Error loading slideshow images:', event.target.error);
+            })
+            .catch((error) => {
+                console.error('Error loading slideshow images:', error);
                 loadStaticSlides();
-            };
+            });
         }
 
         function populateSlideshow(images) {
@@ -1311,38 +1296,40 @@
         }
 
         // --- LONG PRESS LOGIC ---
-        const gabaldonLogo = document.querySelector('.logo img:last-child'); // Second logo (Gabaldon)
+        const gabaldonLogo = document.querySelector('.logo'); // Entire logo area
         let longPressTimer;
 
         function handleLongPress() {
             openPinModal();
         }
 
-        gabaldonLogo.addEventListener('mousedown', () => {
-            longPressTimer = setTimeout(handleLongPress, 1000); // 1 second long press
-        });
+        if (gabaldonLogo) {
+            gabaldonLogo.addEventListener('mousedown', () => {
+                longPressTimer = setTimeout(handleLongPress, 1000); // 1 second long press
+            });
 
-        gabaldonLogo.addEventListener('mouseup', () => {
-            clearTimeout(longPressTimer);
-        });
+            gabaldonLogo.addEventListener('mouseup', () => {
+                clearTimeout(longPressTimer);
+            });
 
-        gabaldonLogo.addEventListener('mouseleave', () => {
-            clearTimeout(longPressTimer);
-        });
+            gabaldonLogo.addEventListener('mouseleave', () => {
+                clearTimeout(longPressTimer);
+            });
 
-        // Touch events for mobile
-        gabaldonLogo.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            longPressTimer = setTimeout(handleLongPress, 1000);
-        });
+            // Touch events for mobile
+            gabaldonLogo.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                longPressTimer = setTimeout(handleLongPress, 1000);
+            });
 
-        gabaldonLogo.addEventListener('touchend', () => {
-            clearTimeout(longPressTimer);
-        });
+            gabaldonLogo.addEventListener('touchend', () => {
+                clearTimeout(longPressTimer);
+            });
 
-        gabaldonLogo.addEventListener('touchcancel', () => {
-            clearTimeout(longPressTimer);
-        });
+            gabaldonLogo.addEventListener('touchcancel', () => {
+                clearTimeout(longPressTimer);
+            });
+        }
 
         // --- INITIALIZATION ---
         window.onload = function () {

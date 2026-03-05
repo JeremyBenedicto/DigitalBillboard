@@ -235,71 +235,6 @@
       padding: 20px 40px;
       border-radius: 10px;
     }
-
-    /* Virtual Keyboard styles */
-    #virtual-keyboard {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 900px;
-      width: 100%;
-      padding: 8px;
-      background: #f0f0f0;
-      box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
-      z-index: 10000;
-      box-sizing: border-box;
-    }
-
-    .keyboard-row {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 6px;
-    }
-
-    .keyboard-key {
-      font-family: Arial, sans-serif;
-      font-size: 24px;
-      padding: 0;
-      height: 60px;
-      min-width: 40px;
-      flex-grow: 1;
-      flex-basis: 0;
-      background: #ffffff;
-      border: 1px solid #aaa;
-      border-radius: 6px;
-      cursor: pointer;
-      box-shadow: 0 2px 2px rgba(0,0,0,0.15);
-      transition: all 0.05s ease;
-      font-weight: bold;
-    }
-
-    .key-special {
-      flex-grow: 1.5;
-      flex-basis: 0;
-      background: #cdd8e6;
-      font-size: 20px;
-    }
-
-    .key-backspace {
-      flex-grow: 2;
-    }
-
-    .key-space {
-      flex-grow: 12;
-    }
-
-    .key-shift-active {
-      background: #007BFF;
-      color: white;
-    }
-
-    .key-close {
-      background: #e6cdd0;
-    }
-
     /* Back button */
     .back-button {
       position: fixed;
@@ -429,7 +364,7 @@
     </div>
 
     <h4 class="section-title">Citizen's Charter (CC)</h4>
-    <p class="instructions">Lagyan ng tsek (✓) ang angkop na sagot.</p>
+    <p class="instructions">Lagyan ng tsek (&#10003;) ang angkop na sagot.</p>
 
     <div class="form-section">
       <label>CC1. Alin sa mga sumusunod ang naglalarawan sa iyong kaalaman sa CC?</label>
@@ -465,15 +400,15 @@
     <p class="instructions">Pumili ng isang emoji na pinakaangkop sa iyong sagot.</p>
 
     <table id="emojiTable">
-      <thead>
+            <thead>
         <tr>
           <th class="question">Mga Pahayag</th>
-          <th><span class="emoji red">😠</span>Lubos na<br>hindi sumasang-ayon</th>
-          <th><span class="emoji orange">🙁</span>Hindi<br>sumasang-ayon</th>
-          <th><span class="emoji gray">😐</span>Walang<br>kinikilingan</th>
-          <th><span class="emoji lightgreen">🙂</span>Sumasang-ayon</th>
-          <th><span class="emoji green">😃</span>Labis na<br>sumasang-ayon</th>
-          <th><span class="emoji na">🚫</span>N/A</th>
+          <th><span class="emoji red">&#128544;</span>Lubos na<br>hindi sumasang-ayon</th>
+          <th><span class="emoji orange">&#128577;</span>Hindi<br>sumasang-ayon</th>
+          <th><span class="emoji gray">&#128528;</span>Walang<br>kinikilingan</th>
+          <th><span class="emoji lightgreen">&#128578;</span>Sumasang-ayon</th>
+          <th><span class="emoji green">&#128515;</span>Labis na<br>sumasang-ayon</th>
+          <th><span class="emoji na">&#128683;</span>N/A</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -490,66 +425,6 @@
 
     <div class="footer">MARAMING SALAMAT!</div>
   </div>
-
-  <!-- VIRTUAL KEYBOARD -->
-  <div id="virtual-keyboard">
-    <div class="keyboard-row">
-      <button type="button" class="keyboard-key" data-key="1">1</button>
-      <button type="button" class="keyboard-key" data-key="2">2</button>
-      <button type="button" class="keyboard-key" data-key="3">3</button>
-      <button type="button" class="keyboard-key" data-key="4">4</button>
-      <button type="button" class="keyboard-key" data-key="5">5</button>
-      <button type="button" class="keyboard-key" data-key="6">6</button>
-      <button type="button" class="keyboard-key" data-key="7">7</button>
-      <button type="button" class="keyboard-key" data-key="8">8</button>
-      <button type="button" class="keyboard-key" data-key="9">9</button>
-      <button type="button" class="keyboard-key" data-key="0">0</button>
-      <button type="button" class="keyboard-key key-special key-backspace" data-key="BACKSPACE">⌫</button>
-    </div>
-    <div class="keyboard-row">
-      <button type="button" class="keyboard-key" data-key="q">q</button>
-      <button type="button" class="keyboard-key" data-key="w">w</button>
-      <button type="button" class="keyboard-key" data-key="e">e</button>
-      <button type="button" class="keyboard-key" data-key="r">r</button>
-      <button type="button" class="keyboard-key" data-key="t">t</button>
-      <button type="button" class="keyboard-key" data-key="y">y</button>
-      <button type="button" class="keyboard-key" data-key="u">u</button>
-      <button type="button" class="keyboard-key" data-key="i">i</button>
-      <button type="button" class="keyboard-key" data-key="o">o</button>
-      <button type="button" class="keyboard-key" data-key="p">p</button>
-    </div>
-    <div class="keyboard-row">
-      <button type="button" class="keyboard-key" data-key="a">a</button>
-      <button type="button" class="keyboard-key" data-key="s">s</button>
-      <button type="button" class="keyboard-key" data-key="d">d</button>
-      <button type="button" class="keyboard-key" data-key="f">f</button>
-      <button type="button" class="keyboard-key" data-key="g">g</button>
-      <button type="button" class="keyboard-key" data-key="h">h</button>
-      <button type="button" class="keyboard-key" data-key="j">j</button>
-      <button type="button" class="keyboard-key" data-key="k">k</button>
-      <button type="button" class="keyboard-key" data-key="l">l</button>
-      <button type="button" class="keyboard-key" data-key="@">@</button>
-    </div>
-    <div class="keyboard-row">
-      <button type="button" class="keyboard-key key-special" data-key="SHIFT">⇧</button>
-      <button type="button" class="keyboard-key" data-key="z">z</button>
-      <button type="button" class="keyboard-key" data-key="x">x</button>
-      <button type="button" class="keyboard-key" data-key="c">c</button>
-      <button type="button" class="keyboard-key" data-key="v">v</button>
-      <button type="button" class="keyboard-key" data-key="b">b</button>
-      <button type="button" class="keyboard-key" data-key="n">n</button>
-      <button type="button" class="keyboard-key" data-key="ñ">ñ</button>
-      <button type="button" class="keyboard-key" data-key="m">m</button>
-      <button type="button" class="keyboard-key" data-key=".">.</button>
-      <button type="button" class="keyboard-key" data-key="-">-</button>
-    </div>
-    <div class="keyboard-row">
-      <button type="button" class="keyboard-key key-space" data-key="SPACE">Space</button>
-      <button type="button" class="keyboard-key key-special key-close" data-key="CLOSE">Close</button>
-    </div>
-  </div>
-  <!-- END VIRTUAL KEYBOARD -->
-
   <script>
     // Update office title
     function updateOfficeTitle(value) {
@@ -710,11 +585,6 @@
       ratingCells.forEach((cell) => {
         cell.classList.remove('selected-rating');
       });
-
-      const keyboard = document.getElementById('virtual-keyboard');
-      if (keyboard) {
-        keyboard.style.display = 'none';
-      }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -758,96 +628,6 @@
           }
       });
       // --- END NEW ---
-
-      // Virtual keyboard logic
-      let activeInputElement = null;
-      let isShiftActive = false;
-      const keyboard = document.getElementById("virtual-keyboard");
-
-      const inputSelector = 'input[type="text"]:not(#otherOfficeName), input[type="number"], textarea, #otherOfficeName';
-
-      if (keyboard) {
-        const allKeys = keyboard.querySelectorAll(".keyboard-key");
-
-        document.querySelectorAll(inputSelector).forEach(input => {
-          if (input.id === 'otherOfficeName' && input.style.display === 'none') {
-            // do nothing until shown
-          } else {
-            input.addEventListener('focus', () => {
-              activeInputElement = input;
-              keyboard.style.display = 'block';
-            });
-          }
-        });
-
-        const otherOfficeInput = document.getElementById('otherOfficeName');
-        otherOfficeInput.addEventListener('focus', () => {
-            activeInputElement = otherOfficeInput;
-            keyboard.style.display = 'block';
-        });
-
-        keyboard.addEventListener('click', (e) => {
-          if (!e.target.matches('.keyboard-key')) return;
-          if (!activeInputElement) return;
-
-          activeInputElement.focus();
-          const key = e.target.dataset.key;
-
-          switch (key) {
-            case 'BACKSPACE':
-              activeInputElement.value = activeInputElement.value.slice(0, -1);
-              if (activeInputElement.id === 'otherOfficeName') {
-                  updateOfficeTitle(activeInputElement.value);
-              }
-              break;
-            case 'SPACE':
-              activeInputElement.value += ' ';
-              if (activeInputElement.id === 'otherOfficeName') {
-                  updateOfficeTitle(activeInputElement.value);
-              }
-              break;
-            case 'CLOSE':
-              keyboard.style.display = 'none';
-              activeInputElement.blur();
-              activeInputElement = null;
-              break;
-            case 'SHIFT':
-              isShiftActive = !isShiftActive;
-              toggleShiftCase(allKeys);
-              break;
-            default:
-              const value = isShiftActive ? key.toUpperCase() : key.toLowerCase();
-              activeInputElement.value += value;
-              if (activeInputElement.id === 'otherOfficeName') {
-                  updateOfficeTitle(activeInputElement.value);
-              }
-          }
-        });
-
-        function toggleShiftCase(keys) {
-          const shiftButton = keyboard.querySelector('[data-key="SHIFT"]');
-          shiftButton.classList.toggle('key-shift-active', isShiftActive);
-
-          keys.forEach(key => {
-            const keyValue = key.dataset.key;
-            if (keyValue && (keyValue.length === 1 && keyValue.match(/[a-z]/i) || keyValue === 'ñ')) {
-              key.textContent = isShiftActive ? keyValue.toUpperCase() : keyValue.toLowerCase();
-            }
-          });
-        }
-
-        document.addEventListener('click', (e) => {
-            if (keyboard.style.display !== 'block' || keyboard.contains(e.target)) return;
-            const clickedOnInput = e.target.matches(inputSelector);
-            const clickedOnRegionSelect = e.target.id === 'rehiyonSelect';
-
-            if (!clickedOnInput && !clickedOnRegionSelect) {
-                keyboard.style.display = 'none';
-                if (activeInputElement) activeInputElement.blur();
-                activeInputElement = null;
-            }
-        });
-      }
 
     });
 

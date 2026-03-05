@@ -96,6 +96,7 @@
             padding: 30px;
             max-width: 1500px; /* Wider content area */
             margin: 0 auto;
+            align-items: stretch;
         }
 
         /* --- Slideshow (Prominent Card) --- */
@@ -106,7 +107,7 @@
             overflow: hidden;
             box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
             border: 1px solid rgba(0, 0, 0, 0.05);
-            height: 700px; /* Significantly increased height for prominence */
+            height: clamp(520px, 66vh, 860px); /* Adaptive for TV/desktop heights */
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
@@ -205,6 +206,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            min-height: 0;
         }
 
         /* --- Explore Section (Vibrant Card) --- */
@@ -264,9 +266,8 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             border: 1px solid rgba(0,0,0,0.05);
             flex-grow: 1; /* Take up remaining space */
-            /* MODIFIED: Adjusted height for the new news card */
-            /* Was: height: calc(800px - 180px - 30px - 180px - 30px); */
-            height: calc(800px - 140px - 30px - 140px - 30px); /* MODIFIED: Increased height */
+            min-height: 360px;
+            height: auto;
             overflow: hidden;
         }
 
@@ -375,6 +376,11 @@
         .service-tile-icon {
             font-size: 48px; /* Large size for kiosk visibility and touch target */
             margin-bottom: 5px; /* Space between icon and text */
+        }
+        .service-tile-text {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.2;
         }
         /* --- END NEW: Increased Icon Size --- */
 
@@ -702,6 +708,149 @@
             cursor: pointer;
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- TV/Desktop Responsive Design --- */
+        @media (min-width: 1600px) {
+            .header {
+                padding: 14px 42px;
+            }
+            .logo img {
+                height: 74px;
+            }
+            .logo-text strong {
+                font-size: 30px;
+            }
+            .logo-text {
+                font-size: 22px;
+            }
+            #time {
+                font-size: 38px;
+            }
+            #date {
+                font-size: 18px;
+            }
+            .main-content {
+                max-width: 1900px;
+                padding: 36px;
+                gap: 34px;
+                grid-template-columns: 2.35fr 1fr;
+            }
+            .slideshow-container {
+                height: clamp(660px, 74vh, 1020px);
+                border-radius: 34px;
+            }
+            .explore-section {
+                min-height: 170px;
+                padding: 24px;
+            }
+            .explore-section h2 {
+                font-size: 34px;
+            }
+            .explore-section .subtitle {
+                font-size: 20px;
+            }
+            .discover-btn {
+                font-size: 20px;
+                padding: 15px 44px;
+            }
+            .services-section {
+                padding: 30px;
+            }
+            .services-section h3 {
+                font-size: 32px;
+            }
+            .search-input {
+                font-size: 20px;
+                padding: 16px 20px;
+            }
+            .search-btn {
+                font-size: 20px;
+                padding: 16px 22px;
+            }
+            .service-grid {
+                gap: 18px;
+                max-height: calc(100% - 140px);
+            }
+            .service-tile {
+                min-height: 124px;
+            }
+            .service-tile-icon {
+                font-size: 58px;
+            }
+            .service-tile-text {
+                font-size: 15px;
+            }
+        }
+
+        /* 720p/1080p landscape TV balancing */
+        @media (min-width: 1201px) and (max-width: 1599px) {
+            .header {
+                padding: 10px 22px;
+            }
+            .logo img {
+                height: 54px;
+            }
+            .logo-text strong {
+                font-size: 22px;
+            }
+            .logo-text {
+                font-size: 17px;
+            }
+            #time {
+                font-size: 27px;
+            }
+            #date {
+                font-size: 14px;
+            }
+            .main-content {
+                max-width: 1500px;
+                padding: 20px;
+                gap: 20px;
+            }
+            .slideshow-container {
+                height: clamp(460px, 62vh, 760px);
+            }
+            .explore-section {
+                min-height: 118px;
+                padding: 16px;
+            }
+            .explore-section h2 {
+                font-size: 24px;
+            }
+            .explore-section .subtitle {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+            .discover-btn {
+                font-size: 15px;
+                padding: 10px 28px;
+            }
+            .services-section {
+                padding: 18px;
+            }
+            .services-section h3 {
+                font-size: 22px;
+                margin-bottom: 12px;
+            }
+            .search-input, .search-btn {
+                font-size: 14px;
+                padding: 11px 13px;
+            }
+            .service-grid {
+                gap: 10px;
+                max-height: calc(100% - 112px);
+            }
+            .service-tile {
+                min-height: 86px;
+                padding: 8px 4px;
+            }
+            .service-tile-icon {
+                font-size: 40px;
+            }
+            .service-tile-text {
+                font-size: 11px;
+            }
         }
 
         /* --- Responsive Design --- */

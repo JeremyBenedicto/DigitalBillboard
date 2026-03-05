@@ -198,6 +198,27 @@ if (empty($errors) && $conn instanceof mysqli) {
     }
 }
 
+$pdfFiles = [];
+$pdfSearchRoots = [
+    __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'news',
+];
+foreach ($pdfSearchRoots as $pdfRoot) {
+    if (!is_dir($pdfRoot)) {
+        continue;
+    }
+    $matches = glob($pdfRoot . DIRECTORY_SEPARATOR . '*.pdf') ?: [];
+    foreach ($matches as $match) {
+        if (!is_file($match)) {
+            continue;
+        }
+        $relative = str_replace('\\', '/', substr($match, strlen(__DIR__) + 1));
+        $pdfFiles[] = [
+            'name' => basename($match),
+            'path' => $relative,
+        ];
+    }
+}
+
 $csmResponses = [];
 $csmLoadError = '';
 $csmMonthFilter = isset($_GET['csm_month']) ? (int)$_GET['csm_month'] : 0;
@@ -455,6 +476,25 @@ if ($conn instanceof mysqli) {
             min-width: 140px;
             background: #fff;
         }
+        .pdf-list {
+            display: grid;
+            gap: 8px;
+        }
+        .pdf-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #e8edf4;
+            border-radius: 10px;
+            padding: 10px 12px;
+            background: #fbfdff;
+        }
+        .pdf-name {
+            font-size: 13px;
+            color: #334155;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -504,6 +544,22 @@ if ($conn instanceof mysqli) {
                                 </form>
                             </div>
                         </article>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </section>
+
+        <section class="card">
+            <h2>PDF Files (Mobile/Android View)</h2>
+            <?php if (count($pdfFiles) === 0): ?>
+                <p class="empty">No PDF files found.</p>
+            <?php else: ?>
+                <div class="pdf-list">
+                    <?php foreach ($pdfFiles as $pdf): ?>
+                        <div class="pdf-item">
+                            <div class="pdf-name"><?= htmlspecialchars((string)$pdf['name'], ENT_QUOTES, 'UTF-8') ?></div>
+                            <a class="btn" href="mobile_pdf_viewer.php?file=<?= urlencode((string)$pdf['path']) ?>">View on Mobile</a>
+                        </div>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>

@@ -728,7 +728,7 @@
 
             if (fileType === 'pdf') {
                 const iframe = document.createElement('iframe');
-                iframe.src = fileSrc + '#toolbar=0&navpanes=0'; 
+                iframe.src = 'mobile_pdf_viewer.php?embed=1&file=' + encodeURIComponent(fileSrc);
                 iframe.title = altText;
 
                 pdfViewerContainer.appendChild(iframe);

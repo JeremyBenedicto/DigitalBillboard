@@ -1366,12 +1366,35 @@
 
         // --- SLIDESHOW SOURCE LOGIC (SERVER + STATIC FALLBACK) ---
         let slideshowImages = [];
+        let slideshowDataSignature = '';
+        let slideshowPollTimer = null;
+        let slideshowFetchInProgress = false;
 
         function initSlideshowDB() {
-            loadSlideshowImages();
+            loadSlideshowImages({ allowStaticFallback: true });
+
+            if (slideshowPollTimer) {
+                clearInterval(slideshowPollTimer);
+            }
+
+            // Real-time style refresh for kiosk: check for slideshow changes every 10s.
+            slideshowPollTimer = setInterval(() => {
+                loadSlideshowImages({ allowStaticFallback: false });
+            }, 10000);
         }
 
-        function loadSlideshowImages() {
+        function buildSlideshowSignature(images) {
+            return JSON.stringify(images.map((image) => `${image.id}:${image.src}`));
+        }
+
+        function loadSlideshowImages(options = {}) {
+            const allowStaticFallback = options.allowStaticFallback === true;
+
+            if (slideshowFetchInProgress) {
+                return;
+            }
+            slideshowFetchInProgress = true;
+
             fetch('slideshow_api.php', { cache: 'no-store' })
             .then((response) => {
                 if (!response.ok) {
@@ -1381,18 +1404,39 @@
             })
             .then((images) => {
                 if (Array.isArray(images) && images.length > 0) {
+                    const nextSignature = buildSlideshowSignature(images);
+                    if (nextSignature === slideshowDataSignature) {
+                        return;
+                    }
+
+                    slideshowDataSignature = nextSignature;
                     slideshowImages = images.map((image, index) => ({
                         src: image.src,
                         alt: `Slide ${index + 1}`
                     }));
                     populateSlideshow(slideshowImages);
+                    slideIndex = 0;
+                    showSlides();
                 } else {
-                    loadStaticSlides();
+                    if (allowStaticFallback) {
+                        loadStaticSlides();
+                        slideshowDataSignature = '__static__';
+                        slideIndex = 0;
+                        showSlides();
+                    }
                 }
             })
             .catch((error) => {
                 console.error('Error loading slideshow images:', error);
-                loadStaticSlides();
+                if (allowStaticFallback) {
+                    loadStaticSlides();
+                    slideshowDataSignature = '__static__';
+                    slideIndex = 0;
+                    showSlides();
+                }
+            })
+            .finally(() => {
+                slideshowFetchInProgress = false;
             });
         }
 

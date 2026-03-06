@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Gabaldon News and Announcements</title>
     <style>
         /* --- Global Styles and Reset --- */
@@ -584,6 +587,12 @@
                 class="search-input" 
                 placeholder="Search news..."
                 autocomplete="off"
+                readonly
+                inputmode="none"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                virtualkeyboardpolicy="manual"
             >
             <button class="search-btn" onclick="performSearch()">🔍</button>
         </div>
@@ -718,6 +727,7 @@
         function showVirtualKeyboard() {
             virtualKeyboard.classList.add('active');
             document.body.classList.add('keyboard-active');
+            requestAnimationFrame(() => searchInput.blur());
         }
 
         function hideVirtualKeyboard() {
@@ -731,12 +741,14 @@
 
         function addCharToSearch(char) {
             searchInput.value += char;
-            searchInput.focus(); // Keep focus for continuous typing
+            searchInput.blur();
+            performSearch();
         }
 
         function backspaceChar() {
             searchInput.value = searchInput.value.slice(0, -1);
-            searchInput.focus(); // Keep focus
+            searchInput.blur();
+            performSearch();
         }
 
         function performSearch() {
@@ -768,9 +780,17 @@
             renderNews();
         }
 
-        // Show virtual keyboard when search input is focused
+        // Open custom keyboard without allowing native keyboard to appear.
+        const openSearchKeyboard = (e) => {
+            e.preventDefault();
+            showVirtualKeyboard();
+            requestAnimationFrame(() => searchInput.blur());
+        };
+        searchInput.addEventListener('pointerdown', openSearchKeyboard);
+        searchInput.addEventListener('click', openSearchKeyboard);
         searchInput.addEventListener('focus', () => {
             showVirtualKeyboard();
+            requestAnimationFrame(() => searchInput.blur());
         });
 
         // Allow 'Enter' key on a physical keyboard to perform search

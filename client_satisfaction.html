@@ -434,7 +434,6 @@
 
         if (value === 'OTHER') {
             otherOfficeInput.style.display = 'block';
-            otherOfficeInput.focus();
             officeTitleElement.textContent = prefix + 'IBANG TANGGAPAN';
         } else if (value === 'TAGATALA' && otherOfficeInput.style.display === 'block') {
             otherOfficeInput.style.display = 'none';
@@ -588,6 +587,19 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      // Reduce native keyboard popups on Android TV touch kiosks.
+      const keyboardSensitiveFields = document.querySelectorAll(
+        'input[type="text"], input[type="date"], input[type="number"], textarea'
+      );
+      keyboardSensitiveFields.forEach((field) => {
+        field.setAttribute('inputmode', 'none');
+        field.setAttribute('virtualkeyboardpolicy', 'manual');
+        field.setAttribute('autocomplete', 'off');
+        field.setAttribute('autocorrect', 'off');
+        field.setAttribute('autocapitalize', 'off');
+        field.setAttribute('spellcheck', 'false');
+      });
+
       const questions = [
         "Nasiyahan ako sa serbisyo na aking natanggap sa napuntahang tanggapan.",
         "Makatwiran ang oras na aking ginugol para sa pagproseso ng aking transaksyon.",

@@ -1271,9 +1271,8 @@
             } else {
                 vkTargetInput.value += upperKey;
             }
-            // IMPORTANT: No longer dispatching the 'input' event here, which was causing the constant closing.
-            // Search will now ONLY happen when the search button is manually clicked.
-            vkTargetInput.focus();
+            // IMPORTANT: keep focus off the real input so Android does not open native keyboard.
+            vkTargetInput.blur();
         }
         function showVkFor(input) {
             vkTargetInput = input;
@@ -1292,15 +1291,25 @@
         // Attach to search input for Kiosk interaction
         const searchInput = document.getElementById('searchInput');
         if(searchInput) {
-            // IMPORTANT for Kiosk: Prevent native keyboard and force VK on click/focus
+            // Prevent native keyboards while keeping value updates through the custom VK.
             searchInput.setAttribute('readonly', 'readonly');
-            searchInput.addEventListener('click', function(e) {
-                e.preventDefault(); // Stop default action
-                showVkFor(this);
-            });
-            searchInput.addEventListener('focus', function(e) {
-                e.preventDefault(); // Stop default action
-                showVkFor(this);
+            searchInput.setAttribute('inputmode', 'none');
+            searchInput.setAttribute('autocomplete', 'off');
+            searchInput.setAttribute('autocorrect', 'off');
+            searchInput.setAttribute('autocapitalize', 'off');
+            searchInput.setAttribute('spellcheck', 'false');
+
+            const openVkWithoutNativeKeyboard = function(e) {
+                e.preventDefault();
+                showVkFor(searchInput);
+                // Delay blur to next frame so browser cannot keep focus and open native keyboard.
+                requestAnimationFrame(() => searchInput.blur());
+            };
+
+            searchInput.addEventListener('pointerdown', openVkWithoutNativeKeyboard);
+            searchInput.addEventListener('click', openVkWithoutNativeKeyboard);
+            searchInput.addEventListener('focus', function() {
+                requestAnimationFrame(() => searchInput.blur());
             });
         }
         // Hide VK when overlay background is clicked (touch outside VK)

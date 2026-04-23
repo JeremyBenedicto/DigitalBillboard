@@ -194,6 +194,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($errors) && $conn instanceof 
                 $errors[] = 'Failed to prepare CSM delete query.';
             }
         }
+    } elseif ($action === 'add_office') {
+        $officeCode = trim((string)($_POST['office_code'] ?? ''));
+        $officeLabel = trim((string)($_POST['office_label'] ?? ''));
+        $officeTitle = trim((string)($_POST['office_title'] ?? ''));
+
+        if ($officeCode === '' || $officeLabel === '' || $officeTitle === '') {
+            $errors[] = 'Office code, label, and title are required.';
+        } else {
+            $addOfficeStmt = $conn->prepare(
+                'INSERT INTO csm_offices (office_code, office_label, office_title, sort_order, is_active, created_at)
+                 VALUES (?, ?, ?, 0, 1, NOW())'
+            );
+            if ($addOfficeStmt) {
+                $addOfficeStmt->bind_param('sss', $officeCode, $officeLabel, $officeTitle);
+                if ($addOfficeStmt->execute()) {
+                    $messages[] = 'Office added successfully.';
+                    // Refresh office list
+                    $csmOffices = csm_fetch_offices($conn);
+                    $csmServicesByOffice = csm_fetch_services_grouped($conn);
+                } else {
+                    if ((int)$conn->errno === 1062) {
+                        $errors[] = 'An office with that code already exists.';
+                    } else {
+                        $errors[] = 'Failed to add office: ' . $conn->error;
+                    }
+                }
+                $addOfficeStmt->close();
+            } else {
+                $errors[] = 'Failed to prepare office insert statement.';
+            }
+        }
     } elseif ($action === 'add_service') {
         $officeCode = trim((string)($_POST['office_code'] ?? ''));
         $serviceName = trim((string)($_POST['service_name'] ?? ''));
@@ -944,6 +975,26 @@ if ($conn instanceof mysqli) {
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
+        </section>
+
+        <section class="card">
+            <h2>Add Office</h2>
+            <form method="post" class="service-form">
+                <input type="hidden" name="action" value="add_office">
+                <div>
+                    <label for="office_code">Office Code</label>
+                    <input type="text" id="office_code" name="office_code" placeholder="e.g., TAGATALA, HR_OFFICE" required>
+                </div>
+                <div>
+                    <label for="office_label">Office Label (Display Name)</label>
+                    <input type="text" id="office_label" name="office_label" placeholder="e.g., Office of the Mayor, Human Resources" required>
+                </div>
+                <div>
+                    <label for="office_title">Office Title (Full Name)</label>
+                    <input type="text" id="office_title" name="office_title" placeholder="e.g., PAMBAYANG TANGGAPAN NG TAGATALA" required>
+                </div>
+                <button class="btn" type="submit">Add Office</button>
+            </form>
         </section>
 
         <section class="card">

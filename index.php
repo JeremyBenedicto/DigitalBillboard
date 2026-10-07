@@ -1085,7 +1085,7 @@
             <span>🗺️</span>
         </div>
         
-        <div class="mission-vision-icon survey-icon" onclick="window.location.href='client_satisfaction.html'" title="Client Satisfaction Survey">
+        <div class="mission-vision-icon survey-icon" onclick="window.location.href='client_satisfaction.php'" title="Client Satisfaction Survey">
             <span>😊</span>
         </div>
         

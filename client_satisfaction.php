@@ -647,11 +647,7 @@ if (count($csmOffices) > 0) {
       }
 
       .back-button {
-        position: sticky;
-        top: 10px;
-        left: auto;
-        display: inline-flex;
-        margin-bottom: 8px;
+        display: none;
       }
 
       #overlay {

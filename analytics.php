@@ -108,7 +108,33 @@ function build_summary(array $rows): array
             '65_or_higher' => 0,
             'did_not_specify' => 0,
         ],
+        'age_internal' => [
+            '19_or_lower' => 0,
+            '20_34' => 0,
+            '35_49' => 0,
+            '50_64' => 0,
+            '65_or_higher' => 0,
+            'did_not_specify' => 0,
+        ],
+        'age_external' => [
+            '19_or_lower' => 0,
+            '20_34' => 0,
+            '35_49' => 0,
+            '50_64' => 0,
+            '65_or_higher' => 0,
+            'did_not_specify' => 0,
+        ],
         'sex' => [
+            'male' => 0,
+            'female' => 0,
+            'did_not_specify' => 0,
+        ],
+        'sex_internal' => [
+            'male' => 0,
+            'female' => 0,
+            'did_not_specify' => 0,
+        ],
+        'sex_external' => [
             'male' => 0,
             'female' => 0,
             'did_not_specify' => 0,
@@ -133,11 +159,24 @@ function build_summary(array $rows): array
 
     foreach ($rows as $row) {
         $age = isset($row['age']) && $row['age'] !== '' ? (int)$row['age'] : null;
-        $summary['age'][age_bucket($age)]++;
+        $ageBucket = age_bucket($age);
+        $summary['age'][$ageBucket]++;
 
         $gender = json_decode((string)($row['gender_json'] ?? ''), true);
         $hasMale = is_array($gender) && !empty($gender['lalaki']);
         $hasFemale = is_array($gender) && !empty($gender['babae']);
+
+        $clientType = json_decode((string)($row['client_type_json'] ?? ''), true);
+        $hasGovernment = is_array($clientType) && !empty($clientType['gobyerno']);
+
+        // Track age by government/non-government
+        if ($hasGovernment) {
+            $summary['age_internal'][$ageBucket]++;
+        } else {
+            $summary['age_external'][$ageBucket]++;
+        }
+
+        // Track sex overall
         if ($hasMale) {
             $summary['sex']['male']++;
         }
@@ -148,10 +187,31 @@ function build_summary(array $rows): array
             $summary['sex']['did_not_specify']++;
         }
 
-        $clientType = json_decode((string)($row['client_type_json'] ?? ''), true);
+        // Track sex by government/non-government
+        if ($hasMale) {
+            if ($hasGovernment) {
+                $summary['sex_internal']['male']++;
+            } else {
+                $summary['sex_external']['male']++;
+            }
+        }
+        if ($hasFemale) {
+            if ($hasGovernment) {
+                $summary['sex_internal']['female']++;
+            } else {
+                $summary['sex_external']['female']++;
+            }
+        }
+        if (!$hasMale && !$hasFemale) {
+            if ($hasGovernment) {
+                $summary['sex_internal']['did_not_specify']++;
+            } else {
+                $summary['sex_external']['did_not_specify']++;
+            }
+        }
+
         $hasCitizen = is_array($clientType) && !empty($clientType['mamamayan']);
         $hasBusiness = is_array($clientType) && !empty($clientType['negosyo']);
-        $hasGovernment = is_array($clientType) && !empty($clientType['gobyerno']);
         if ($hasCitizen) {
             $summary['customer_type']['citizen']++;
         }
@@ -965,8 +1025,8 @@ $exportQuery = http_build_query([
                                             <?php foreach ($ageLabels as $key => $label): ?>
                                                 <tr>
                                                     <td><?= esc($label) ?></td>
-                                                    <td><strong><?= esc(percentage((int)$summary['age'][$key], $groupTotal)) ?></strong></td>
-                                                    <td>0%</td>
+                                                    <td><strong><?= esc(percentage((int)$summary['age_external'][$key], $groupTotal)) ?></strong></td>
+                                                    <td><strong><?= esc(percentage((int)$summary['age_internal'][$key], $groupTotal)) ?></strong></td>
                                                     <td><strong><?= esc(percentage((int)$summary['age'][$key], $groupTotal)) ?></strong></td>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -974,8 +1034,8 @@ $exportQuery = http_build_query([
                                             <?php foreach ($sexLabels as $key => $label): ?>
                                                 <tr>
                                                     <td><?= esc($label) ?></td>
-                                                    <td><strong><?= esc(percentage((int)$summary['sex'][$key], $groupTotal)) ?></strong></td>
-                                                    <td>0%</td>
+                                                    <td><strong><?= esc(percentage((int)$summary['sex_external'][$key], $groupTotal)) ?></strong></td>
+                                                    <td><strong><?= esc(percentage((int)$summary['sex_internal'][$key], $groupTotal)) ?></strong></td>
                                                     <td><strong><?= esc(percentage((int)$summary['sex'][$key], $groupTotal)) ?></strong></td>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -995,10 +1055,15 @@ $exportQuery = http_build_query([
                                         </thead>
                                         <tbody>
                                             <?php foreach ($customerTypeLabels as $key => $label): ?>
+                                                <?php 
+                                                $isGovernment = ($key === 'government');
+                                                $externalPercent = $isGovernment ? '0%' : esc(percentage((int)$summary['customer_type'][$key], $groupTotal));
+                                                $internalPercent = $isGovernment ? esc(percentage((int)$summary['customer_type'][$key], $groupTotal)) : '0%';
+                                                ?>
                                                 <tr>
                                                     <td><?= esc($label) ?></td>
-                                                    <td><strong><?= esc(percentage((int)$summary['customer_type'][$key], $groupTotal)) ?></strong></td>
-                                                    <td>0%</td>
+                                                    <td><strong><?= $externalPercent ?></strong></td>
+                                                    <td><strong><?= $internalPercent ?></strong></td>
                                                     <td><strong><?= esc(percentage((int)$summary['customer_type'][$key], $groupTotal)) ?></strong></td>
                                                 </tr>
                                             <?php endforeach; ?>
